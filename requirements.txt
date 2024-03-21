@@ -1,7 +1,7 @@
 # requirements.txt
 
-pymongo[srv]==3.9.0
-streamlit==1.31.1
-streamlit-javascript==0.1.5
+pymongo[srv]
+streamlit
+streamlit-javascript
 datetime
 uuid
