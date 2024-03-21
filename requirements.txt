@@ -1,3 +1,7 @@
 # requirements.txt
 
-pymongo==3.9.0
+pymongo[srv]==3.9.0
+streamlit==1.31.1
+streamlit-javascript==0.1.5
+datetime
+uuid
