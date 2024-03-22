@@ -8,7 +8,7 @@ from pymongo.server_api import ServerApi
 from streamlit_javascript import st_javascript
 
 
-def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent):
+def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params):
     """
     Saves participant details to session state and MongoDB for persistence.
     """
@@ -24,7 +24,8 @@ def save_participant(language, age, gender, political_view, is_native_speaker, e
         "FNewsExperience": fnews_experience,
         "ScreenResolution": screen_resolution,
         "IpLocation": ip_location,
-        "UserAgent": user_agent
+        "UserAgent": user_agent,
+        "QueryParams": query_params
     }
 
     # Connecting to MongoDB to save participant data.
@@ -132,6 +133,9 @@ screen_resolution=get_screen_resolution()
 ip_location=get_ip_location()
 user_agent=get_user_agent()
 
+# Get query parameters
+query_params = st.query_params
+
 # Initialize session state variables if they're not already set.
 if 'user_id' not in st.session_state:
     st.session_state.user_id = uuid.uuid4().hex
@@ -144,7 +148,32 @@ if 'participant' not in st.session_state:
 if not st.session_state.form_submitted:
     with st.form("participant_info", clear_on_submit=True):
 
-        language = st.selectbox("Language", ["en", "fr", "de", "es"])
+        # Define allowed languages
+        allowed_languages = ["en", "fr", "de", "es"]
+
+        # Initialize default language
+        default_language = "en"
+
+        try:
+            # Extract the language query parameter, ensuring it's a list and not empty
+            language_param = query_params.get("language", [])
+
+            # Check if the extracted language parameter is non-empty and if it is in allowed languages
+            if language_param and language_param.lower() in allowed_languages:
+                # Set the default language, converted to lower case for matching
+                default_language = language_param.lower()
+            else:
+                # Check if 'countryCode' is in ip_location and if it is in the allowed languages          
+                if 'countryCode' in ip_location and ip_location['countryCode'].lower() in allowed_languages:
+                    # Set the default language, converted to lower case for matching
+                    default_language = ip_location['countryCode'].lower()
+        except:
+            st.status("Trying to determine user language...")
+
+        # Display the selectbox with the determined default language
+        language = st.selectbox("Language", allowed_languages, index=allowed_languages.index(default_language))
+
+        #language = st.selectbox("Language", ["en", "fr", "de", "es"])
         age = st.slider("Age", 1, 133, 33)
         gender = st.selectbox("Gender", ["Male", "Female", "Other", "Prefer not to say"])
 
@@ -176,7 +205,7 @@ if not st.session_state.form_submitted:
         if submitted:
             # Save participant data and mark the survey as started.
             with st.spinner('Wait for it...'):
-                save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent)
+                save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params)
                 st.session_state.form_submitted = True
                 st.session_state.start_time = datetime.now()
             st.success('Done!')
