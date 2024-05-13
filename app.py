@@ -7,7 +7,6 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from streamlit_javascript import st_javascript
 
-
 def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params):
     """
     Saves participant details to session state and MongoDB for persistence.
@@ -128,15 +127,13 @@ def display_intro():
     Dive into the complex world where generative AI blurs the lines between reality and fiction. Learn more about the impact of Generative AI on fake news through our [open access paper](https://arxiv.org/abs/2404.03021) and explore our research at [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/).
     """)
 
-    st.markdown("""
-    **FAQs & Useful Info:**
-    - **Privacy Concerns?** Email us at alexander.loth@stud.fra-uas.de with your participant ID to request data deletion within one year of submission. Use 'Delete Request' as your subject line.
-    - **No Downloads Needed:** Access the quiz directly from your browser.
-    - **Experiencing Delays?** High traffic might slow down the website. Try revisiting later.
-    - **AI-Generated Content:** Some headlines are crafted by AI, potentially carrying biases based on the data they were trained on.
-    """)
-
-    st.markdown('<p style="font-size: 12px;">Collaboration: Alexander Loth, Martin Kappes, Marc-Oliver Pahl</p>', unsafe_allow_html=True)
+    with st.expander("FAQs & Useful Info", expanded=False):
+        st.markdown("""
+            - **Privacy Concerns?** Email us at alexander.loth@stud.fra-uas.de with your participant ID to request data deletion within one year of submission. Use 'Delete Request' as your subject line.
+            - **No Downloads Needed:** Access the quiz directly from your browser.
+            - **Experiencing Delays?** High traffic might slow down the website. Try revisiting later.
+            - **AI-Generated Content:** Some headlines are crafted by AI, potentially carrying biases based on the data they were trained on.
+            """)
 
 def display_participant_id():
     """
@@ -144,13 +141,13 @@ def display_participant_id():
     """
     st.markdown(f'<p style="font-size: 12px;">Your participant ID: {st.session_state.user_id}</p>', unsafe_allow_html=True)
 
-def ask_for_consent():
+def print_consent_info():
     """
     Asks for consent.
     """
     consent_request = st.empty()
     with consent_request.container():
-        with st.expander("Consent Form", expanded=True):
+        with st.expander("Consent", expanded=False):
             st.markdown("#### Join Our Study on Generative AI and Fake News")
             st.markdown("""
                 By participating in our survey, you'll evaluate various statements, discerning between what's real or fake, and whether they're crafted by humans or machines.
@@ -169,19 +166,6 @@ def ask_for_consent():
 
             st.markdown("##### Ready to Make a Difference?")
             st.markdown("**By consenting to participate, you're agreeing to contribute anonymized data to our study. Are you ready to join us in this critical research effort?**")
-
-            consent_option = st.checkbox(
-                "Yes, I'm in! I consent to participate.",
-                value=False,
-                key="consent",
-                label_visibility="visible"
-            )
-
-            agree = st.session_state.consent
-
-    if agree:
-        consent_request.empty()
-        return True
 
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
@@ -210,68 +194,77 @@ if 'participant' not in st.session_state:
 
 # Collecting participant information through a form.
 if not st.session_state.form_submitted:
-    consent = ask_for_consent()
+    #consent = ask_for_consent()
 
-    if consent:
-        with st.form("participant_info", clear_on_submit=True):
+    #if consent:
+    with st.form("participant_info", clear_on_submit=True):
 
-            # Define allowed languages
-            allowed_languages = ["en", "fr", "de", "es"]
+        # Define allowed languages
+        allowed_languages = ["en", "fr", "de", "es"]
 
-            # Initialize default language
-            default_language = "en"
+        # Initialize default language
+        default_language = "en"
 
-            try:
-                # Extract the language query parameter, ensuring it's a list and not empty
-                language_param = query_params.get("language", [])
+        try:
+            # Extract the language query parameter, ensuring it's a list and not empty
+            language_param = query_params.get("language", [])
 
-                # Check if the extracted language parameter is non-empty and if it is in allowed languages
-                if language_param and language_param.lower() in allowed_languages:
+            # Check if the extracted language parameter is non-empty and if it is in allowed languages
+            if language_param and language_param.lower() in allowed_languages:
+                # Set the default language, converted to lower case for matching
+                default_language = language_param.lower()
+            else:
+                # Check if 'countryCode' is in ip_location and if it is in the allowed languages          
+                if 'countryCode' in ip_location and ip_location['countryCode'].lower() in allowed_languages:
                     # Set the default language, converted to lower case for matching
-                    default_language = language_param.lower()
-                else:
-                    # Check if 'countryCode' is in ip_location and if it is in the allowed languages          
-                    if 'countryCode' in ip_location and ip_location['countryCode'].lower() in allowed_languages:
-                        # Set the default language, converted to lower case for matching
-                        default_language = ip_location['countryCode'].lower()
-            except:
-                st.status("Trying to determine user language...")
+                    default_language = ip_location['countryCode'].lower()
+        except:
+            st.status("Trying to determine user language...")
 
-            # Display the selectbox with the determined default language
-            language = st.selectbox("Language", allowed_languages, index=allowed_languages.index(default_language))
+        # Display the selectbox with the determined default language
+        language = st.selectbox("Language", allowed_languages, index=allowed_languages.index(default_language))
 
-            #language = st.selectbox("Language", ["en", "fr", "de", "es"])
-            age = st.slider("Age", 1, 133, 33)
-            gender = st.selectbox("Gender", ["Male", "Female", "Other", "Prefer not to say"])
+        age = st.slider("Age", 1.0, 133.0, 33.3, step=1.0)
+        gender = st.selectbox("Gender", ["Male", "Female", "Other", "Prefer not to say"], index=None, placeholder="Choose an option")
 
-            political_view_options = {
-                0.0: "Far Left",
-                0.25: "Left",
-                0.4: "Center-Left",
-                0.5: "Center",
-                0.6: "Center-Right",
-                0.75: "Right",
-                1.0: "Far Right"
-            }
-            political_view = st.select_slider("Political view", options=list(political_view_options.keys()), format_func=lambda x: political_view_options[x], value=0.5)
-            is_native_speaker = st.radio("Are you a native speaker?", ("Yes", "No"))
-            education_level = st.selectbox("Highest level of education attained", ["None", "High School", "Apprenticeship", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"])
-            newspaper_subscription = st.select_slider("Number of newspaper subscriptions", options=["None", "One", "Two", "Three or more"])
+        political_view_options = {
+            None: "Select an option",  # Placeholder option
+            0.0: "Far Left",
+            0.25: "Left",
+            0.4: "Center-Left",
+            0.5: "Center",
+            0.6: "Center-Right",
+            0.75: "Right",
+            1.0: "Far Right"
+        }
+        political_view = st.select_slider("Political view", options=list(political_view_options.keys()), format_func=lambda x: political_view_options.get(x, "Select your view"), value=0.5)
+        is_native_speaker = st.radio("Are you a native speaker?", ("Yes", "No"))
+        education_level = st.selectbox("Highest level of education attained", ["None", "High School", "Apprenticeship", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"])
+        newspaper_subscription = st.select_slider("Number of newspaper subscriptions", options=["None", "One", "Two", "Three or more"])
 
-            fnews_experience_options = {
-                0.0: "None",
-                0.25: "Low",
-                0.5: "Moderate",
-                0.75: "High",
-                1.0: "Plenty"
-            }
-            fnews_experience = st.select_slider("Your experience with fake news", options=list(fnews_experience_options.keys()), format_func=lambda x: fnews_experience_options[x], value=0.0)
+        fnews_experience_options = {
+            0.0: "None",
+            0.25: "Low",
+            0.5: "Moderate",
+            0.75: "High",
+            1.0: "Plenty"
+        }
+        fnews_experience = st.select_slider("Your experience with fake news", options=list(fnews_experience_options.keys()), format_func=lambda x: fnews_experience_options[x], value=0.0)
 
-            display_participant_id()
+        print_consent_info()
+        consent_option = st.toggle(
+                "Yes, I'm in! I consent to participate.",
+                value=False,
+                key="consent",
+                label_visibility="visible"
+            )
+        
+        display_participant_id()
 
-            # Submit button for the form.
-            submitted = st.form_submit_button("Start Survey")
-            if submitted:
+        # Submit button for the form.
+        submitted = st.form_submit_button("Start Survey", disabled=consent_option)
+        if submitted:
+            if consent_option:
                 # Save participant data and mark the survey as started.
                 with st.spinner('Wait for it...'):
                     save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params)
@@ -279,6 +272,8 @@ if not st.session_state.form_submitted:
                     st.session_state.start_time = datetime.now()
                 st.success('Done!')
                 st.rerun()
+            if not consent_option:
+                st.error("Consent not given!")
 
 # Main survey logic to display once the participant information form is submitted.
 if st.session_state.form_submitted:
