@@ -247,11 +247,11 @@ if not st.session_state.form_submitted:
         political_view_default = 0.5
         political_view_options = {
             0.0: "Far Left",
-            0.25: "Left",
+            0.2: "Left",
             0.4: "Center-Left",
             0.5: "Choose an option",  # Placeholder option
             0.6: "Center-Right",
-            0.75: "Right",
+            0.8: "Right",
             1.0: "Far Right"
         }
         political_view = st.select_slider(
@@ -268,26 +268,59 @@ if not st.session_state.form_submitted:
             index = None,
             placeholder="Choose an option"
         )
-        education_level = st.selectbox("Highest level of education attained", ["None", "High School", "Apprenticeship", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"])
-        newspaper_subscription = st.select_slider("Number of newspaper subscriptions", options=["None", "One", "Two", "Three or more"])
 
-        fnews_experience_options = {
+        # Education level selection
+        education_level = st.selectbox(
+            label = "Highest level of education attained",
+            options = ["None", "High School", "Apprenticeship", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"],
+            index = None,
+            placeholder="Choose an option"
+        )
+
+        # Newspaper subscription selection
+        newspaper_subscription_default = 1.5
+        newspaper_subscription_options = {
             0.0: "None",
-            0.25: "Low",
-            0.5: "Moderate",
-            0.75: "High",
-            1.0: "Plenty"
+            1.0: "One",
+            1.5: "Choose an option",  # Placeholder option
+            2.0: "Two",
+            3.0: "Three or more"
         }
-        fnews_experience = st.select_slider("Your experience with fake news", options=list(fnews_experience_options.keys()), format_func=lambda x: fnews_experience_options[x], value=0.0)
+        newspaper_subscription = st.select_slider(
+            label = "Number of newspaper subscriptions",
+            options = list(newspaper_subscription_options.keys()),
+            format_func = lambda x: newspaper_subscription_options[x],
+            value = newspaper_subscription_default
+        )
 
+        # Newspaper subscription selection
+        fnews_experience_default = 0.5
+        fnews_experience_options = {
+            0.0: "Completely unfamiliar",
+            0.2: "Mostly unfamiliar",
+            0.4: "Somewhat unfamiliar",
+            0.5: "Choose an option",  # Placeholder option
+            0.6: "Somewhat familiar",
+            0.8: "Mostly familiar",
+            1.0: "Completely familiar"
+        }
+        fnews_experience = st.select_slider(
+            label = "Your experience with fake news",
+            options = list(fnews_experience_options.keys()),
+            format_func = lambda x: fnews_experience_options[x],
+            value = fnews_experience_default
+        )
+
+        # Asking for consent
         print_consent_info()
         consent_option = st.toggle(
-                "Yes, I'm in! I consent to participate.",
-                value=False,
-                key="consent",
-                label_visibility="visible"
+                label = "Yes, I'm in! I consent to participate.",
+                value = False,
+                key = "consent",
+                label_visibility = "visible"
             )
         
+        # Display participant ID
         display_participant_id()
 
         # Submit button for the form.
@@ -295,6 +328,7 @@ if not st.session_state.form_submitted:
         
         if submitted:
             validity = True
+            # Validity checks
             if age == age_default:
                 st.error("Please confirm your age.")
                 validity = False
@@ -306,7 +340,16 @@ if not st.session_state.form_submitted:
                 validity = False
             if not is_native_speaker:
                 st.error("Please confirm if you are a native speaker.")
-                validity = False  
+                validity = False
+            if not education_level:
+                st.error("Please confirm your education level.")
+                validity = False
+            if newspaper_subscription == newspaper_subscription_default:
+                st.error("Please confirm how many newspapers you have subscribed.")
+                validity = False
+            if fnews_experience == fnews_experience_default:
+                st.error("Please confirm how you assess your experience with fake news.")
+                validity = False
             if not consent_option:
                 st.error("Please give your consent.")
                 validity = False  
@@ -318,7 +361,6 @@ if not st.session_state.form_submitted:
                     st.session_state.start_time = datetime.now()
                 st.success('Done!')
                 st.rerun()
-
 
 # Main survey logic to display once the participant information form is submitted.
 if st.session_state.form_submitted:
@@ -346,10 +388,12 @@ if st.session_state.form_submitted:
             st.divider()
 
             # Define the options for the Human vs. Machine Generated Score
+            human_machine_score_default = 0.5
             human_machine_score_options = {
                 0.0: "Definetly Human Generated",
                 0.2: "Probalby Human Generated",
                 0.4: "Likey Human Generated",
+                0.5: "Choose an option",  # Placeholder option
                 0.6: "Likey Machine Generated",
                 0.8: "Probalby Machine Generated",
                 1.0: "Definetly Machine Generated"
@@ -357,17 +401,20 @@ if st.session_state.form_submitted:
 
             # Create the slider for the participant to rate whether they believe the news was generated by a human or machine
             human_machine_score = st.select_slider(
-                "Human or Machine Generated?",
-                options=list(human_machine_score_options.keys()),
-                format_func=lambda x: human_machine_score_options[x],
-                key=f"hm_score_{current_fragment['FragmentID']}"
+                label = "Human or Machine Generated?",
+                options = list(human_machine_score_options.keys()),
+                format_func = lambda x: human_machine_score_options[x],
+                key = f"hm_score_{current_fragment['FragmentID']}",
+                value = human_machine_score_default
             )
 
             # Define the options for the Legitimacy Score
+            legit_fake_score_default = 0.5
             legit_fake_score_options = {
                 0.0: "Definetly Legit News",
                 0.2: "Probalby Legit News",
                 0.4: "Likey Legit News",
+                0.5: "Choose an option",  # Placeholder option
                 0.6: "Likey Fake News",
                 0.8: "Probalby Fake News",
                 1.0: "Definetly Fake News"
@@ -375,17 +422,20 @@ if st.session_state.form_submitted:
 
             # Create the slider for the participant to rate the perceived legitimacy of the news
             legit_fake_score = st.select_slider(
-                "Legit or Fake News?",
-                options=list(legit_fake_score_options.keys()),
-                format_func=lambda x: legit_fake_score_options[x],
-                key=f"lf_score_{current_fragment['FragmentID']}"
+                label = "Legit or Fake News?",
+                options = list(legit_fake_score_options.keys()),
+                format_func = lambda x: legit_fake_score_options[x],
+                key = f"lf_score_{current_fragment['FragmentID']}",
+                value = legit_fake_score_default
             )
 
             # Define the options for the knowledge about the topic
-            topic_knowledge_options = {
+            topic_knowledge_score_default = 0.5
+            topic_knowledge_score_options = {
                 0.0: "Not at all",
                 0.2: "Slightly",
                 0.4: "Somewhat",
+                0.5: "Choose an option",  # Placeholder option
                 0.6: "Fairly well",
                 0.8: "Very well",
                 1.0: "Extremely well"
@@ -393,34 +443,48 @@ if st.session_state.form_submitted:
 
             # Create the slider for participants to rate their knowledge on the topic
             topic_knowledge_score = st.select_slider(
-                "How familiar are you with the topic covered in this news?",
-                options=list(topic_knowledge_options.keys()),
-                format_func=lambda x: topic_knowledge_options[x],
-                key=f"topic_knowledge_{current_fragment['FragmentID']}"
+                label = "How familiar are you with the topic covered in this news?",
+                options = list(topic_knowledge_score_options.keys()),
+                format_func = lambda x: topic_knowledge_score_options[x],
+                key = f"topic_knowledge_{current_fragment['FragmentID']}",
+                value = topic_knowledge_score_default
             )
 
             st.divider()
             st.write("This is your respone no.", st.session_state.count)
 
+            # Display participant ID
             display_participant_id()
 
             # Submit button for each news fragment response.
             submitted = st.form_submit_button("Submit Response")
             if submitted:
-                with st.spinner('Wait for it...'):
-                    # Calculate the time taken to answer this fragment.
-                    end_time = datetime.now()
-                    time_to_answer = (end_time - st.session_state.start_time).total_seconds()
+                validity = True
+                # Validity checks
+                if human_machine_score == human_machine_score_default:
+                    st.error("Please confirm how you assess if this news is human or machine generated.")
+                    validity = False
+                if legit_fake_score == legit_fake_score_default:
+                    st.error("Please confirm how you assess if this news is legit or fake.")
+                    validity = False
+                if topic_knowledge_score == topic_knowledge_score_default:
+                    st.error("Please confirm how you assess your topic knowledge.")
+                    validity = False
+                if validity:
+                    with st.spinner('Wait for it...'):
+                        # Calculate the time taken to answer this fragment.
+                        end_time = datetime.now()
+                        time_to_answer = (end_time - st.session_state.start_time).total_seconds()
 
-                    # Save the response to the database and session state.
-                    save_response(current_fragment['FragmentID'], human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer)
-                    
-                    # Increment the fragment index and response count for the session.
-                    st.session_state.current_fragment_index = (st.session_state.current_fragment_index + 1) % len(st.session_state.fragments)
-                    st.session_state.count = st.session_state.count + 1
+                        # Save the response to the database and session state.
+                        save_response(current_fragment['FragmentID'], human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer)
+                        
+                        # Increment the fragment index and response count for the session.
+                        st.session_state.current_fragment_index = (st.session_state.current_fragment_index + 1) % len(st.session_state.fragments)
+                        st.session_state.count = st.session_state.count + 1
 
-                    # Reset the start time for the next fragment's response timing.
-                    st.session_state.start_time = datetime.now()
+                        # Reset the start time for the next fragment's response timing.
+                        st.session_state.start_time = datetime.now()
                     
-                st.success('Done!')
-                st.rerun()
+                    st.success('Done!')
+                    st.rerun()
