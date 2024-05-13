@@ -224,21 +224,50 @@ if not st.session_state.form_submitted:
         # Display the selectbox with the determined default language
         language = st.selectbox("Language", allowed_languages, index=allowed_languages.index(default_language))
 
-        age = st.slider("Age", 1.0, 133.0, 33.3, step=1.0)
-        gender = st.selectbox("Gender", ["Male", "Female", "Other", "Prefer not to say"], index=None, placeholder="Choose an option")
+        # Age selection
+        age_default = 1.11
+        age = st.slider(
+            label = "Age",
+            min_value = 1.0,
+            max_value = 133.0,
+            value = age_default,
+            step = 1.0,
+            format = "%d years"
+        )
+        
+        # Gender selection
+        gender = st.selectbox(
+            label = "Gender",
+            options = ["Male", "Female", "Other", "Prefer not to say"],
+            index = None,
+            placeholder="Choose an option"
+        )
 
+        # Political view selection
+        political_view_default = 0.5
         political_view_options = {
-            None: "Select an option",  # Placeholder option
             0.0: "Far Left",
             0.25: "Left",
             0.4: "Center-Left",
-            0.5: "Center",
+            0.5: "Choose an option",  # Placeholder option
             0.6: "Center-Right",
             0.75: "Right",
             1.0: "Far Right"
         }
-        political_view = st.select_slider("Political view", options=list(political_view_options.keys()), format_func=lambda x: political_view_options.get(x, "Select your view"), value=0.5)
-        is_native_speaker = st.radio("Are you a native speaker?", ("Yes", "No"))
+        political_view = st.select_slider(
+            label = "How do you assess your political view?",
+            options = list(political_view_options.keys()),
+            format_func = lambda x: political_view_options[x],
+            value = political_view_default
+        )
+
+        # Native speaker selection
+        is_native_speaker = st.selectbox(
+            label = "Are you a native speaker?",
+            options = ["Yes", "No"],
+            index = None,
+            placeholder="Choose an option"
+        )
         education_level = st.selectbox("Highest level of education attained", ["None", "High School", "Apprenticeship", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"])
         newspaper_subscription = st.select_slider("Number of newspaper subscriptions", options=["None", "One", "Two", "Three or more"])
 
@@ -263,8 +292,25 @@ if not st.session_state.form_submitted:
 
         # Submit button for the form.
         submitted = st.form_submit_button("Start Survey", disabled=consent_option)
+        
         if submitted:
-            if consent_option:
+            validity = True
+            if age == age_default:
+                st.error("Please confirm your age.")
+                validity = False
+            if not gender:
+                st.error("Please confirm your gender.")
+                validity = False  
+            if political_view == political_view_default:
+                st.error("Please confirm how you assess your political view.")
+                validity = False
+            if not is_native_speaker:
+                st.error("Please confirm if you are a native speaker.")
+                validity = False  
+            if not consent_option:
+                st.error("Please give your consent.")
+                validity = False  
+            if validity:
                 # Save participant data and mark the survey as started.
                 with st.spinner('Wait for it...'):
                     save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params)
@@ -272,8 +318,7 @@ if not st.session_state.form_submitted:
                     st.session_state.start_time = datetime.now()
                 st.success('Done!')
                 st.rerun()
-            if not consent_option:
-                st.error("Consent not given!")
+
 
 # Main survey logic to display once the participant information form is submitted.
 if st.session_state.form_submitted:
