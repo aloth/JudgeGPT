@@ -2,6 +2,7 @@ import streamlit as st
 import uuid
 import json
 import codecs
+import urllib.request
 from datetime import datetime
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -143,29 +144,51 @@ def display_participant_id():
 
 def print_consent_info():
     """
-    Asks for consent.
+    Display consent information.
     """
     consent_request = st.empty()
     with consent_request.container():
-        with st.expander("Consent", expanded=False):
-            st.markdown("#### Join Our Study on Generative AI and Fake News")
-            st.markdown("""
-                By participating in our survey, you'll evaluate various statements, discerning between what's real or fake, and whether they're crafted by humans or machines.
-                
-                **Eligibility and Voluntary Participation:** Anyone is welcome to partake in this significant exploration. Your involvement is completely voluntary and immensely valued.
+        with st.expander("Consent / GDPR / Imprint", expanded=False):
+            tab1, tab2, tab3, tab4 = st.tabs(["Consent", "GDPR", "Imprint", "License"])
 
-                This initiative is spearheaded by Alexander Loth, Prof. Martin Kappes, and Prof. Marc-Oliver Pahl. For inquiries or additional details, please don't hesitate to get in touch.
+            with tab1:
+                st.markdown("#### Join Our Study on Generative AI and Fake News")
+                st.markdown("""
+                    By participating in our survey, you'll evaluate various statements, discerning between what's real or fake, and whether they're crafted by humans or machines.
+                    
+                    **Eligibility and Voluntary Participation:** Anyone is welcome to partake in this significant exploration. Your involvement is completely voluntary and immensely valued.
+
+                    This initiative is spearheaded by Alexander Loth, Prof. Martin Kappes, and Prof. Marc-Oliver Pahl. For inquiries or additional details, please don't hesitate to get in touch.
+                    """)
+
+                st.markdown("##### Your Privacy")
+                st.markdown("""
+                    Your privacy is important. By participating, you are providing anonymous responses and demographic information. In addition, you agree that your location will be determined by your IP address and that your browser information will be collected. This information is critical to understanding how people interact with misinformation. We guarantee the confidentiality of your data, which will be aggregated for research purposes. 
+                    
+                    **Should you wish to retract your data post-participation, you'll be equipped with an anonymous participant ID for this process.**
                 """)
 
-            st.markdown("##### Your Privacy")
-            st.markdown("""
-                 Your privacy is important. By participating, you are providing anonymous responses and demographic information. In addition, you agree that your location will be determined by your IP address and that your browser information will be collected. This information is critical to understanding how people interact with misinformation. We guarantee the confidentiality of your data, which will be aggregated for research purposes. 
-                
-                **Should you wish to retract your data post-participation, you'll be equipped with an anonymous participant ID for this process.**
-            """)
+                st.markdown("##### Ready to Make a Difference?")
+                st.markdown("**By consenting to participate, you're agreeing to contribute anonymized data to our study. Are you ready to join us in this critical research effort?**")
 
-            st.markdown("##### Ready to Make a Difference?")
-            st.markdown("**By consenting to participate, you're agreeing to contribute anonymized data to our study. Are you ready to join us in this critical research effort?**")
+            with tab2:
+                st.header("GDPR")
+                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/README.md")
+
+            with tab3:
+                st.header("Imprint")
+                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/README.md")
+
+            with tab4:
+                st.header("License")
+                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/LICENSE")
+
+def print_file_content(url):
+    """
+    Prints content of a file.
+    """
+    for line in urllib.request.urlopen(url):
+        st.markdown(line.decode('utf-8'))
 
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
