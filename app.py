@@ -321,13 +321,14 @@ if not st.session_state.form_submitted:
         )
 
         # Asking for consent
-        display_consent_box()
-        consent_option = st.toggle(
-                label = "Yes, I'm in! I consent to participate.",
-                value = False,
-                key = "consent",
-                label_visibility = "visible"
-            )
+        with st.spinner('Getting ready...'):
+            display_consent_box()
+            consent_option = st.toggle(
+                    label = "Yes, I'm in! I consent to participate.",
+                    value = False,
+                    key = "consent",
+                    label_visibility = "visible"
+                )
         
         # Display participant ID
         display_participant_id()
