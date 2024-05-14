@@ -142,53 +142,39 @@ def display_participant_id():
     """
     st.markdown(f'<p style="font-size: 12px;">Your participant ID: {st.session_state.user_id}</p>', unsafe_allow_html=True)
 
-def print_consent_info():
+def display_consent_box():
     """
     Display consent information.
     """
     consent_request = st.empty()
     with consent_request.container():
-        with st.expander("Consent / GDPR / Imprint", expanded=False):
-            tab1, tab2, tab3, tab4 = st.tabs(["Consent", "GDPR", "Imprint", "License"])
+        with st.expander("Consent / About / Privacy Policy / Imprint / License", expanded=False):
+            consent_tab, about_tab, privacy_policy_tab, imprint_tab, license_tab = st.tabs(["Consent", "About", "Privacy Policy", "Imprint", "License"])
 
-            with tab1:
-                st.markdown("#### Join Our Study on Generative AI and Fake News")
-                st.markdown("""
-                    By participating in our survey, you'll evaluate various statements, discerning between what's real or fake, and whether they're crafted by humans or machines.
-                    
-                    **Eligibility and Voluntary Participation:** Anyone is welcome to partake in this significant exploration. Your involvement is completely voluntary and immensely valued.
+            with consent_tab:
+                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/consent.md")
 
-                    This initiative is spearheaded by Alexander Loth, Prof. Martin Kappes, and Prof. Marc-Oliver Pahl. For inquiries or additional details, please don't hesitate to get in touch.
-                    """)
-
-                st.markdown("##### Your Privacy")
-                st.markdown("""
-                    Your privacy is important. By participating, you are providing anonymous responses and demographic information. In addition, you agree that your location will be determined by your IP address and that your browser information will be collected. This information is critical to understanding how people interact with misinformation. We guarantee the confidentiality of your data, which will be aggregated for research purposes. 
-                    
-                    **Should you wish to retract your data post-participation, you'll be equipped with an anonymous participant ID for this process.**
-                """)
-
-                st.markdown("##### Ready to Make a Difference?")
-                st.markdown("**By consenting to participate, you're agreeing to contribute anonymized data to our study. Are you ready to join us in this critical research effort?**")
-
-            with tab2:
-                st.header("GDPR")
+            with about_tab:
                 print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/README.md")
 
-            with tab3:
-                st.header("Imprint")
-                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/README.md")
+            with privacy_policy_tab:
+                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/privacypolicy.md")
 
-            with tab4:
-                st.header("License")
+            with imprint_tab:
+                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/de/imprint.md")
+
+            with license_tab:
                 print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/LICENSE")
 
 def print_file_content(url):
     """
     Prints content of a file.
     """
-    for line in urllib.request.urlopen(url):
-        st.markdown(line.decode('utf-8'))
+    try:
+        for line in urllib.request.urlopen(url):
+            st.markdown(line.decode('utf-8'))
+    except:
+        st.error("File " + url + "not found.")
 
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
@@ -335,7 +321,7 @@ if not st.session_state.form_submitted:
         )
 
         # Asking for consent
-        print_consent_info()
+        display_consent_box()
         consent_option = st.toggle(
                 label = "Yes, I'm in! I consent to participate.",
                 value = False,
