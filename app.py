@@ -4,6 +4,7 @@ import uuid
 import json
 import codecs
 import urllib.request
+import gettext
 from datetime import datetime
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -252,11 +253,65 @@ def display_aggregate_results():
         remaining_responses = 5 - (completed_response_count % 5)
         st.write(f"👍 Only {remaining_responses} more response{'' if remaining_responses == 1 else 's'} to see your results! Keep going! 🚀")
 
+def get_translator(lang: str = "en"):
+    """
+    Initializes of the translator with English as fallback.
+    """
+    if lang == "en":
+        # For English, return the identity function (no translation needed)
+        return lambda x: x
+    else:
+        try:
+            # Load the translation files
+            trans = gettext.translation("base", localedir="locales", languages=[lang])
+            trans.install()  # Install the translation in the global namespace
+            return trans.gettext  # Return the gettext method from the translation object
+        except FileNotFoundError:
+            print("DEBUG: Translation file not found. Please check the path and language settings.")
+            return lambda x: x  # Return a dummy translator function
+
+def get_language_from_url(query_params, allowed_languages):
+    """
+    Checks if a available language is set in the URL query. 
+    """
+    try:
+        language_param = query_params.get("language", [])
+
+        # Check if the extracted language parameter is non-empty and if it is in allowed languages
+        if language_param and language_param.lower() in allowed_languages:
+            # Set the default language, converted to lower case for matching
+            url_language = language_param.lower()
+        return url_language
+    except:
+        return None
+
+# Get query parameters
+query_params = st.query_params
+
+# Define allowed languages
+allowed_languages = ["en", "fr", "de", "es"]
+
+# Initialize default UI language
+ui_language = "en"
+
+# Get language from URL auery
+url_language = get_language_from_url(query_params, allowed_languages)
+
+# If "language" is set in URL query, use it as UI language
+if url_language:
+    ui_language = url_language
+
+# Initialize the translator
+_ = get_translator(ui_language)
+
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
     page_title="Real or Fake?",
     page_icon="🙈"
 )
+
+# Debugging output
+# st.write(f"Locales directory: {os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locales')}")
 
 # Main title displayed at the top of the survey page.
 display_intro()
@@ -265,9 +320,6 @@ display_intro()
 screen_resolution=get_screen_resolution()
 ip_location=get_ip_location()
 user_agent=get_user_agent()
-
-# Get query parameters
-query_params = st.query_params
 
 # Initialize session state variables if they're not already set.
 if 'user_id' not in st.session_state:
@@ -280,37 +332,42 @@ if 'participant' not in st.session_state:
 # Collecting participant information through a form.
 if not st.session_state.form_submitted:
     with st.form("participant_info", clear_on_submit=True):
-
-        # Define allowed languages
-        allowed_languages = ["en", "fr", "de", "es"]
-
         # Initialize default language
         default_language = "en"
 
-        try:
-            # Extract the language query parameter, ensuring it's a list and not empty
-            language_param = query_params.get("language", [])
-
-            # Check if the extracted language parameter is non-empty and if it is in allowed languages
-            if language_param and language_param.lower() in allowed_languages:
-                # Set the default language, converted to lower case for matching
-                default_language = language_param.lower()
-            else:
+        # Check if the URL language parameter is set
+        if url_language:
+            # Set the default language, converted to lower case for matching
+            default_language = url_language
+        else:
+            try:
                 # Check if 'countryCode' is in ip_location and if it is in the allowed languages          
                 if 'countryCode' in ip_location and ip_location['countryCode'].lower() in allowed_languages:
                     # Set the default language, converted to lower case for matching
                     default_language = ip_location['countryCode'].lower()
-        except:
-            st.status("Trying to determine user language...")
+            except:
+                st.status(_("Trying to determine user language..."))
 
         # Display the selectbox with the determined default language
-        language = st.selectbox("Language", allowed_languages, index=allowed_languages.index(default_language))
+        languages_options = {
+            "en": "English",
+            "fr": "French",
+            "de": "German",
+            "es": "Spanish"
+        }
+        language = st.selectbox(
+            label = _("Language"),
+            options = list(languages_options.keys()),
+            format_func = lambda x: languages_options[x],
+            index = allowed_languages.index(default_language),
+            placeholder="Choose an option"
+        )
 
         # Age selection
-        age_default = 1.11
+        age_default = 33.33
         age = st.slider(
-            label = "Age",
-            min_value = 1.0,
+            label = _("Age"),
+            min_value = 16.0,
             max_value = 133.0,
             value = age_default,
             step = 1.0,
@@ -318,9 +375,16 @@ if not st.session_state.form_submitted:
         )
         
         # Gender selection
+        gender_options = {
+            "Male": "Male",
+            "Female": "Female",
+            "Other": "Other",
+            "Prefer not to say": "Prefer not to say"
+        }
         gender = st.selectbox(
             label = "Gender",
-            options = ["Male", "Female", "Other", "Prefer not to say"],
+            options = list(gender_options.keys()),
+            format_func = lambda x: gender_options[x],
             index = None,
             placeholder="Choose an option"
         )
@@ -344,17 +408,31 @@ if not st.session_state.form_submitted:
         )
 
         # Native speaker selection
+        is_native_speaker_options = {
+            "Yes": "Yes",
+            "No": "No"
+        }
         is_native_speaker = st.selectbox(
-            label = "Are you a native speaker?",
-            options = ["Yes", "No"],
+            label = _("Are you a native speaker?"),
+            options = list(is_native_speaker_options.keys()),
+            format_func = lambda x: is_native_speaker_options[x],
             index = None,
             placeholder="Choose an option"
         )
 
         # Education level selection
+        education_level_options = {
+            "None": "None",
+            "High School": "High School",
+            "Apprenticeship": "Apprenticeship",
+            "Bachelor's Degree": "Bachelor's Degree",
+            "Master's Degree": "Master's Degree",
+            "Doctoral Degree": "Doctoral Degree"
+        }
         education_level = st.selectbox(
             label = "Highest level of education attained",
-            options = ["None", "High School", "Apprenticeship", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"],
+            options = list(education_level_options.keys()),
+            format_func = lambda x: education_level_options[x],
             index = None,
             placeholder="Choose an option"
         )

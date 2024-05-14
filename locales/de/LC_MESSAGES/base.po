@@ -1,0 +1,32 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2024-05-14 14:58+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: JudgeGPT\app.py:307
+msgid "Trying to determine user language..."
+msgstr "Versuche, die Benutzersprache zu bestimmen..."
+
+#: JudgeGPT\app.py:311
+msgid "Language"
+msgstr "Sprache"
+
+#: JudgeGPT\app.py:319
+msgid "Age"
+msgstr "Alter"
+
+#: JudgeGPT\app.py:344
+msgid "Are you a native speaker?"
+msgstr "Ist dies Ihre Muttersprache?"
