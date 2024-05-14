@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import uuid
 import json
 import codecs
@@ -37,7 +38,7 @@ def save_participant(language, age, gender, political_view, is_native_speaker, e
     # Updating session state with participant data.
     st.session_state.participant = participant
 
-def save_response(fragment_id, human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer):
+def save_response(fragment_id, human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer, origin, is_fake):
     """
     Saves survey response to session state and MongoDB.
     """
@@ -50,7 +51,9 @@ def save_response(fragment_id, human_machine_score, legit_fake_score, topic_know
         "TopicKnowledgeScore": topic_knowledge_score,
         "Timestamp": datetime.now().isoformat(),
         "TimeToAnswer": time_to_answer,
-        "SessionCount": st.session_state.count
+        "SessionCount": st.session_state.count,
+        "Origin": origin,
+        "IsFake": is_fake
     }
     
     # Connecting to MongoDB to save response data.
@@ -75,7 +78,13 @@ def retrieve_fragments(ISOLanguage):
             # Aggregation pipeline to filter, project, and randomly sample news fragments.
             pipeline = [
                 {"$match": {"ISOLanguage": ISOLanguage}},
-                {"$project": {"FragmentID": 1, "Content": 1, "_id": 0}},  # Project only FragmentID and Content
+                {"$project": {
+                    "FragmentID": 1,
+                    "Content": 1,
+                    "Origin": 1,
+                    "IsFake": 1,
+                    "_id": 0
+                    }},  # Project only required attributes
                 {"$sample": {"size": 50}}
             ]
             fragments = collection.aggregate(pipeline)
@@ -176,6 +185,73 @@ def print_file_content(url):
     except:
         st.error("File " + url + "not found.")
 
+def aggregate_results():
+    """
+    Aggregates results from session state.
+    """
+    if not st.session_state.responses:
+        return "No responses found."
+
+    # Convert the responses to a DataFrame for easy manipulation
+    df = pd.DataFrame(st.session_state.responses)
+
+    # Calculate averages
+    avg_hm_score = df['HumanMachineScore'].mean()
+    avg_lf_score = df['LegitFakeScore'].mean()
+    avg_topic_knowledge = df['TopicKnowledgeScore'].mean()
+
+    # Calculate accuracy
+    df['HM_Accuracy'] = df.apply(lambda row: 1 if (row['HumanMachineScore'] >= 0.5 and row['Origin'] == "Machine") or 
+                                          (row['HumanMachineScore'] < 0.5 and row['Origin'] == "Human") else 0, axis=1)
+    df['LF_Accuracy'] = df.apply(lambda row: 1 if (row['LegitFakeScore'] >= 0.5 and row['IsFake']) or 
+                                          (row['LegitFakeScore'] < 0.5 and not row['IsFake']) else 0, axis=1)
+    hm_accuracy = df['HM_Accuracy'].mean()
+    lf_accuracy = df['LF_Accuracy'].mean()
+
+    # Prepare the results summary
+    summary = {
+        "Total Responses": len(df),
+        "Average Human/Machine Score": avg_hm_score,
+        "Average Legitimacy Score": avg_lf_score,
+        "Average Topic Knowledge": avg_topic_knowledge,
+        "Human/Machine Accuracy": hm_accuracy,
+        "Legitimacy Accuracy": lf_accuracy
+    }
+
+    return summary
+
+def display_aggregate_results():
+    """
+    Displays results from session state.
+    """
+    completed_response_count = st.session_state.count - 1
+    if completed_response_count % 5 == 0 and completed_response_count != 0:
+        results = aggregate_results()
+        st.balloons()
+        st.write(f"🎉 Congratulations! You've completed {results['Total Responses']} responses. Here are your results so far:")
+        # st.write(f"Average Human/Machine Score: {results['Average Human/Machine Score']:.2f}")
+        # st.write(f"Average Legitimacy Score: {results['Average Legitimacy Score']:.2f}")
+        # st.write(f"Average Topic Knowledge: {results['Average Topic Knowledge']:.2f}")
+        st.write(f"🤖 Human/Machine Accuracy: {results['Human/Machine Accuracy'] * 100:.2f}%")
+        st.write(f"🤔 Legitimacy Accuracy: {results['Legitimacy Accuracy'] * 100:.2f}%")
+
+        badge1, badge2 = st.columns(2)
+        with badge1:
+            # Display badge for high Human/Machine Accuracy
+            if results['Human/Machine Accuracy'] >= 0.7:
+                st.image("images/judgegpt_badge.jpg")
+                st.write("🎖️ You've earned the JudgeGPT badge for achieving high accuracy in identifying Human/Machine generated content! 🎉")
+        
+        with badge2:
+            # Display badge for high Legitimacy Accuracy
+            if results['Legitimacy Accuracy'] >= 0.7:
+                st.image("images/judgegpt_badge.jpg")
+                st.write("🎖️ You've earned the JudgeGPT badge for achieving high accuracy in identifying Legit/Fake news! 🎉")
+
+    else:
+        remaining_responses = 5 - (completed_response_count % 5)
+        st.write(f"👍 Only {remaining_responses} more response{'' if remaining_responses == 1 else 's'} to see your results! Keep going! 🚀")
+
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
     page_title="Real or Fake?",
@@ -203,9 +279,6 @@ if 'participant' not in st.session_state:
 
 # Collecting participant information through a form.
 if not st.session_state.form_submitted:
-    #consent = ask_for_consent()
-
-    #if consent:
     with st.form("participant_info", clear_on_submit=True):
 
         # Define allowed languages
@@ -394,6 +467,9 @@ if st.session_state.form_submitted:
     if st.session_state.form_submitted:
         current_fragment = st.session_state.fragments[st.session_state.current_fragment_index]
         with st.form(key=f"news_fragment_{current_fragment['FragmentID']}"):
+            st.write("This is your respone no.", st.session_state.count)
+            st.divider()
+
             st.write(current_fragment['Content'].encode('utf-16', 'surrogatepass').decode('utf-16'))
             st.divider()
 
@@ -461,7 +537,9 @@ if st.session_state.form_submitted:
             )
 
             st.divider()
-            st.write("This is your respone no.", st.session_state.count)
+
+            # Display results every 5 responses
+            display_aggregate_results()
 
             # Display participant ID
             display_participant_id()
@@ -487,7 +565,7 @@ if st.session_state.form_submitted:
                         time_to_answer = (end_time - st.session_state.start_time).total_seconds()
 
                         # Save the response to the database and session state.
-                        save_response(current_fragment['FragmentID'], human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer)
+                        save_response(current_fragment["FragmentID"], human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer, current_fragment['Origin'], current_fragment['IsFake'])
                         
                         # Increment the fragment index and response count for the session.
                         st.session_state.current_fragment_index = (st.session_state.current_fragment_index + 1) % len(st.session_state.fragments)
@@ -496,5 +574,5 @@ if st.session_state.form_submitted:
                         # Reset the start time for the next fragment's response timing.
                         st.session_state.start_time = datetime.now()
                     
-                    st.success('Done!')
+                    st.success("Done!")
                     st.rerun()
