@@ -10,6 +10,12 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from streamlit_javascript import st_javascript
 
+__name__ = "JudgeGPT"
+__version__ = "0.9"
+__author__ = "Alexander Loth"
+__email__ = "alexander.loth@stud.fra-uas.de"
+__report_a_bug__ = "https://github.com/aloth/JudgeGPT/issues"
+
 def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params):
     """
     Saves participant details to session state and MongoDB for persistence.
@@ -89,7 +95,7 @@ def retrieve_fragments(ISOLanguage):
                 {"$sample": {"size": 50}}
             ]
             fragments = collection.aggregate(pipeline)
-            st.success("Data retrieved.")
+            st.success(_("Data retrieved."))
             return list(fragments)
 
 def get_user_agent():
@@ -132,25 +138,24 @@ def display_intro():
     """
     Displays main title and intro.
     """
-    st.subheader("🔍 Real or Fake: Can You Spot Misinformation?")
-    st.markdown("""
-    **Challenge your ability to distinguish between authentic news and AI-generated fake news in our interactive quiz.**
-    Dive into the complex world where generative AI blurs the lines between reality and fiction. Learn more about the impact of Generative AI on fake news through our [open access paper](https://arxiv.org/abs/2404.03021) and explore our research at [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/).
-    """)
+    st.subheader(_("🔍 Real or Fake: Can You Spot Misinformation?"))
+    st.markdown(_("**Challenge your ability to distinguish between authentic news and AI-generated fake news in our interactive quiz.**"))
+    st.markdown(_("Dive into the complex world where generative AI blurs the lines between reality and fiction. Learn more about the impact of Generative AI on fake news through our [open access paper](https://arxiv.org/abs/2404.03021) and explore our research at [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/)."))
 
-    with st.expander("FAQs & Useful Info", expanded=False):
-        st.markdown("""
-            - **Privacy Concerns?** Email us at alexander.loth@stud.fra-uas.de with your participant ID to request data deletion within one year of submission. Use 'Delete Request' as your subject line.
-            - **No Downloads Needed:** Access the quiz directly from your browser.
-            - **Experiencing Delays?** High traffic might slow down the website. Try revisiting later.
-            - **AI-Generated Content:** Some headlines are crafted by AI, potentially carrying biases based on the data they were trained on.
-            """)
+    with st.expander(_("FAQs & Useful Info"), expanded=False):
+        st.markdown(_("- **Privacy Concerns?** Email us at alexander.loth@stud.fra-uas.de with your participant ID to request data deletion within one year of submission. Use 'Delete Request' as your subject line."))
+        st.markdown(_("- **No Downloads Needed:** Access the quiz directly from your browser."))
+        st.markdown(_("- **Experiencing Delays?** High traffic might slow down the website. Try revisiting later."))
+        st.markdown(_("- **AI-Generated Content:** Some headlines are crafted by AI, potentially carrying biases based on the data they were trained on."))
 
 def display_participant_id():
     """
     Displays participant ID.
     """
-    st.markdown(f'<p style="font-size: 12px;">Your participant ID: {st.session_state.user_id}</p>', unsafe_allow_html=True)
+    st.markdown(
+        '<p style="font-size: 12px;">' + _("Your participant ID:") + " " + st.session_state.user_id + '</p>',
+        unsafe_allow_html=True
+    )
 
 def display_consent_box():
     """
@@ -158,23 +163,29 @@ def display_consent_box():
     """
     consent_request = st.empty()
     with consent_request.container():
-        with st.expander("Consent / About / Privacy Policy / Imprint / License", expanded=False):
-            consent_tab, about_tab, privacy_policy_tab, imprint_tab, license_tab = st.tabs(["Consent", "About", "Privacy Policy", "Imprint", "License"])
+        with st.expander(_("Consent / About / Privacy Policy / Imprint / License"), expanded=False):
+            consent_tab, about_tab, privacy_policy_tab, imprint_tab, license_tab = st.tabs([
+                _("Consent"),
+                _("About"),
+                _("Privacy Policy"),
+                _("Imprint"),
+                _("License")
+            ])
 
             with consent_tab:
-                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/consent.md")
+                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/consent.md"))
 
             with about_tab:
-                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/README.md")
+                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/README.md"))
 
             with privacy_policy_tab:
-                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/privacypolicy.md")
+                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/privacypolicy.md"))
 
             with imprint_tab:
-                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/de/imprint.md")
+                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/imprint.md"))
 
             with license_tab:
-                print_file_content("https://raw.githubusercontent.com/aloth/JudgeGPT/main/LICENSE")
+                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/LICENSE"))
 
 def print_file_content(url):
     """
@@ -184,7 +195,7 @@ def print_file_content(url):
         for line in urllib.request.urlopen(url):
             st.markdown(line.decode('utf-8'))
     except:
-        st.error("File " + url + "not found.")
+        st.error(_("File") + " " + url + " " + _("not found") + ".")
 
 def aggregate_results():
     """
@@ -307,7 +318,15 @@ _ = get_translator(ui_language)
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
     page_title="Real or Fake?",
-    page_icon="🙈"
+    page_icon="🙈",
+        menu_items={
+        'Get Help': f"mailto:{__email__}",
+        'Report a bug': __report_a_bug__,
+        'About': f"""
+            ### {__name__} {__version__}
+            #### Author: {__author__}
+        """
+    }
 )
 
 # Debugging output
