@@ -138,7 +138,7 @@ def display_intro():
     """
     Displays main title and intro.
     """
-    st.subheader(_("🔍 Real or Fake: Can You Spot Misinformation?"))
+    st.subheader("🔍 " + _("Real or Fake: Can You Spot Misinformation?"))
     st.markdown(_("**Challenge your ability to distinguish between authentic news and AI-generated fake news in our interactive quiz.**"))
     st.markdown(_("Dive into the complex world where generative AI blurs the lines between reality and fiction. Learn more about the impact of Generative AI on fake news through our [open access paper](https://arxiv.org/abs/2404.03021) and explore our research at [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/)."))
 
@@ -262,7 +262,11 @@ def display_aggregate_results():
 
     else:
         remaining_responses = 5 - (completed_response_count % 5)
-        st.write("👍 " + _("Only") + f" {remaining_responses} " + _("more response(s) to see your results! Keep going!") + " 🚀")
+        if remaining_responses == 1:
+            message = _("Only {remaining_responses} more response to see your results! Keep going!")
+        else:
+            message = _("Only {remaining_responses} more responses to see your results! Keep going!")
+        st.write("👍 " + message.format(remaining_responses=remaining_responses) + " 🚀")
 
 def get_translator(lang: str = "en"):
     """
@@ -352,7 +356,7 @@ user_agent = get_user_agent()
 
 # Collecting participant information through a form.
 if not st.session_state.form_submitted:
-    with st.form("participant_info", clear_on_submit = True):
+    with st.form("participant_info", clear_on_submit = False):
         # Initialize default language
         default_language = "en"
 
@@ -566,7 +570,7 @@ if st.session_state.form_submitted:
     # Display the current news fragment and collect responses.
     if st.session_state.form_submitted:
         current_fragment = st.session_state.fragments[st.session_state.current_fragment_index]
-        with st.form(key=f"news_fragment_{current_fragment['FragmentID']}"):
+        with st.form(key=f"news_fragment_{current_fragment['FragmentID']}", clear_on_submit = False):
             st.write(_("This is your respone no."), st.session_state.count)
             st.divider()
 
