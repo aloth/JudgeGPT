@@ -77,7 +77,7 @@ def retrieve_fragments(ISOLanguage):
     """
     Retrieves a set of news fragments from MongoDB based on the participant's language preference.
     """
-    with st.spinner('Retrieving from database...'):
+    with st.spinner(_("Retrieving from database...")):
         with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
             db = client.realorfake
             collection = db.fragments
@@ -296,21 +296,31 @@ def get_language_from_url(query_params, allowed_languages):
     except:
         return None
 
+# Initialize session state variables if they're not already set.
+if 'user_id' not in st.session_state:
+    st.session_state.user_id = uuid.uuid4().hex
+if 'form_submitted' not in st.session_state:
+    st.session_state.form_submitted = False
+if 'participant' not in st.session_state:
+    st.session_state.participant = []
+if 'language' not in st.session_state:
+    st.session_state.language = "en"
+
 # Get query parameters
 query_params = st.query_params
 
 # Define allowed languages
 allowed_languages = ["en", "fr", "de", "es"]
 
-# Initialize default UI language
-ui_language = "en"
-
 # Get language from URL auery
 url_language = get_language_from_url(query_params, allowed_languages)
 
-# If "language" is set in URL query, use it as UI language
+# If "language" is set in URL query, use apply it
 if url_language:
-    ui_language = url_language
+    st.session_state.language = url_language
+
+# Initialize UI language
+ui_language = st.session_state.language
 
 # Initialize the translator
 _ = get_translator(ui_language)
@@ -336,21 +346,13 @@ st.set_page_config(
 display_intro()
 
 # Retrieve essential data using JavaScript integrations.
-screen_resolution=get_screen_resolution()
-ip_location=get_ip_location()
-user_agent=get_user_agent()
-
-# Initialize session state variables if they're not already set.
-if 'user_id' not in st.session_state:
-    st.session_state.user_id = uuid.uuid4().hex
-if 'form_submitted' not in st.session_state:
-    st.session_state.form_submitted = False
-if 'participant' not in st.session_state:
-    st.session_state.participant = []
+screen_resolution = get_screen_resolution()
+ip_location = get_ip_location()
+user_agent = get_user_agent()
 
 # Collecting participant information through a form.
 if not st.session_state.form_submitted:
-    with st.form("participant_info", clear_on_submit=True):
+    with st.form("participant_info", clear_on_submit = True):
         # Initialize default language
         default_language = "en"
 
@@ -363,7 +365,8 @@ if not st.session_state.form_submitted:
                 # Check if 'countryCode' is in ip_location and if it is in the allowed languages          
                 if 'countryCode' in ip_location and ip_location['countryCode'].lower() in allowed_languages:
                     # Set the default language, converted to lower case for matching
-                    default_language = ip_location['countryCode'].lower()
+                    default_language = ip_location['countryCode'].lower()                  
+                    _ = get_translator(default_language)
             except:
                 st.status(_("Trying to determine user language..."))
 
@@ -504,7 +507,7 @@ if not st.session_state.form_submitted:
         display_participant_id()
 
         # Submit button for the form.
-        submitted = st.form_submit_button(_("Start Survey"), disabled=consent_option)
+        submitted = st.form_submit_button(_("Start Survey"))
         
         if submitted:
             validity = True
