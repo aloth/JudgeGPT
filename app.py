@@ -240,29 +240,29 @@ def display_aggregate_results():
     if completed_response_count % 5 == 0 and completed_response_count != 0:
         results = aggregate_results()
         st.balloons()
-        st.write(f"🎉 Congratulations! You've completed {results['Total Responses']} responses. Here are your results so far:")
+        st.write("🎉 " + _("Congratulations! You've completed") + f" {results['Total Responses']} " + _("responses.") + " " + _("Here are your results so far:"))
         # st.write(f"Average Human/Machine Score: {results['Average Human/Machine Score']:.2f}")
         # st.write(f"Average Legitimacy Score: {results['Average Legitimacy Score']:.2f}")
         # st.write(f"Average Topic Knowledge: {results['Average Topic Knowledge']:.2f}")
-        st.write(f"🤖 Human/Machine Accuracy: {results['Human/Machine Accuracy'] * 100:.2f}%")
-        st.write(f"🤔 Legitimacy Accuracy: {results['Legitimacy Accuracy'] * 100:.2f}%")
+        st.write("🤖 " + _("Human/Machine Accuracy:") + f" {results['Human/Machine Accuracy'] * 100:.2f}%")
+        st.write("🤔 " + _("Legitimacy Accuracy:") + f" {results['Legitimacy Accuracy'] * 100:.2f}%")
 
         badge1, badge2 = st.columns(2)
         with badge1:
             # Display badge for high Human/Machine Accuracy
             if results['Human/Machine Accuracy'] >= 0.7:
                 st.image("images/judgegpt_badge.jpg")
-                st.write("🎖️ You've earned the JudgeGPT badge for achieving high accuracy in identifying Human/Machine generated content! 🎉")
+                st.write("🎖️ " + _("You've earned the JudgeGPT badge for achieving high accuracy in identifying Human/Machine generated content!") + " 🎉")
         
         with badge2:
             # Display badge for high Legitimacy Accuracy
             if results['Legitimacy Accuracy'] >= 0.7:
                 st.image("images/judgegpt_badge.jpg")
-                st.write("🎖️ You've earned the JudgeGPT badge for achieving high accuracy in identifying Legit/Fake news! 🎉")
+                st.write("🎖️ " + _("You've earned the JudgeGPT badge for achieving high accuracy in identifying Legit/Fake news!") + " 🎉")
 
     else:
         remaining_responses = 5 - (completed_response_count % 5)
-        st.write(f"👍 Only {remaining_responses} more response{'' if remaining_responses == 1 else 's'} to see your results! Keep going! 🚀")
+        st.write("👍 " + _("Only") + f" {remaining_responses} " + _("more response(s) to see your results! Keep going!") + " 🚀")
 
 def get_translator(lang: str = "en"):
     """
@@ -274,7 +274,7 @@ def get_translator(lang: str = "en"):
     else:
         try:
             # Load the translation files
-            trans = gettext.translation("base", localedir="locales", languages=[lang])
+            trans = gettext.translation("base", localedir = "locales", languages = [lang])
             trans.install()  # Install the translation in the global namespace
             return trans.gettext  # Return the gettext method from the translation object
         except FileNotFoundError:
@@ -317,9 +317,9 @@ _ = get_translator(ui_language)
 
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
-    page_title="Real or Fake?",
-    page_icon="🙈",
-        menu_items={
+    page_title = _("Real or Fake?"),
+    page_icon = "🙈",
+        menu_items = {
         'Get Help': f"mailto:{__email__}",
         'Report a bug': __report_a_bug__,
         'About': f"""
@@ -379,7 +379,7 @@ if not st.session_state.form_submitted:
             options = list(languages_options.keys()),
             format_func = lambda x: languages_options[x],
             index = allowed_languages.index(default_language),
-            placeholder="Choose an option"
+            placeholder = _("Choose an option")
         )
 
         # Age selection
@@ -390,37 +390,37 @@ if not st.session_state.form_submitted:
             max_value = 133.0,
             value = age_default,
             step = 1.0,
-            format = "%d years"
+            format = _("%d years")
         )
         
         # Gender selection
         gender_options = {
-            "Male": "Male",
-            "Female": "Female",
-            "Other": "Other",
-            "Prefer not to say": "Prefer not to say"
+            "Male": _("Male"),
+            "Female": _("Female"),
+            "Other": _("Other"),
+            "Prefer not to say": _("Prefer not to say")
         }
         gender = st.selectbox(
-            label = "Gender",
+            label = _("Gender"),
             options = list(gender_options.keys()),
             format_func = lambda x: gender_options[x],
             index = None,
-            placeholder="Choose an option"
+            placeholder = _("Choose an option")
         )
 
         # Political view selection
         political_view_default = 0.5
         political_view_options = {
-            0.0: "Far Left",
-            0.2: "Left",
-            0.4: "Center-Left",
-            0.5: "Choose an option",  # Placeholder option
-            0.6: "Center-Right",
-            0.8: "Right",
-            1.0: "Far Right"
+            0.0: _("Far Left"),
+            0.2: _("Left"),
+            0.4: _("Center-Left"),
+            0.5: _("Choose an option"),  # Placeholder option
+            0.6: _("Center-Right"),
+            0.8: _("Right"),
+            1.0: _("Far Right")
         }
         political_view = st.select_slider(
-            label = "How do you assess your political view?",
+            label = _("How do you assess your political view?"),
             options = list(political_view_options.keys()),
             format_func = lambda x: political_view_options[x],
             value = political_view_default
@@ -428,45 +428,45 @@ if not st.session_state.form_submitted:
 
         # Native speaker selection
         is_native_speaker_options = {
-            "Yes": "Yes",
-            "No": "No"
+            "Yes": _("Yes"),
+            "No": _("No")
         }
         is_native_speaker = st.selectbox(
             label = _("Are you a native speaker?"),
             options = list(is_native_speaker_options.keys()),
             format_func = lambda x: is_native_speaker_options[x],
             index = None,
-            placeholder="Choose an option"
+            placeholder = _("Choose an option")
         )
 
         # Education level selection
         education_level_options = {
-            "None": "None",
-            "High School": "High School",
-            "Apprenticeship": "Apprenticeship",
-            "Bachelor's Degree": "Bachelor's Degree",
-            "Master's Degree": "Master's Degree",
-            "Doctoral Degree": "Doctoral Degree"
+            "None": _("None"),
+            "High School": _("High School"),
+            "Apprenticeship": _("Apprenticeship"),
+            "Bachelor's Degree": _("Bachelor's Degree"),
+            "Master's Degree": _("Master's Degree"),
+            "Doctoral Degree": _("Doctoral Degree")
         }
         education_level = st.selectbox(
-            label = "Highest level of education attained",
+            label = _("Highest level of education attained"),
             options = list(education_level_options.keys()),
             format_func = lambda x: education_level_options[x],
             index = None,
-            placeholder="Choose an option"
+            placeholder = _("Choose an option")
         )
 
         # Newspaper subscription selection
         newspaper_subscription_default = 1.5
         newspaper_subscription_options = {
-            0.0: "None",
-            1.0: "One",
-            1.5: "Choose an option",  # Placeholder option
-            2.0: "Two",
-            3.0: "Three or more"
+            0.0: _("None"),
+            1.0: _("One"),
+            1.5: _("Choose an option"),  # Placeholder option
+            2.0: _("Two"),
+            3.0: _("Three or more")
         }
         newspaper_subscription = st.select_slider(
-            label = "Number of newspaper subscriptions",
+            label = _("Number of newspaper subscriptions"),
             options = list(newspaper_subscription_options.keys()),
             format_func = lambda x: newspaper_subscription_options[x],
             value = newspaper_subscription_default
@@ -475,26 +475,26 @@ if not st.session_state.form_submitted:
         # Newspaper subscription selection
         fnews_experience_default = 0.5
         fnews_experience_options = {
-            0.0: "Completely unfamiliar",
-            0.2: "Mostly unfamiliar",
-            0.4: "Somewhat unfamiliar",
-            0.5: "Choose an option",  # Placeholder option
-            0.6: "Somewhat familiar",
-            0.8: "Mostly familiar",
-            1.0: "Completely familiar"
+            0.0: _("Completely unfamiliar"),
+            0.2: _("Mostly unfamiliar"),
+            0.4: _("Somewhat unfamiliar"),
+            0.5: _("Choose an option"),  # Placeholder option
+            0.6: _("Somewhat familiar"),
+            0.8: _("Mostly familiar"),
+            1.0: _("Completely familiar")
         }
         fnews_experience = st.select_slider(
-            label = "Your experience with fake news",
+            label = _("Your experience with fake news"),
             options = list(fnews_experience_options.keys()),
             format_func = lambda x: fnews_experience_options[x],
             value = fnews_experience_default
         )
 
         # Asking for consent
-        with st.spinner('Getting ready...'):
+        with st.spinner(_("Getting ready...")):
             display_consent_box()
             consent_option = st.toggle(
-                    label = "Yes, I'm in! I consent to participate.",
+                    label = _("Yes, I'm in! I consent to participate."),
                     value = False,
                     key = "consent",
                     label_visibility = "visible"
@@ -504,42 +504,42 @@ if not st.session_state.form_submitted:
         display_participant_id()
 
         # Submit button for the form.
-        submitted = st.form_submit_button("Start Survey", disabled=consent_option)
+        submitted = st.form_submit_button(_("Start Survey"), disabled=consent_option)
         
         if submitted:
             validity = True
             # Validity checks
             if age == age_default:
-                st.error("Please confirm your age.")
+                st.error(_("Please confirm your age."))
                 validity = False
             if not gender:
-                st.error("Please confirm your gender.")
+                st.error(_("Please confirm your gender."))
                 validity = False  
             if political_view == political_view_default:
-                st.error("Please confirm how you assess your political view.")
+                st.error(_("Please confirm how you assess your political view."))
                 validity = False
             if not is_native_speaker:
-                st.error("Please confirm if you are a native speaker.")
+                st.error(_("Please confirm if you are a native speaker."))
                 validity = False
             if not education_level:
-                st.error("Please confirm your education level.")
+                st.error(_("Please confirm your education level."))
                 validity = False
             if newspaper_subscription == newspaper_subscription_default:
-                st.error("Please confirm how many newspapers you have subscribed.")
+                st.error(_("Please confirm how many newspapers you have subscribed."))
                 validity = False
             if fnews_experience == fnews_experience_default:
-                st.error("Please confirm how you assess your experience with fake news.")
+                st.error(_("Please confirm how you assess your experience with fake news."))
                 validity = False
             if not consent_option:
-                st.error("Please give your consent.")
+                st.error(_("Please give your consent."))
                 validity = False  
             if validity:
                 # Save participant data and mark the survey as started.
-                with st.spinner('Wait for it...'):
+                with st.spinner(_("Wait for it...")):
                     save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params)
                     st.session_state.form_submitted = True
                     st.session_state.start_time = datetime.now()
-                st.success('Done!')
+                st.success(_("Done!"))
                 st.rerun()
 
 # Main survey logic to display once the participant information form is submitted.
@@ -564,27 +564,27 @@ if st.session_state.form_submitted:
     if st.session_state.form_submitted:
         current_fragment = st.session_state.fragments[st.session_state.current_fragment_index]
         with st.form(key=f"news_fragment_{current_fragment['FragmentID']}"):
-            st.write("This is your respone no.", st.session_state.count)
+            st.write(_("This is your respone no."), st.session_state.count)
             st.divider()
 
-            st.write(current_fragment['Content'].encode('utf-16', 'surrogatepass').decode('utf-16'))
+            st.write(current_fragment["Content"].encode("utf-16", "surrogatepass").decode("utf-16"))
             st.divider()
 
             # Define the options for the Human vs. Machine Generated Score
             human_machine_score_default = 0.5
             human_machine_score_options = {
-                0.0: "Definetly Human Generated",
-                0.2: "Probalby Human Generated",
-                0.4: "Likey Human Generated",
-                0.5: "Choose an option",  # Placeholder option
-                0.6: "Likey Machine Generated",
-                0.8: "Probalby Machine Generated",
-                1.0: "Definetly Machine Generated"
+                0.0: _("Definetly Human Generated"),
+                0.2: _("Probalby Human Generated"),
+                0.4: _("Likey Human Generated"),
+                0.5: _("Choose an option"),  # Placeholder option
+                0.6: _("Likey Machine Generated"),
+                0.8: _("Probalby Machine Generated"),
+                1.0: _("Definetly Machine Generated")
             }
 
             # Create the slider for the participant to rate whether they believe the news was generated by a human or machine
             human_machine_score = st.select_slider(
-                label = "Human or Machine Generated?",
+                label = _("Human or Machine Generated?"),
                 options = list(human_machine_score_options.keys()),
                 format_func = lambda x: human_machine_score_options[x],
                 key = f"hm_score_{current_fragment['FragmentID']}",
@@ -594,18 +594,18 @@ if st.session_state.form_submitted:
             # Define the options for the Legitimacy Score
             legit_fake_score_default = 0.5
             legit_fake_score_options = {
-                0.0: "Definetly Legit News",
-                0.2: "Probalby Legit News",
-                0.4: "Likey Legit News",
-                0.5: "Choose an option",  # Placeholder option
-                0.6: "Likey Fake News",
-                0.8: "Probalby Fake News",
-                1.0: "Definetly Fake News"
+                0.0: _("Definetly Legit News"),
+                0.2: _("Probalby Legit News"),
+                0.4: _("Likey Legit News"),
+                0.5: _("Choose an option"),  # Placeholder option
+                0.6: _("Likey Fake News"),
+                0.8: _("Probalby Fake News"),
+                1.0: _("Definetly Fake News")
             }
 
             # Create the slider for the participant to rate the perceived legitimacy of the news
             legit_fake_score = st.select_slider(
-                label = "Legit or Fake News?",
+                label = _("Legit or Fake News?"),
                 options = list(legit_fake_score_options.keys()),
                 format_func = lambda x: legit_fake_score_options[x],
                 key = f"lf_score_{current_fragment['FragmentID']}",
@@ -615,18 +615,18 @@ if st.session_state.form_submitted:
             # Define the options for the knowledge about the topic
             topic_knowledge_score_default = 0.5
             topic_knowledge_score_options = {
-                0.0: "Not at all",
-                0.2: "Slightly",
-                0.4: "Somewhat",
-                0.5: "Choose an option",  # Placeholder option
-                0.6: "Fairly well",
-                0.8: "Very well",
-                1.0: "Extremely well"
+                0.0: _("Not at all"),
+                0.2: _("Slightly"),
+                0.4: _("Somewhat"),
+                0.5: _("Choose an option"),  # Placeholder option
+                0.6: _("Fairly well"),
+                0.8: _("Very well"),
+                1.0: _("Extremely well")
             }
 
             # Create the slider for participants to rate their knowledge on the topic
             topic_knowledge_score = st.select_slider(
-                label = "How familiar are you with the topic covered in this news?",
+                label = _("How familiar are you with the topic covered in this news?"),
                 options = list(topic_knowledge_score_options.keys()),
                 format_func = lambda x: topic_knowledge_score_options[x],
                 key = f"topic_knowledge_{current_fragment['FragmentID']}",
@@ -642,27 +642,27 @@ if st.session_state.form_submitted:
             display_participant_id()
 
             # Submit button for each news fragment response.
-            submitted = st.form_submit_button("Submit Response")
+            submitted = st.form_submit_button(_("Submit Response"))
             if submitted:
                 validity = True
                 # Validity checks
                 if human_machine_score == human_machine_score_default:
-                    st.error("Please confirm how you assess if this news is human or machine generated.")
+                    st.error(_("Please confirm how you assess if this news is human or machine generated."))
                     validity = False
                 if legit_fake_score == legit_fake_score_default:
-                    st.error("Please confirm how you assess if this news is legit or fake.")
+                    st.error(_("Please confirm how you assess if this news is legit or fake."))
                     validity = False
                 if topic_knowledge_score == topic_knowledge_score_default:
-                    st.error("Please confirm how you assess your topic knowledge.")
+                    st.error(_("Please confirm how you assess your topic knowledge."))
                     validity = False
                 if validity:
-                    with st.spinner('Wait for it...'):
+                    with st.spinner(_("Wait for it...")):
                         # Calculate the time taken to answer this fragment.
                         end_time = datetime.now()
                         time_to_answer = (end_time - st.session_state.start_time).total_seconds()
 
                         # Save the response to the database and session state.
-                        save_response(current_fragment["FragmentID"], human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer, current_fragment['Origin'], current_fragment['IsFake'])
+                        save_response(current_fragment["FragmentID"], human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer, current_fragment["Origin"], current_fragment["IsFake"])
                         
                         # Increment the fragment index and response count for the session.
                         st.session_state.current_fragment_index = (st.session_state.current_fragment_index + 1) % len(st.session_state.fragments)
@@ -671,5 +671,5 @@ if st.session_state.form_submitted:
                         # Reset the start time for the next fragment's response timing.
                         st.session_state.start_time = datetime.now()
                     
-                    st.success("Done!")
+                    st.success(_("Done!"))
                     st.rerun()
