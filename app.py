@@ -240,7 +240,7 @@ def display_aggregate_results():
     if completed_response_count % 5 == 0 and completed_response_count != 0:
         results = aggregate_results()
         st.balloons()
-        st.write("🎉 " + _("Congratulations! You've completed") + f" {results['Total Responses']} " + _("responses.") + " " + _("Here are your results so far:"))
+        st.write("🎉 " + _("Congratulations! You've completed {completed_responses} responses. Here are your results so far:").format(completed_responses=results['Total Responses']))
         # st.write(f"Average Human/Machine Score: {results['Average Human/Machine Score']:.2f}")
         # st.write(f"Average Legitimacy Score: {results['Average Legitimacy Score']:.2f}")
         # st.write(f"Average Topic Knowledge: {results['Average Topic Knowledge']:.2f}")
