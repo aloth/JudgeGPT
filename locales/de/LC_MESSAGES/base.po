@@ -83,34 +83,6 @@ msgstr "Impressum"
 msgid "License"
 msgstr "Lizenz"
 
-#: JudgeGPT\app.py:176
-msgid "https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/de/consent.md"
-msgstr ""
-
-#: JudgeGPT\app.py:179
-msgid "https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/de/README.md"
-msgstr ""
-
-#: JudgeGPT\app.py:182
-msgid "https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/de/privacypolicy.md"
-msgstr ""
-
-#: JudgeGPT\app.py:185
-msgid "https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/de/imprint.md"
-msgstr ""
-
-#: JudgeGPT\app.py:188
-msgid "https://raw.githubusercontent.com/aloth/JudgeGPT/main/LICENSE"
-msgstr ""
-
-#: JudgeGPT\app.py:198
-msgid "File"
-msgstr "Datei"
-
-#: JudgeGPT\app.py:198
-msgid "not found"
-msgstr "nicht gefunden"
-
 #: JudgeGPT\app.py:243
 msgid "Congratulations! You've completed {completed_responses} responses. Here are your results so far:"
 msgstr "Herzlichen Glückwunsch! Sie haben {completed_responses} Antworten abgeschlossen. Hier sind Ihre bisherigen Ergebnisse:"

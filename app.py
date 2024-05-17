@@ -215,11 +215,10 @@ def print_md_files(file_en, file_int = None):
             if lang == "en":
                 url = f"{base_url}{file_en}"
             else:
-                url = f"{base_url}docs/{file_int}"
+                url = f"{base_url}docs/{lang}/{file_int}"
             
             # Initialize an empty string for the content
             content[lang] = load_file(url)
-
             if not content[lang]:
                 content[lang] = content["en"]
 
