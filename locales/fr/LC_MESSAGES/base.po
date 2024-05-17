@@ -1,5 +1,5 @@
 # JudgeGPT
-# Copyright (C) 2024 Alexander Loth
+# Copyright (C) 2024 Alexander Loth (https://alexloth.com/)
 # Alexander Loth <alexander.loth@stud.fra-uas.de>, 2024.
 #
 msgid ""
@@ -17,412 +17,412 @@ msgstr ""
 
 #: JudgeGPT\app.py:80
 msgid "Retrieving from database..."
-msgstr ""
+msgstr "Récupération de la base de données..."
 
 #: JudgeGPT\app.py:98
 msgid "Data retrieved."
-msgstr ""
+msgstr "Données récupérées."
 
 #: JudgeGPT\app.py:141
 msgid "Real or Fake: Can You Spot Misinformation?"
-msgstr ""
+msgstr "Vrai ou Faux : Pouvez-vous repérer la désinformation ?"
 
 #: JudgeGPT\app.py:142
 msgid "**Challenge your ability to distinguish between authentic news and AI-generated fake news in our interactive quiz.**"
-msgstr ""
+msgstr "**Mettez à l'épreuve votre capacité à distinguer les vraies nouvelles des fausses nouvelles générées par l'IA dans notre quiz interactif.**"
 
 #: JudgeGPT\app.py:143
 msgid "Dive into the complex world where generative AI blurs the lines between reality and fiction. Learn more about the impact of Generative AI on fake news through our [open access paper](https://arxiv.org/abs/2404.03021) and explore our research at [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/)."
-msgstr ""
+msgstr "Plongez dans le monde complexe où l'IA générative brouille les lignes entre la réalité et la fiction. En savoir plus sur l'impact de l'IA générative sur les fausses nouvelles grâce à notre [article en libre accès](https://arxiv.org/abs/2404.03021) et explorez nos recherches chez [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/)."
 
 #: JudgeGPT\app.py:145
 msgid "FAQs & Useful Info"
-msgstr ""
+msgstr "FAQs & Infos Utiles"
 
 #: JudgeGPT\app.py:146
 msgid "- **Privacy Concerns?** Email us at alexander.loth@stud.fra-uas.de with your participant ID to request data deletion within one year of submission. Use 'Delete Request' as your subject line."
-msgstr ""
+msgstr "- **Préoccupations de confidentialité ?** Envoyez-nous un e-mail à alexander.loth@stud.fra-uas.de avec votre ID de participant pour demander la suppression des données dans l'année suivant la soumission. Utilisez 'Demande de suppression' comme objet."
 
 #: JudgeGPT\app.py:147
 msgid "- **No Downloads Needed:** Access the quiz directly from your browser."
-msgstr ""
+msgstr "- **Aucun téléchargement nécessaire :** Accédez au quiz directement depuis votre navigateur."
 
 #: JudgeGPT\app.py:148
 msgid "- **Experiencing Delays?** High traffic might slow down the website. Try revisiting later."
-msgstr ""
+msgstr "- **Rencontrez-vous des retards ?** Un trafic élevé peut ralentir le site Web. Essayez de revenir plus tard."
 
 #: JudgeGPT\app.py:149
 msgid "- **AI-Generated Content:** Some headlines are crafted by AI, potentially carrying biases based on the data they were trained on."
-msgstr ""
+msgstr "- **Contenu généré par l'IA :** Certains titres sont créés par l'IA, pouvant potentiellement contenir des biais basés sur les données avec lesquelles ils ont été formés."
 
 #: JudgeGPT\app.py:156
 msgid "Your participant ID:"
-msgstr ""
+msgstr "Votre ID de participant :"
 
 #: JudgeGPT\app.py:166
 msgid "Consent / About / Privacy Policy / Imprint / License"
-msgstr ""
+msgstr "Consentement / À propos / Politique de confidentialité / Mentions légales / Licence"
 
 #: JudgeGPT\app.py:168
 msgid "Consent"
-msgstr ""
+msgstr "Consentement"
 
 #: JudgeGPT\app.py:169
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
 #: JudgeGPT\app.py:170
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
 #: JudgeGPT\app.py:171
 msgid "Imprint"
-msgstr ""
+msgstr "Mentions légales"
 
 #: JudgeGPT\app.py:172
 msgid "License"
-msgstr ""
+msgstr "Licence"
 
 #: JudgeGPT\app.py:243
 msgid "Congratulations! You've completed {completed_responses} responses. Here are your results so far:"
-msgstr ""
+msgstr "Félicitations ! Vous avez complété {completed_responses} réponses. Voici vos résultats jusqu'à présent :"
 
 #: JudgeGPT\app.py:247
 msgid "Human/Machine Accuracy:"
-msgstr ""
+msgstr "Précision Humain/Machine :"
 
 #: JudgeGPT\app.py:248
 msgid "Legitimacy Accuracy:"
-msgstr ""
+msgstr "Précision de légitimité :"
 
 #: JudgeGPT\app.py:255
 msgid "You've earned the JudgeGPT badge for achieving high accuracy in identifying Human/Machine generated content!"
-msgstr ""
+msgstr "Vous avez gagné le badge JudgeGPT pour avoir atteint une grande précision dans l'identification du contenu généré par l'Humain/Machine !"
 
 #: JudgeGPT\app.py:261
 msgid "You've earned the JudgeGPT badge for achieving high accuracy in identifying Legit/Fake news!"
-msgstr ""
+msgstr "Vous avez gagné le badge JudgeGPT pour avoir atteint une grande précision dans l'identification des vraies/fausses nouvelles !"
 
 #: JudgeGPT\app.py:266
 msgid "Only {remaining_responses} more response to see your results! Keep going!"
-msgstr ""
+msgstr "Encore {remaining_responses} réponse pour voir vos résultats ! Continuez !"
 
 #: JudgeGPT\app.py:268
 msgid "Only {remaining_responses} more responses to see your results! Keep going!"
-msgstr ""
+msgstr "Encore {remaining_responses} réponses pour voir vos résultats ! Continuez !"
 
 #: JudgeGPT\app.py:334
 msgid "Real or Fake?"
-msgstr ""
+msgstr "Vrai ou Faux ?"
 
 #: JudgeGPT\app.py:375
 msgid "Trying to determine user language..."
-msgstr ""
+msgstr "Essayer de déterminer la langue de l'utilisateur..."
 
 #: JudgeGPT\app.py:385
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 #: JudgeGPT\app.py:389 JudgeGPT\app.py:415 JudgeGPT\app.py:424
 #: JudgeGPT\app.py:446 JudgeGPT\app.py:463 JudgeGPT\app.py:471
 #: JudgeGPT\app.py:488 JudgeGPT\app.py:586 JudgeGPT\app.py:607
 #: JudgeGPT\app.py:628
 msgid "Choose an option"
-msgstr ""
+msgstr "Choisissez une option"
 
 #: JudgeGPT\app.py:395
 msgid "Age"
-msgstr ""
+msgstr "Âge"
 
 #: JudgeGPT\app.py:400
 msgid "%d years"
-msgstr ""
+msgstr "%d ans"
 
 #: JudgeGPT\app.py:405
 msgid "Male"
-msgstr ""
+msgstr "Homme"
 
 #: JudgeGPT\app.py:406
 msgid "Female"
-msgstr ""
+msgstr "Femme"
 
 #: JudgeGPT\app.py:407
 msgid "Other"
-msgstr ""
+msgstr "Autre"
 
 #: JudgeGPT\app.py:408
 msgid "Prefer not to say"
-msgstr ""
+msgstr "Préfère ne pas dire"
 
 #: JudgeGPT\app.py:411
 msgid "Gender"
-msgstr ""
+msgstr "Genre"
 
 #: JudgeGPT\app.py:421
 msgid "Far Left"
-msgstr ""
+msgstr "Extrême gauche"
 
 #: JudgeGPT\app.py:422
 msgid "Left"
-msgstr ""
+msgstr "Gauche"
 
 #: JudgeGPT\app.py:423
 msgid "Center-Left"
-msgstr ""
+msgstr "Centre-gauche"
 
 #: JudgeGPT\app.py:425
 msgid "Center-Right"
-msgstr ""
+msgstr "Centre-droit"
 
 #: JudgeGPT\app.py:426
 msgid "Right"
-msgstr ""
+msgstr "Droite"
 
 #: JudgeGPT\app.py:427
 msgid "Far Right"
-msgstr ""
+msgstr "Extrême droite"
 
 #: JudgeGPT\app.py:430
 msgid "How do you assess your political view?"
-msgstr ""
+msgstr "Comment évaluez-vous votre opinion politique ?"
 
 #: JudgeGPT\app.py:438
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 #: JudgeGPT\app.py:439
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: JudgeGPT\app.py:442
 msgid "Are you a native speaker?"
-msgstr ""
+msgstr "Êtes-vous un locuteur natif ?"
 
 #: JudgeGPT\app.py:451 JudgeGPT\app.py:469
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: JudgeGPT\app.py:452
 msgid "High School"
-msgstr ""
+msgstr "Lycée"
 
 #: JudgeGPT\app.py:453
 msgid "Apprenticeship"
-msgstr ""
+msgstr "Apprentissage"
 
 #: JudgeGPT\app.py:454
 msgid "Bachelor's Degree"
-msgstr ""
+msgstr "Licence"
 
 #: JudgeGPT\app.py:455
 msgid "Master's Degree"
-msgstr ""
+msgstr "Master"
 
 #: JudgeGPT\app.py:456
 msgid "Doctoral Degree"
-msgstr ""
+msgstr "Doctorat"
 
 #: JudgeGPT\app.py:459
 msgid "Highest level of education attained"
-msgstr ""
+msgstr "Niveau d'éducation le plus élevé atteint"
 
 #: JudgeGPT\app.py:470
 msgid "One"
-msgstr ""
+msgstr "Un"
 
 #: JudgeGPT\app.py:472
 msgid "Two"
-msgstr ""
+msgstr "Deux"
 
 #: JudgeGPT\app.py:473
 msgid "Three or more"
-msgstr ""
+msgstr "Trois ou plus"
 
 #: JudgeGPT\app.py:476
 msgid "Number of newspaper subscriptions"
-msgstr ""
+msgstr "Nombre d'abonnements à des journaux"
 
 #: JudgeGPT\app.py:485
 msgid "Completely unfamiliar"
-msgstr ""
+msgstr "Complètement inconnu"
 
 #: JudgeGPT\app.py:486
 msgid "Mostly unfamiliar"
-msgstr ""
+msgstr "Plutôt inconnu"
 
 #: JudgeGPT\app.py:487
 msgid "Somewhat unfamiliar"
-msgstr ""
+msgstr "Assez inconnu"
 
 #: JudgeGPT\app.py:489
 msgid "Somewhat familiar"
-msgstr ""
+msgstr "Assez familier"
 
 #: JudgeGPT\app.py:490
 msgid "Mostly familiar"
-msgstr ""
+msgstr "Plutôt familier"
 
 #: JudgeGPT\app.py:491
 msgid "Completely familiar"
-msgstr ""
+msgstr "Complètement familier"
 
 #: JudgeGPT\app.py:494
 msgid "Your experience with fake news"
-msgstr ""
+msgstr "Votre expérience avec les fausses nouvelles"
 
 #: JudgeGPT\app.py:501
 msgid "Getting ready..."
-msgstr ""
+msgstr "Préparation en cours..."
 
 #: JudgeGPT\app.py:504
 msgid "Yes, I'm in! I consent to participate."
-msgstr ""
+msgstr "Oui, j'en suis ! Je consens à participer."
 
 #: JudgeGPT\app.py:514
 msgid "Start Survey"
-msgstr ""
+msgstr "Commencer le sondage"
 
 #: JudgeGPT\app.py:520
 msgid "Please confirm your age."
-msgstr ""
+msgstr "Veuillez confirmer votre âge."
 
 #: JudgeGPT\app.py:523
 msgid "Please confirm your gender."
-msgstr ""
+msgstr "Veuillez confirmer votre genre."
 
 #: JudgeGPT\app.py:526
 msgid "Please confirm how you assess your political view."
-msgstr ""
+msgstr "Veuillez confirmer comment vous évaluez votre opinion politique."
 
 #: JudgeGPT\app.py:529
 msgid "Please confirm if you are a native speaker."
-msgstr ""
+msgstr "Veuillez confirmer si vous êtes un locuteur natif."
 
 #: JudgeGPT\app.py:532
 msgid "Please confirm your education level."
-msgstr ""
+msgstr "Veuillez confirmer votre niveau d'éducation."
 
 #: JudgeGPT\app.py:535
 msgid "Please confirm how many newspapers you have subscribed."
-msgstr ""
+msgstr "Veuillez confirmer le nombre de journaux auxquels vous êtes abonné."
 
 #: JudgeGPT\app.py:538
 msgid "Please confirm how you assess your experience with fake news."
-msgstr ""
+msgstr "Veuillez confirmer comment vous évaluez votre expérience avec les fausses nouvelles."
 
 #: JudgeGPT\app.py:541
 msgid "Please give your consent."
-msgstr ""
+msgstr "Veuillez donner votre consentement."
 
 #: JudgeGPT\app.py:545 JudgeGPT\app.py:666
 msgid "Wait for it..."
-msgstr ""
+msgstr "Attendez un instant..."
 
 #: JudgeGPT\app.py:549 JudgeGPT\app.py:681
 msgid "Done!"
-msgstr ""
+msgstr "Fini !"
 
 #: JudgeGPT\app.py:574
-msgid "This is your respone no."
-msgstr ""
+msgid "This is your response no."
+msgstr "Ceci est votre réponse n°"
 
 #: JudgeGPT\app.py:583
-msgid "Definetly Human Generated"
-msgstr ""
+msgid "Definitely Human Generated"
+msgstr "Définitivement généré par un humain"
 
 #: JudgeGPT\app.py:584
-msgid "Probalby Human Generated"
-msgstr ""
+msgid "Probably Human Generated"
+msgstr "Probablement généré par un humain"
 
 #: JudgeGPT\app.py:585
-msgid "Likey Human Generated"
-msgstr ""
+msgid "Likely Human Generated"
+msgstr "Vraisemblablement généré par un humain"
 
 #: JudgeGPT\app.py:587
-msgid "Likey Machine Generated"
-msgstr ""
+msgid "Likely Machine Generated"
+msgstr "Vraisemblablement généré par une machine"
 
 #: JudgeGPT\app.py:588
-msgid "Probalby Machine Generated"
-msgstr ""
+msgid "Probably Machine Generated"
+msgstr "Probablement généré par une machine"
 
 #: JudgeGPT\app.py:589
-msgid "Definetly Machine Generated"
-msgstr ""
+msgid "Definitely Machine Generated"
+msgstr "Définitivement généré par une machine"
 
 #: JudgeGPT\app.py:594
 msgid "Human or Machine Generated?"
-msgstr ""
+msgstr "Généré par un humain ou une machine ?"
 
 #: JudgeGPT\app.py:604
 msgid "Definetly Legit News"
-msgstr ""
+msgstr "Définitivement une nouvelle légitime"
 
 #: JudgeGPT\app.py:605
 msgid "Probalby Legit News"
-msgstr ""
+msgstr "Probablement une nouvelle légitime"
 
 #: JudgeGPT\app.py:606
 msgid "Likey Legit News"
-msgstr ""
+msgstr "Vraisemblablement une nouvelle légitime"
 
 #: JudgeGPT\app.py:608
 msgid "Likey Fake News"
-msgstr ""
+msgstr "Vraisemblablement une fausse nouvelle"
 
 #: JudgeGPT\app.py:609
 msgid "Probalby Fake News"
-msgstr ""
+msgstr "Probablement une fausse nouvelle"
 
 #: JudgeGPT\app.py:610
 msgid "Definetly Fake News"
-msgstr ""
+msgstr "Définitivement une fausse nouvelle"
 
 #: JudgeGPT\app.py:615
 msgid "Legit or Fake News?"
-msgstr ""
+msgstr "Nouvelle légitime ou fausse nouvelle ?"
 
 #: JudgeGPT\app.py:625
 msgid "Not at all"
-msgstr ""
+msgstr "Pas du tout"
 
 #: JudgeGPT\app.py:626
 msgid "Slightly"
-msgstr ""
+msgstr "Légèrement"
 
 #: JudgeGPT\app.py:627
 msgid "Somewhat"
-msgstr ""
+msgstr "Quelque peu"
 
 #: JudgeGPT\app.py:629
 msgid "Fairly well"
-msgstr ""
+msgstr "Plutôt bien"
 
 #: JudgeGPT\app.py:630
 msgid "Very well"
-msgstr ""
+msgstr "Très bien"
 
 #: JudgeGPT\app.py:631
 msgid "Extremely well"
-msgstr ""
+msgstr "Extrêmement bien"
 
 #: JudgeGPT\app.py:636
 msgid "How familiar are you with the topic covered in this news?"
-msgstr ""
+msgstr "Quelle est votre familiarité avec le sujet couvert par cette nouvelle ?"
 
 #: JudgeGPT\app.py:652
 msgid "Submit Response"
-msgstr ""
+msgstr "Soumettre la réponse"
 
 #: JudgeGPT\app.py:657
 msgid "Please confirm how you assess if this news is human or machine generated."
-msgstr ""
+msgstr "Veuillez confirmer comment vous évaluez si cette nouvelle est générée par un humain ou une machine."
 
 #: JudgeGPT\app.py:660
 msgid "Please confirm how you assess if this news is legit or fake."
-msgstr ""
+msgstr "Veuillez confirmer comment vous évaluez si cette nouvelle est légitime ou fausse."
 
 #: JudgeGPT\app.py:663
 msgid "Please confirm how you assess your topic knowledge."
-msgstr ""
+msgstr "Veuillez confirmer comment vous évaluez votre connaissance du sujet."
 
