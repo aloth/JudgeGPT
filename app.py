@@ -95,7 +95,7 @@ def retrieve_fragments(ISOLanguage):
                 {"$sample": {"size": 50}}
             ]
             fragments = collection.aggregate(pipeline)
-            st.success(_("Data retrieved."))
+            st.toast(_("Data retrieved."))
             return list(fragments)
 
 def get_user_agent():
@@ -173,29 +173,62 @@ def display_consent_box():
             ])
 
             with consent_tab:
-                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/consent.md"))
+                print_md_files("docs/consent.md", "consent.md")
 
             with about_tab:
-                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/README.md"))
+                print_md_files("README.md", "README.md")
 
             with privacy_policy_tab:
-                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/privacypolicy.md"))
+                print_md_files("docs/privacypolicy.md", "privacypolicy.md")
 
             with imprint_tab:
-                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/docs/imprint.md"))
+                print_md_files("docs/imprint.md", "imprint.md")
 
             with license_tab:
-                print_file_content(_("https://raw.githubusercontent.com/aloth/JudgeGPT/main/LICENSE"))
+                print_md_files("LICENSE")
 
-def print_file_content(url):
+def load_file(url):
     """
-    Prints content of a file.
+    Fetch and decode the content from the URL.
     """
+    content = ""
+
     try:
         for line in urllib.request.urlopen(url):
-            st.markdown(line.decode('utf-8'))
+            content += line.decode('utf-8')
     except:
-        st.error(_("File") + " " + url + " " + _("not found") + ".")
+        content = None
+
+    return content
+
+def print_md_files(file_en, file_int = None):
+    """
+    Print content files.
+    """
+    base_url = "https://raw.githubusercontent.com/aloth/JudgeGPT/main/"
+
+    if file_int:
+        content = {}
+
+        # Load the content for each language
+        for lang in allowed_languages:
+            if lang == "en":
+                url = f"{base_url}{file_en}"
+            else:
+                url = f"{base_url}docs/{file_int}"
+            
+            # Initialize an empty string for the content
+            content[lang] = load_file(url)
+
+            if not content[lang]:
+                content[lang] = content["en"]
+
+        st.markdown(content[st.session_state.language])
+    else:
+        url = f"{base_url}{file_en}"
+        content = load_file(url)
+
+        st.markdown(content)
 
 def aggregate_results():
     """
@@ -327,7 +360,7 @@ if url_language:
 ui_language = st.session_state.language
 
 # Initialize the translator
-_ = get_translator(ui_language)
+_ = get_translator(st.session_state.language)
 
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
@@ -345,9 +378,6 @@ st.set_page_config(
 
 # Debugging output
 # st.write(f"Locales directory: {os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locales')}")
-
-# Main title displayed at the top of the survey page.
-display_intro()
 
 # Retrieve essential data using JavaScript integrations.
 screen_resolution = get_screen_resolution()
@@ -369,10 +399,14 @@ if not st.session_state.form_submitted:
                 # Check if 'countryCode' is in ip_location and if it is in the allowed languages          
                 if 'countryCode' in ip_location and ip_location['countryCode'].lower() in allowed_languages:
                     # Set the default language, converted to lower case for matching
-                    default_language = ip_location['countryCode'].lower()                  
+                    default_language = ip_location['countryCode'].lower()
+                    st.session_state.language = default_language
                     _ = get_translator(default_language)
             except:
                 st.status(_("Trying to determine user language..."))
+
+        # Main title displayed at the top of the survey page.
+        display_intro()
 
         # Display the selectbox with the determined default language
         languages_options = {
@@ -571,6 +605,9 @@ if st.session_state.form_submitted:
     if st.session_state.form_submitted:
         current_fragment = st.session_state.fragments[st.session_state.current_fragment_index]
         with st.form(key=f"news_fragment_{current_fragment['FragmentID']}", clear_on_submit = False):
+            # Main title displayed at the top of the survey page.
+            display_intro()
+
             st.write(_("This is your respone no."), st.session_state.count)
             st.divider()
 
