@@ -331,6 +331,42 @@ def get_language_from_url(query_params, allowed_languages):
         return url_language
     except:
         return None
+    
+def display_feedback_button():
+    # CSS for the feedback button
+    feedback_button_css = """
+    <style>
+        @media screen and (min-width: 768px) {
+            .feedback-button {
+                position: fixed;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%) rotate(-90deg);
+                background-color: #ff5733;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 50px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 16px;
+                box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+                transition: background-color 0.3s, transform 0.3s;
+            }
+            .feedback-button:hover {
+                background-color: #e74c3c;
+                transform: translateY(-50%) rotate(-90deg) translateY(-2px);
+            }
+        }
+    </style>
+    """
+    
+    # HTML for the feedback button
+    feedback_button_html = """
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfgO-1Tkq5_f5Poz7dpr1DSXp1bua72aXmhc5KxjFNETNL43g/viewform?usp=sf_link" target="_blank" class="feedback-button">FEEDBACK</a>
+    """
+    
+    # Combine CSS and HTML and render using Streamlit
+    st.markdown(feedback_button_css + feedback_button_html, unsafe_allow_html=True)
 
 # Initialize session state variables if they're not already set.
 if 'user_id' not in st.session_state:
@@ -406,6 +442,9 @@ if not st.session_state.form_submitted:
 
         # Main title displayed at the top of the survey page.
         display_intro()
+
+        # Display the feedback button
+        display_feedback_button()
 
         # Display the selectbox with the determined default language
         languages_options = {
@@ -606,6 +645,9 @@ if st.session_state.form_submitted:
         with st.form(key=f"news_fragment_{current_fragment['FragmentID']}", clear_on_submit = False):
             # Main title displayed at the top of the survey page.
             display_intro()
+
+            # Display the feedback button
+            display_feedback_button()
 
             st.write(_("This is your respone no."), st.session_state.count)
             st.divider()
