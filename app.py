@@ -11,17 +11,35 @@ from pymongo.server_api import ServerApi
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "0.9"
+__version__ = "0.9.1"
 __author__ = "Alexander Loth"
 __email__ = "alexander.loth@stud.fra-uas.de"
 __report_a_bug__ = "https://github.com/aloth/JudgeGPT/issues"
 
 def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params):
     """
-    Saves participant details to session state and MongoDB for persistence.
+    Save participant details to session state and MongoDB for persistence.
+
+    Args:
+        language (str): Participant's ISO language code.
+        age (int): Participant's age.
+        gender (str): Participant's gender.
+        political_view (str): Participant's political view.
+        is_native_speaker (bool): Whether the participant is a native speaker.
+        education_level (str): Participant's education level.
+        newspaper_subscription (bool): Whether the participant has a newspaper subscription.
+        fnews_experience (str): Experience with fake news.
+        screen_resolution (str): Screen resolution of the participant's device.
+        ip_location (str): IP-based location of the participant.
+        user_agent (str): Browser user agent string.
+        query_params (dict): Additional query parameters from the request.
+    
+    Returns:
+        None
     """
+    # Create a participant dictionary to store user details.
     participant = {
-        "ParticipantID": st.session_state.user_id,
+        "ParticipantID": st.session_state.user_id,  # Unique user ID from session state.
         "ISOLanguage": language,
         "Age": age,
         "Gender": gender,
@@ -29,49 +47,63 @@ def save_participant(language, age, gender, political_view, is_native_speaker, e
         "IsNativeSpeaker": is_native_speaker,
         "EducationLevel": education_level,
         "NewspaperSubscription": newspaper_subscription,
-        "FNewsExperience": fnews_experience,
+        "FNewsExperience": fnews_experience,  # Experience related to fake news.
         "ScreenResolution": screen_resolution,
         "IpLocation": ip_location,
         "UserAgent": user_agent,
-        "QueryParams": query_params
+        "QueryParams": query_params  # Optional query params, if any.
     }
 
-    # Connecting to MongoDB to save participant data.
-    with MongoClient(st.secrets["mongo"].connection,server_api=ServerApi('1')) as client:
-        db = client.realorfake
-        collection = db.participants
-        collection.insert_one(participant)
-    
-    # Updating session state with participant data.
+    # Connect to MongoDB and insert participant data.
+    with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
+        db = client.realorfake  # Access 'realorfake' database.
+        collection = db.participants  # Access 'participants' collection.
+        collection.insert_one(participant)  # Insert participant record.
+
+    # Update session state with participant data for local session tracking.
     st.session_state.participant = participant
 
-def save_response(fragment_id, human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer, origin, is_fake):
+def save_response(fragment_id, human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer, origin, is_fake, reported_as_broken):
     """
-    Saves survey response to session state and MongoDB.
+    Save survey response data to session state and MongoDB.
+
+    Args:
+        fragment_id (str): ID of the fragment the participant is responding to.
+        human_machine_score (float): Participant's score on whether the fragment is machine-generated.
+        legit_fake_score (float): Score on how legitimate or fake the fragment is perceived to be.
+        topic_knowledge_score (float): Score on participant's knowledge of the topic.
+        time_to_answer (float): Time taken to respond, in seconds.
+        origin (str): Source or origin of the news fragment.
+        is_fake (bool): Whether the fragment is actually fake.
+        reported_as_broken (bool): Whether the fragment was flagged as broken by the user.
+    
+    Returns:
+        None
     """
+    # Create a response dictionary to store survey response details.
     response = {
-        "ResultID": uuid.uuid4().hex,
-        "ParticipantID": st.session_state.user_id,
-        "FragmentID": fragment_id,
-        "HumanMachineScore": human_machine_score,
-        "LegitFakeScore": legit_fake_score,
-        "TopicKnowledgeScore": topic_knowledge_score,
-        "Timestamp": datetime.now().isoformat(),
-        "TimeToAnswer": time_to_answer,
-        "SessionCount": st.session_state.count,
-        "Origin": origin,
-        "IsFake": is_fake
+        "ResultID": uuid.uuid4().hex,  # Unique response ID.
+        "ParticipantID": st.session_state.user_id,  # Link to participant's ID.
+        "FragmentID": fragment_id,  # ID of the evaluated fragment.
+        "HumanMachineScore": human_machine_score,  # Perception of whether it’s human- or machine-generated.
+        "LegitFakeScore": legit_fake_score,  # Legitimacy score.
+        "TopicKnowledgeScore": topic_knowledge_score,  # Participant's self-rated topic knowledge.
+        "Timestamp": datetime.now().isoformat(),  # Current timestamp for when the response is recorded.
+        "TimeToAnswer": time_to_answer,  # Time spent answering.
+        "SessionCount": st.session_state.count,  # Count of how many fragments the participant has reviewed in this session.
+        "Origin": origin,  # Source of the fragment (e.g., news outlet, user-generated).
+        "IsFake": is_fake,  # Ground truth on whether the fragment is fake.
+        "ReportedAsBroken": reported_as_broken  # Whether the user flagged the fragment as problematic.
     }
     
-    # Connecting to MongoDB to save response data.
-    with MongoClient(st.secrets["mongo"].connection,server_api=ServerApi('1')) as client:
-        db = client.realorfake
-        collection = db.results
-        collection.insert_one(response)
+    # Connect to MongoDB and insert response data.
+    with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
+        db = client.realorfake  # Access 'realorfake' database.
+        collection = db.results  # Access 'results' collection.
+        collection.insert_one(response)  # Insert response record.
     
-    # Updating session state with the new response.
+    # Append the new response to session state to track locally.
     st.session_state.responses.append(response)
-
 
 def retrieve_fragments(ISOLanguage):
     """
@@ -615,7 +647,20 @@ if not st.session_state.form_submitted:
             if validity:
                 # Save participant data and mark the survey as started.
                 with st.spinner(_("Wait for it...")):
-                    save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params)
+                    save_participant(
+                        language = language,
+                        age = age,
+                        gender = gender,
+                        political_view = political_view,
+                        is_native_speaker = is_native_speaker,
+                        education_level = education_level,
+                        newspaper_subscription = newspaper_subscription,
+                        fnews_experience = fnews_experience,
+                        screen_resolution = screen_resolution,
+                        ip_location = ip_location,
+                        user_agent = user_agent,
+                        query_params = query_params
+                    )
                     st.session_state.form_submitted = True
                     st.session_state.start_time = datetime.now()
                 st.success(_("Done!"))
@@ -718,6 +763,9 @@ if st.session_state.form_submitted:
                 value = topic_knowledge_score_default
             )
 
+            # Add a checkbox to allow the user to report a news fragment as broken.
+            reported_as_broken = st.checkbox(_("Flag this news fragment as technically incorrect or broken."))
+
             st.divider()
 
             # Display results every 5 responses
@@ -731,15 +779,16 @@ if st.session_state.form_submitted:
             if submitted:
                 validity = True
                 # Validity checks
-                if human_machine_score == human_machine_score_default:
-                    st.error(_("Please confirm how you assess if this news is human or machine generated."))
-                    validity = False
-                if legit_fake_score == legit_fake_score_default:
-                    st.error(_("Please confirm how you assess if this news is legit or fake."))
-                    validity = False
-                if topic_knowledge_score == topic_knowledge_score_default:
-                    st.error(_("Please confirm how you assess your topic knowledge."))
-                    validity = False
+                if not reported_as_broken:
+                    if human_machine_score == human_machine_score_default:
+                        st.error(_("Please confirm how you assess if this news is human or machine generated."))
+                        validity = False
+                    if legit_fake_score == legit_fake_score_default:
+                        st.error(_("Please confirm how you assess if this news is legit or fake."))
+                        validity = False
+                    if topic_knowledge_score == topic_knowledge_score_default:
+                        st.error(_("Please confirm how you assess your topic knowledge."))
+                        validity = False
                 if validity:
                     with st.spinner(_("Wait for it...")):
                         # Calculate the time taken to answer this fragment.
@@ -747,7 +796,16 @@ if st.session_state.form_submitted:
                         time_to_answer = (end_time - st.session_state.start_time).total_seconds()
 
                         # Save the response to the database and session state.
-                        save_response(current_fragment["FragmentID"], human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer, current_fragment["Origin"], current_fragment["IsFake"])
+                        save_response(
+                            fragment_id = current_fragment["FragmentID"],
+                            human_machine_score = human_machine_score,
+                            legit_fake_score = legit_fake_score,
+                            topic_knowledge_score = topic_knowledge_score,
+                            time_to_answer = time_to_answer,
+                            origin = current_fragment["Origin"],
+                            is_fake = current_fragment["IsFake"],
+                            reported_as_broken = reported_as_broken
+                        )
                         
                         # Increment the fragment index and response count for the session.
                         st.session_state.current_fragment_index = (st.session_state.current_fragment_index + 1) % len(st.session_state.fragments)
