@@ -5,15 +5,16 @@ import json
 import codecs
 import urllib.request
 import gettext
+from typing import Dict, List, Optional, Union
 from datetime import datetime
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "0.9.1"
+__version__ = "0.9.2"
 __author__ = "Alexander Loth"
-__email__ = "alexander.loth@stud.fra-uas.de"
+__email__ = "Alexander.Loth@microsoft.com"
 __report_a_bug__ = "https://github.com/aloth/JudgeGPT/issues"
 
 def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params):
@@ -108,6 +109,12 @@ def save_response(fragment_id, human_machine_score, legit_fake_score, topic_know
 def retrieve_fragments(ISOLanguage):
     """
     Retrieves a set of news fragments from MongoDB based on the participant's language preference.
+
+    Args:
+        ISOLanguage (str): The ISO language code for the desired fragments.
+
+    Returns:
+        List[Dict[str, Union[str, bool]]]: A list of dictionaries containing fragment data.
     """
     with st.spinner(_("Retrieving from database...")):
         with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
@@ -133,6 +140,9 @@ def retrieve_fragments(ISOLanguage):
 def get_user_agent():
     """
     Retrieves the browser's user agent string using JavaScript.
+
+    Returns:
+        Optional[str]: The user agent string if available, None otherwise.
     """
     try:
         user_agent = st_javascript('navigator.userAgent')
@@ -143,6 +153,9 @@ def get_user_agent():
 def get_screen_resolution():
     """
     Retrieves the device's screen resolution using JavaScript.
+
+    Returns:
+        Optional[Dict[str, int]]: A dictionary containing 'width' and 'height' if available, None otherwise.
     """
     script = '({width: window.screen.width, height: window.screen.height})'
     try:
@@ -154,6 +167,9 @@ def get_screen_resolution():
 def get_ip_location():
     """
     Retrieves the participant's IP location using an external API and JavaScript fetch.
+
+    Returns:
+        Optional[Dict[str, str]]: A dictionary containing IP location information if available, None otherwise.
     """
     url = 'https://freeipapi.com/api/json'
     script = (f'await fetch("{url}").then('
@@ -169,6 +185,9 @@ def get_ip_location():
 def display_intro():
     """
     Displays main title and intro.
+
+    Returns:
+        None
     """
     st.subheader("🔍 " + _("Real or Fake: Can You Spot Misinformation?"))
     st.markdown(_("**Challenge your ability to distinguish between authentic news and AI-generated fake news in our interactive quiz.**"))
@@ -183,6 +202,9 @@ def display_intro():
 def display_participant_id():
     """
     Displays participant ID.
+
+    Returns:
+        None
     """
     st.markdown(
         '<p style="font-size: 12px;">' + _("Your participant ID:") + " " + st.session_state.user_id + '</p>',
@@ -192,6 +214,9 @@ def display_participant_id():
 def display_consent_box():
     """
     Display consent information.
+
+    Returns:
+        None
     """
     consent_request = st.empty()
     with consent_request.container():
@@ -222,6 +247,12 @@ def display_consent_box():
 def load_file(url):
     """
     Fetch and decode the content from the URL.
+
+    Args:
+        url (str): The URL to fetch content from.
+
+    Returns:
+        Optional[str]: The decoded content if successful, None otherwise.
     """
     content = ""
 
@@ -236,6 +267,13 @@ def load_file(url):
 def print_md_files(file_en, file_int = None):
     """
     Print content files.
+
+    Args:
+        file_en (str): The filename for the English version.
+        file_int (Optional[str]): The filename for internationalized versions, if applicable.
+
+    Returns:
+        None
     """
     base_url = "https://raw.githubusercontent.com/aloth/JudgeGPT/main/"
 
@@ -264,6 +302,9 @@ def print_md_files(file_en, file_int = None):
 def aggregate_results():
     """
     Aggregates results from session state.
+
+    Returns:
+        Dict[str, Union[int, float]]: A dictionary containing aggregated results.
     """
     if not st.session_state.responses:
         return "No responses found."
@@ -299,6 +340,9 @@ def aggregate_results():
 def display_aggregate_results():
     """
     Displays results from session state.
+
+    Returns:
+        None
     """
     completed_response_count = st.session_state.count - 1
     if completed_response_count % 5 == 0 and completed_response_count != 0:
@@ -334,7 +378,13 @@ def display_aggregate_results():
 
 def get_translator(lang: str = "en"):
     """
-    Initializes of the translator with English as fallback.
+    Initializes the translator with English as fallback.
+
+    Args:
+        lang (str): The ISO language code for translation. Defaults to "en".
+
+    Returns:
+        callable: A translation function.
     """
     if lang == "en":
         # For English, return the identity function (no translation needed)
@@ -351,7 +401,14 @@ def get_translator(lang: str = "en"):
 
 def get_language_from_url(query_params, allowed_languages):
     """
-    Checks if a available language is set in the URL query. 
+    Checks if an available language is set in the URL query. 
+
+    Args:
+        query_params (Dict[str, List[str]]): The query parameters from the URL.
+        allowed_languages (List[str]): A list of allowed language codes.
+
+    Returns:
+        Optional[str]: The language code if found and allowed, None otherwise.
     """
     try:
         language_param = query_params.get("language", [])
@@ -365,7 +422,12 @@ def get_language_from_url(query_params, allowed_languages):
         return None
     
 def display_feedback_button():
-    # CSS for the feedback button
+    """
+    Displays a feedback button on the page.
+
+    Returns:
+        None
+    """
     feedback_button_css = """
     <style>
         @media screen and (min-width: 768px) {
