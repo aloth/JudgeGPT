@@ -12,9 +12,10 @@ from pymongo.server_api import ServerApi
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "0.9.2"
+__version__ = "0.9.3"
 __author__ = "Alexander Loth"
 __email__ = "Alexander.Loth@microsoft.com"
+__research_paper__ = "https://arxiv.org/abs/2404.03021"
 __report_a_bug__ = "https://github.com/aloth/JudgeGPT/issues"
 
 def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params):
@@ -876,5 +877,5 @@ if st.session_state.form_submitted:
                         # Reset the start time for the next fragment's response timing.
                         st.session_state.start_time = datetime.now()
                     
-                    st.success(_("Done!"))
+                    st.success(_("Done!") + " Learn more about the impact of Generative AI on fake news through our [open access paper](" + __research_paper__ + ").")
                     st.rerun()
