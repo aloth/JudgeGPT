@@ -492,6 +492,20 @@ ui_language = st.session_state.language
 # Initialize the translator
 _ = get_translator(st.session_state.language)
 
+# Get min and max age from URL query parameters.  Use .get and provide default as string
+min_age_param = query_params.get("min_age", "16")  # string default
+max_age_param = query_params.get("max_age", "133") # string default
+
+# Convert the parameters to floats, using try-except for safety.
+try:
+    min_age = float(min_age_param)
+except (ValueError, TypeError):
+    min_age = 16.0  # Default value
+try:
+    max_age = float(max_age_param)
+except (ValueError, TypeError):
+    max_age = 133.0 # Default value
+
 # Configure the Streamlit page with a title and icon.
 st.set_page_config(
     page_title = _("Real or Fake?"),
@@ -560,8 +574,8 @@ if not st.session_state.form_submitted:
         age_default = 33.33
         age = st.slider(
             label = _("Age"),
-            min_value = 16.0,
-            max_value = 133.0,
+            min_value = min_age,
+            max_value = max_age,
             value = age_default,
             step = 1.0,
             format = _("%d years")
