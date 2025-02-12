@@ -12,7 +12,7 @@ from pymongo.server_api import ServerApi
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "0.9.3"
+__version__ = "0.9.4"
 __author__ = "Alexander Loth"
 __email__ = "Alexander.Loth@microsoft.com"
 __research_paper__ = "https://arxiv.org/abs/2404.03021"
@@ -571,7 +571,7 @@ if not st.session_state.form_submitted:
         )
 
         # Age selection
-        age_default = 33.33
+        age_default = (min_age + max_age) / 2 + .33
         age = st.slider(
             label = _("Age"),
             min_value = min_age,
