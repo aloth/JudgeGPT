@@ -53,7 +53,9 @@ To participate in the development of JudgeGPT, follow these steps:
 Upon running the application, users are presented with a series of news fragments retrieved from a MongoDB database. Participants are asked to:
 
 1. Read each news fragment.
-2. Use sliders to rate their perception of the fragment's authenticity (real vs. fake) and source (human vs. machine).
+2. Use the sliders to rate your perception of:
+    * Authenticity (Real vs. Fake)
+    * Source (Human vs. Machine)
 3. Submit their response, contributing to the research dataset.
 
 This iterative process allows for the collection of valuable data on news authenticity perceptions, feeding into analytical studies aimed at improving AI news generation and detection frameworks.
@@ -67,6 +69,12 @@ Currently, JudgeGPT supports the following languages:
 - [German (`de`)](https://judgegpt.streamlit.app/?language=de)
 - [French (`fr`)](https://judgegpt.streamlit.app/?language=fr)
 - [Spanish (`es`)](https://judgegpt.streamlit.app/?language=es)
+
+### Customizing Age Range
+
+You can customize the age range for participants by adding `min_age` and `max_age` parameters to the URL. For example, to limit participants to ages 15-25, use the following URL:
+
+[`https://judgegpt.streamlit.app/?min_age=15&max_age=25`](https://judgegpt.streamlit.app/?min_age=15&max_age=25)
 
 ## Project Status
 
@@ -121,6 +129,6 @@ JudgeGPT is an independent research project and is not affiliated with, endorsed
 
 ---
 
-⭐ If you find JudgeGPT interesting, give it a star on GitHub!
+⭐ **Star JudgeGPT on GitHub if you find it interesting!** This helps us reach a wider audience.
 
-📧 For more information, collaborations or to report issues, please [open an issue](https://github.com/aloth/JudgeGPT/issues) on our GitHub repository.
+📧 **Get Involved!** [Participate in the survey](https://judgegpt.streamlit.app/), contribute to the code, or [open an issue](https://github.com/aloth/JudgeGPT/issues) to report problems, suggest features, or ask questions.  We appreciate your feedback and support!
