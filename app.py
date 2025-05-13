@@ -12,7 +12,7 @@ from pymongo.server_api import ServerApi
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = "Alexander Loth"
 __email__ = "Alexander.Loth@microsoft.com"
 __research_paper__ = "https://arxiv.org/abs/2404.03021"
@@ -318,11 +318,16 @@ def aggregate_results():
     avg_lf_score = df['LegitFakeScore'].mean()
     avg_topic_knowledge = df['TopicKnowledgeScore'].mean()
 
-    # Calculate accuracy
-    df['HM_Accuracy'] = df.apply(lambda row: 1 if (row['HumanMachineScore'] >= 0.5 and row['Origin'] == "Machine") or 
-                                          (row['HumanMachineScore'] < 0.5 and row['Origin'] == "Human") else 0, axis=1)
-    df['LF_Accuracy'] = df.apply(lambda row: 1 if (row['LegitFakeScore'] >= 0.5 and row['IsFake']) or 
-                                          (row['LegitFakeScore'] < 0.5 and not row['IsFake']) else 0, axis=1)
+    # Calculate HM_Accuracy
+    predicted_machine = df['HumanMachineScore'] >= 0.5
+    actual_machine = df['Origin'] == "Machine"
+    df['HM_Accuracy'] = (predicted_machine == actual_machine).astype(int)
+    
+    # Calculate LF_Accuracy
+    predicted_fake = df['LegitFakeScore'] >= 0.5
+    # df['IsFake'] is already boolean
+    df['LF_Accuracy'] = (predicted_fake == df['IsFake']).astype(int)
+    
     hm_accuracy = df['HM_Accuracy'].mean()
     lf_accuracy = df['LF_Accuracy'].mean()
 
