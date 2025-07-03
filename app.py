@@ -421,10 +421,10 @@ def get_language_from_url(query_params, allowed_languages):
 
         # Check if the extracted language parameter is non-empty and if it is in allowed languages
         if language_param and language_param.lower() in allowed_languages:
-            # Set the default language, converted to lower case for matching
-            url_language = language_param.lower()
-        return url_language
-    except:
+            # Return the language code, converted to lower case for matching
+            return language_param.lower()
+        return None
+    except Exception:
         return None
     
 def display_feedback_button():
