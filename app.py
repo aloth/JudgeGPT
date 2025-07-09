@@ -196,13 +196,18 @@ def display_intro():
 
     st.markdown(
         f"""
-        > **{_("Are you an expert in AI, policy, or journalism?")}**
-        >
-        > {_("We are conducting a follow-up study to gather expert perspectives on the risks and mitigation strategies related to AI-driven disinformation. Your insights are invaluable for this research.")}
-        >
-        > {_("Please consider contributing by participating in our 15-minute survey:")}
-        >
-        > ➡️ **<a href="https://forms.gle/EUdbkEtZpEuPbVVz5" target="_blank" rel="noopener noreferrer">{_("Click here to access the Expert Survey")}</a>**
+        <div style="
+            background-color: #eef7ff;
+            border-left: 5px solid #0072b2;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        ">
+            <h3 style="color: #0072b2; margin-top: 0;">{_("Are you an expert in AI, policy, or journalism?")}</h3>
+            <p style="margin-bottom: 1rem;">{_("We are conducting a follow-up study to gather expert perspectives on the risks and mitigation strategies related to AI-driven disinformation. Your insights are invaluable for this research.")}</p>
+            <p style="margin-bottom: 1rem;">{_("Please consider contributing by participating in our 15-minute survey:")}</p>
+            <p>➡️ <strong><a href="https://forms.gle/EUdbkEtZpEuPbVVz5" target="_blank" rel="noopener noreferrer">{_("Click here to access the Expert Survey")}</a></strong></p>
+        </div>
         """,
         unsafe_allow_html=True
     )
