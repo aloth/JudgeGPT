@@ -194,6 +194,19 @@ def display_intro():
     st.markdown(_("**Challenge your ability to distinguish between authentic news and AI-generated fake news in our interactive quiz.**"))
     st.markdown(_("Dive into the complex world where generative AI blurs the lines between reality and fiction. Learn more about the impact of Generative AI on fake news through our [open access paper](https://arxiv.org/abs/2404.03021) and explore our research at [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/)."))
 
+    st.markdown(
+        f"""
+        > **{_("Are you an expert in AI, policy, or journalism?")}**
+        >
+        > {_("We are conducting a follow-up study to gather expert perspectives on the risks and mitigation strategies related to AI-driven disinformation. Your insights are invaluable for this research.")}
+        >
+        > {_("Please consider contributing by participating in our 15-minute survey:")}
+        >
+        > ➡️ **<a href="https://forms.gle/EUdbkEtZpEuPbVVz5" target="_blank" rel="noopener noreferrer">{_("Click here to access the Expert Survey")}</a>**
+        """,
+        unsafe_allow_html=True
+    )
+    
     with st.expander(_("FAQs & Useful Info"), expanded=False):
         st.markdown(_("- **Privacy Concerns?** Email us at alexander.loth@stud.fra-uas.de with your participant ID to request data deletion within one year of submission. Use 'Delete Request' as your subject line."))
         st.markdown(_("- **No Downloads Needed:** Access the quiz directly from your browser."))
