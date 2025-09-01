@@ -9,10 +9,11 @@ from typing import Dict, List, Optional, Union
 from datetime import datetime
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from pymongo import errors as pymongo_errors
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __author__ = "Alexander Loth"
 __email__ = "Alexander.Loth@microsoft.com"
 __research_paper__ = "https://arxiv.org/abs/2404.03021"
@@ -37,7 +38,7 @@ def save_participant(language, age, gender, political_view, is_native_speaker, e
         query_params (dict): Additional query parameters from the request.
     
     Returns:
-        None
+        bool: True if saving was successful, False otherwise.
     """
     # Create a participant dictionary to store user details.
     participant = {
@@ -56,14 +57,20 @@ def save_participant(language, age, gender, political_view, is_native_speaker, e
         "QueryParams": query_params  # Optional query params, if any.
     }
 
-    # Connect to MongoDB and insert participant data.
-    with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
-        db = client.realorfake  # Access 'realorfake' database.
-        collection = db.participants  # Access 'participants' collection.
-        collection.insert_one(participant)  # Insert participant record.
+    try:
+        # Connect to MongoDB and insert participant data.
+        with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
+            db = client.realorfake  # Access 'realorfake' database.
+            collection = db.participants  # Access 'participants' collection.
+            collection.insert_one(participant)  # Insert participant record.
 
-    # Update session state with participant data for local session tracking.
-    st.session_state.participant = participant
+        # Update session state with participant data for local session tracking.
+        st.session_state.participant = participant
+        return True
+    except pymongo_errors.PyMongoError as e:
+        st.error(_("Database error: Could not save participant data. Please try again later."))
+        print(f"MongoDB Error during participant save: {e}")
+        return False
 
 def save_response(fragment_id, human_machine_score, legit_fake_score, topic_knowledge_score, time_to_answer, origin, is_fake, reported_as_broken):
     """
@@ -80,7 +87,7 @@ def save_response(fragment_id, human_machine_score, legit_fake_score, topic_know
         reported_as_broken (bool): Whether the fragment was flagged as broken by the user.
     
     Returns:
-        None
+        bool: True if saving was successful, False otherwise.
     """
     # Create a response dictionary to store survey response details.
     response = {
@@ -98,14 +105,20 @@ def save_response(fragment_id, human_machine_score, legit_fake_score, topic_know
         "ReportedAsBroken": reported_as_broken  # Whether the user flagged the fragment as problematic.
     }
     
-    # Connect to MongoDB and insert response data.
-    with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
-        db = client.realorfake  # Access 'realorfake' database.
-        collection = db.results  # Access 'results' collection.
-        collection.insert_one(response)  # Insert response record.
-    
-    # Append the new response to session state to track locally.
-    st.session_state.responses.append(response)
+    try:
+        # Connect to MongoDB and insert response data.
+        with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
+            db = client.realorfake  # Access 'realorfake' database.
+            collection = db.results  # Access 'results' collection.
+            collection.insert_one(response)  # Insert response record.
+        
+        # Append the new response to session state to track locally.
+        st.session_state.responses.append(response)
+        return True
+    except pymongo_errors.PyMongoError as e:
+        st.error(_("Database error: Could not save your response. Please try again."))
+        print(f"MongoDB Error during response save: {e}")
+        return False
 
 def retrieve_fragments(ISOLanguage):
     """
@@ -747,7 +760,7 @@ if not st.session_state.form_submitted:
             if validity:
                 # Save participant data and mark the survey as started.
                 with st.spinner(_("Wait for it...")):
-                    save_participant(
+                    success = save_participant(
                         language = language,
                         age = age,
                         gender = gender,
@@ -896,7 +909,7 @@ if st.session_state.form_submitted:
                         time_to_answer = (end_time - st.session_state.start_time).total_seconds()
 
                         # Save the response to the database and session state.
-                        save_response(
+                        success = save_response(
                             fragment_id = current_fragment["FragmentID"],
                             human_machine_score = human_machine_score,
                             legit_fake_score = legit_fake_score,
