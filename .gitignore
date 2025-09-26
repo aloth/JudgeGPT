@@ -146,6 +146,9 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# JudgeGPT Data Analysis - Exported data dumps
+data_analysis/data_dumps/
+
 # PyCharm
 #  JetBrains specific template is maintainted in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore

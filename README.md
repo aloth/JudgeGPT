@@ -111,6 +111,16 @@ The survey experience can be customized by passing parameters in the URL.
 * **Age Range:** You can filter participants by age using the `min_age` and `max_age` parameters.
     * Example for ages 15-25: `https://judgegpt.streamlit.app/?min_age=15&max_age=25`
 
+## Data Analysis Tools
+
+For researchers interested in analyzing the collected data, the [`data_analysis/`](data_analysis/) directory contains specialized tools for exporting and processing the MongoDB collections:
+
+- **Data Export**: Export all study data (participants, results, fragments) to CSV and JSON formats
+- **Automated Processing**: Timestamped exports with summary reports and ZIP archives
+- **Research Ready**: Tools designed for independent use by researchers
+
+See the [data_analysis README](data_analysis/README.md) for detailed usage instructions.
+
 ## Project Roadmap: A Research-Driven Agenda
 JudgeGPT is an actively evolving research platform. The project roadmap is directly guided by the open challenges in the field of AI-driven misinformation, as outlined in our research paper. We welcome collaboration on the following key areas, which transform a list of features into a strategic agenda for advancing scientific understanding.
 
