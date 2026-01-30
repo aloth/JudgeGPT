@@ -1,5 +1,6 @@
 # JudgeGPT: An Empirical Platform for Evaluating News Authenticity in the Age of AI
 [![arXiv](https://img.shields.io/badge/arXiv-2404.03021-B31B1B.svg)](https://arxiv.org/abs/2404.03021)
+[![arXiv](https://img.shields.io/badge/arXiv-2601.21963-B31B1B.svg)](https://arxiv.org/abs/2601.21963)
 [![Participate in Survey](https://img.shields.io/badge/Participate-Survey-brightgreen.svg)](https://judgegpt.streamlit.app/)
 [![React Beta Test](https://img.shields.io/badge/React%20Beta-Test-blue.svg)](https://aka.ms/JudgeGPT)
 [![Status](https://img.shields.io/badge/status-active%20%26%20evolving-orange.svg)](https://github.com/aloth/JudgeGPT)
@@ -10,6 +11,8 @@
 Generative AI has initiated a technological arms race between the creation of hyper-realistic synthetic media and the development of tools to detect it. While much research focuses on the technical aspects of automated detection, a critical gap exists in understanding human perception. How do people judge the authenticity of content when the lines between human and machine-generated text are increasingly blurred?
 
 As identified in our foundational paper, *"Blessing or curse? A survey on the Impact of Generative AI on Fake News"*, there is a pressing need for empirical data to understand how these technologies influence public trust and information integrity. The paper highlights a "notable gap in the literature" concerning the dual-use nature of Generative AI and calls for research to explore both the technological and social countermeasures required to safeguard the information ecosystem.
+
+Our follow-up research, *"Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation on Digital Ecosystems"* (to appear at WWW '26), extends this work by examining the broader systemic impacts of LLM-generated misinformation on digital platforms, trust networks, and information ecosystems.
 
 JudgeGPT is not just a survey; it is a live research platform designed to systematically collect and analyze human judgments on news authenticity. It serves as the practical instrument built to address this identified research gap, providing the crucial data needed to navigate this new information landscape.
 
@@ -143,16 +146,20 @@ To gather high-quality data at scale, participant engagement is key. The roadmap
 To serve as a long-term, large-scale public resource, the platform must be robust and scalable. This involves transitioning to a **production-grade cloud environment** (e.g., Microsoft Azure) and making significant **UI/UX enhancements**, including the ongoing port to React. This ensures the platform's longevity and its ability to support a growing community of participants and researchers.
 
 ## Citation
-If you use JudgeGPT or its underlying research in your work, please cite our foundational paper:
+If you use JudgeGPT or its underlying research in your work, please cite our paper:
 
 ```bibtex
-@misc{loth2024blessing,
-      title={Blessing or curse? A survey on the Impact of Generative AI on Fake News}, 
-      author={Alexander Loth and Martin Kappes and Marc-Oliver Pahl},
-      year={2024},
-      eprint={2404.03021},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{loth2026collateraleffects,
+      author = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
+      title = {Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation on Digital Ecosystems},
+      booktitle = {Companion Proceedings of the ACM Web Conference 2026 (WWW '26 Companion)},
+      year = {2026},
+      month = apr,
+      publisher = {ACM},
+      address = {New York, NY, USA},
+      location = {Dubai, United Arab Emirates},
+      url = {https://arxiv.org/abs/2601.21963},
+      note = {To appear. Also available as arXiv:2601.21963}
 }
 ```
 

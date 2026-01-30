@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+title: "JudgeGPT: An Empirical Platform for Evaluating News Authenticity in the Age of AI"
+message: "If you use this software, please cite our paper."
+type: software
+authors:
+  - family-names: Loth
+    given-names: Alexander
+    orcid: "https://orcid.org/0009-0003-9327-6865"
+  - family-names: Kappes
+    given-names: Martin
+  - family-names: Pahl
+    given-names: Marc-Oliver
+    orcid: "https://orcid.org/0000-0001-5241-3809"
+repository-code: "https://github.com/aloth/JudgeGPT"
+license: GPL-3.0
+preferred-citation:
+  type: conference-paper
+  title: "Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation on Digital Ecosystems"
+  authors:
+    - family-names: Loth
+      given-names: Alexander
+      orcid: "https://orcid.org/0009-0003-9327-6865"
+    - family-names: Kappes
+      given-names: Martin
+    - family-names: Pahl
+      given-names: Marc-Oliver
+      orcid: "https://orcid.org/0000-0001-5241-3809"
+  collection-title: "Companion Proceedings of the ACM Web Conference 2026 (WWW '26 Companion)"
+  year: 2026
+  month: 4
+  publisher:
+    name: ACM
+  location:
+    name: "Dubai, United Arab Emirates"
+  url: "https://arxiv.org/abs/2601.21963"
