@@ -196,19 +196,16 @@ def get_ip_location():
         else: return None
     except: return None
 
-def display_intro():
+def get_announcement_messages():
     """
-    Displays main title and intro.
+    Returns a dictionary of announcement messages keyed by message ID.
+    Add new messages here with incrementing IDs.
 
     Returns:
-        None
+        Dict[int, str]: A dictionary mapping message IDs to HTML content.
     """
-    st.subheader("🔍 " + _("Real or Fake: Can You Spot Misinformation?"))
-    st.markdown(_("**Challenge your ability to distinguish between authentic news and AI-generated fake news in our interactive quiz.**"))
-    st.markdown(_("Dive into the complex world where generative AI blurs the lines between reality and fiction. Learn more about the impact of Generative AI on fake news through our [open access paper](https://arxiv.org/abs/2404.03021) and explore our research at [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/)."))
-
-    st.markdown(
-        f"""
+    messages = {
+        1: f"""
         <div style="
             background-color: #eef7ff;
             border-left: 5px solid #0072b2;
@@ -222,8 +219,36 @@ def display_intro():
             <p>➡️ <strong><a href="https://forms.gle/EUdbkEtZpEuPbVVz5" target="_blank" rel="noopener noreferrer">{_("Click here to access the Expert Survey")}</a></strong></p>
         </div>
         """,
-        unsafe_allow_html=True
-    )
+        # Add more messages here as needed:
+        # 2: """<div>...</div>""",
+        # 3: """<div>...</div>""",
+    }
+    return messages
+
+def display_intro():
+    """
+    Displays main title and intro.
+
+    Returns:
+        None
+    """
+    st.subheader("🔍 " + _("Real or Fake: Can You Spot Misinformation?"))
+    st.markdown(_("**Challenge your ability to distinguish between authentic news and AI-generated fake news in our interactive quiz.**"))
+    st.markdown(_("Dive into the complex world where generative AI blurs the lines between reality and fiction. Learn more about the impact of Generative AI on fake news through our [open access paper](https://arxiv.org/abs/2404.03021) and explore our research at [Cyber CNI](https://cybercni.fr/research/lutte-informatique-dinfluence-l2i-fake-news-detection-generation-prevention/)."))
+
+    # Get the 'msg' URL parameter (default: 1, which shows the expert survey box)
+    # msg=0 hides all announcements, msg=1 shows message 1, msg=2 shows message 2, etc.
+    msg_param = st.query_params.get("msg", "1")
+    try:
+        msg_id = int(msg_param)
+    except (ValueError, TypeError):
+        msg_id = 1  # Default to showing message 1 if invalid
+
+    # Display the announcement message if msg_id > 0 and message exists
+    if msg_id > 0:
+        messages = get_announcement_messages()
+        if msg_id in messages:
+            st.markdown(messages[msg_id], unsafe_allow_html=True)
     
     with st.expander(_("FAQs & Useful Info"), expanded=False):
         st.markdown(_("- **Privacy Concerns?** Email us at alexander.loth@stud.fra-uas.de with your participant ID to request data deletion within one year of submission. Use 'Delete Request' as your subject line."))
