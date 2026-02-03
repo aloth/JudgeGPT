@@ -1,6 +1,6 @@
 # JudgeGPT: An Empirical Platform for Evaluating News Authenticity in the Age of AI
-[![arXiv](https://img.shields.io/badge/arXiv-2404.03021-B31B1B.svg)](https://arxiv.org/abs/2404.03021)
 [![arXiv](https://img.shields.io/badge/arXiv-2601.21963-B31B1B.svg)](https://arxiv.org/abs/2601.21963)
+[![arXiv](https://img.shields.io/badge/arXiv-2601.22871-B31B1B.svg)](https://arxiv.org/abs/2601.22871)
 [![Participate in Survey](https://img.shields.io/badge/Participate-Survey-brightgreen.svg)](https://judgegpt.streamlit.app/)
 [![React Beta Test](https://img.shields.io/badge/React%20Beta-Test-blue.svg)](https://aka.ms/JudgeGPT)
 [![Status](https://img.shields.io/badge/status-active%20%26%20evolving-orange.svg)](https://github.com/aloth/JudgeGPT)
@@ -146,20 +146,34 @@ To gather high-quality data at scale, participant engagement is key. The roadmap
 To serve as a long-term, large-scale public resource, the platform must be robust and scalable. This involves transitioning to a **production-grade cloud environment** (e.g., Microsoft Azure) and making significant **UI/UX enhancements**, including the ongoing port to React. This ensures the platform's longevity and its ability to support a growing community of participants and researchers.
 
 ## Citation
-If you use JudgeGPT or its underlying research in your work, please cite our paper:
+If you use JudgeGPT or its underlying research in your work, please cite our papers:
 
 ```bibtex
 @inproceedings{loth2026collateraleffects,
-      author = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
-      title = {Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation on Digital Ecosystems},
-      booktitle = {Companion Proceedings of the ACM Web Conference 2026 (WWW '26 Companion)},
-      year = {2026},
-      month = apr,
-      publisher = {ACM},
-      address = {New York, NY, USA},
-      location = {Dubai, United Arab Emirates},
-      url = {https://arxiv.org/abs/2601.21963},
-      note = {To appear. Also available as arXiv:2601.21963}
+    author = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
+    title = {Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation on Digital Ecosystems},
+    booktitle = {Companion Proceedings of the ACM Web Conference 2026 (WWW '26 Companion)},
+    year      = {2026},
+    month     = apr,
+    publisher = {ACM},
+    address   = {New York, NY, USA},
+    location  = {Dubai, United Arab Emirates},
+    DOI       = {10.1145/3774905.3795471},
+    url = {https://arxiv.org/abs/2601.21963},
+    note      = {To appear. Also available as arXiv:2601.21963}
+}
+
+@inproceedings{loth2026eroding,
+    author    = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
+    title     = {Eroding the Truth-Default: A Causal Analysis of Human Susceptibility to Foundation Model Hallucinations and Disinformation in the Wild},
+    booktitle = {Companion Proceedings of the ACM Web Conference 2026 (WWW '26 Companion)},
+    year      = {2026},
+    month     = apr,
+    publisher = {ACM},
+    address   = {New York, NY, USA},
+    location  = {Dubai, United Arab Emirates},
+    url       = {https://arxiv.org/abs/2601.22871},
+    note      = {To appear. Also available as arXiv:2601.22871}
 }
 ```
 
