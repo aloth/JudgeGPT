@@ -7,6 +7,10 @@
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub Stars](https://img.shields.io/github/stars/aloth/JudgeGPT?style=social)](https://github.com/aloth/JudgeGPT/stargazers)
 
+<p align="center">
+  <img src="figures/judgegpt-ai-news-authenticity-evaluation-hero.png" alt="JudgeGPT — Can humans distinguish AI-generated news from real journalism?" width="400">
+</p>
+
 ## The Research Mandate: Why JudgeGPT Exists
 Generative AI has initiated a technological arms race between the creation of hyper-realistic synthetic media and the development of tools to detect it. While much research focuses on the technical aspects of automated detection, a critical gap exists in understanding human perception. How do people judge the authenticity of content when the lines between human and machine-generated text are increasingly blurred?
 
