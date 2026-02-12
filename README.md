@@ -8,7 +8,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/aloth/JudgeGPT?style=social)](https://github.com/aloth/JudgeGPT/stargazers)
 
 <p align="center">
-  <img src="figures/judgegpt-ai-news-authenticity-evaluation-hero.png" alt="JudgeGPT — Can humans distinguish AI-generated news from real journalism?" width="400">
+  <img src="figures/judgegpt-human-vs-ai-news-authenticity-evaluation-wide.png" alt="JudgeGPT — Can humans distinguish AI-generated news from real journalism?" width="700">
 </p>
 
 ## The Research Mandate: Why JudgeGPT Exists
