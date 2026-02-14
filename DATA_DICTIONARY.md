@@ -190,7 +190,7 @@ df_merged = df_merged.merge(df_participants, on="ParticipantID", suffixes=("", "
 
 ## Version Information
 
-- **Platform:** JudgeGPT v1.0.2
+- **Platform:** JudgeGPT v1.0.3
 - **Generator:** RogueGPT v0.9.3
 - **Database:** MongoDB (realorfake)
 - **Last Updated:** October 2025

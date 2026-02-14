@@ -13,7 +13,7 @@ from pymongo import errors as pymongo_errors
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 __author__ = "Alexander Loth"
 __email__ = "Alexander.Loth@microsoft.com"
 __research_paper__ = "https://arxiv.org/abs/2404.03021"
