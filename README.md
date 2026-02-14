@@ -6,6 +6,7 @@
 [![Status](https://img.shields.io/badge/status-active%20%26%20evolving-orange.svg)](https://github.com/aloth/JudgeGPT)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub Stars](https://img.shields.io/github/stars/aloth/JudgeGPT?style=social)](https://github.com/aloth/JudgeGPT/stargazers)
+[![Mastodon](https://img.shields.io/badge/Mastodon-@xlth-6364FF?logo=mastodon&logoColor=white)](https://mastodon.social/@xlth)
 
 <p align="center">
   <img src="figures/judgegpt-human-vs-ai-news-authenticity-evaluation-wide.png" alt="JudgeGPT — Can humans distinguish AI-generated news from real journalism?" width="700">
