@@ -178,6 +178,7 @@ If you use JudgeGPT or its underlying research in your work, please cite our pap
     address   = {New York, NY, USA},
     location  = {Dubai, United Arab Emirates},
     url       = {https://arxiv.org/abs/2601.22871},
+    DOI       = {10.1145/3774905.3795832},
     note      = {To appear. Also available as arXiv:2601.22871}
 }
 ```
