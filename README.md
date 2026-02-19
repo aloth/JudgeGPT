@@ -150,6 +150,14 @@ To gather high-quality data at scale, participant engagement is key. The roadmap
 ### Achieving Scalability and Production Readiness
 To serve as a long-term, large-scale public resource, the platform must be robust and scalable. This involves transitioning to a **production-grade cloud environment** (e.g., Microsoft Azure) and making significant **UI/UX enhancements**, including the ongoing port to React. This ensures the platform's longevity and its ability to support a growing community of participants and researchers.
 
+## Dataset
+
+The JudgeGPT Human Perception Data (504 participants, 2,438 dual-axis judgments, plus the full RogueGPT stimulus corpus) is available on Zenodo:
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703385.svg)](https://doi.org/10.5281/zenodo.18703385)
+
+Access is restricted to academic research. Submit a request via the Zenodo page.
+
 ## Citation
 If you use JudgeGPT or its underlying research in your work, please cite our papers:
 
