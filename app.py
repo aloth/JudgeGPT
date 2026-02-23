@@ -3,7 +3,9 @@ import pandas as pd
 import uuid
 import json
 import codecs
+import base64
 import urllib.request
+import urllib.parse
 import gettext
 from typing import Dict, List, Optional, Union
 from datetime import datetime
@@ -13,9 +15,9 @@ from pymongo import errors as pymongo_errors
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "1.0.3"
+__version__ = "1.1.0"
 __author__ = "Alexander Loth"
-__email__ = "Alexander.Loth@microsoft.com"
+__email__ = "alexander.loth@stud.fra-uas.de"
 __research_paper__ = "https://arxiv.org/abs/2404.03021"
 __report_a_bug__ = "https://github.com/aloth/JudgeGPT/issues"
 
@@ -143,6 +145,7 @@ def retrieve_fragments(ISOLanguage):
                     "Content": 1,
                     "Origin": 1,
                     "IsFake": 1,
+                    "MachineModel": 1,
                     "_id": 0
                     }},  # Project only required attributes
                 {"$sample": {"size": 50}}
@@ -150,6 +153,77 @@ def retrieve_fragments(ISOLanguage):
             fragments = collection.aggregate(pipeline)
             st.toast(_("Data retrieved."))
             return list(fragments)
+
+
+def retrieve_fragments_by_ids(fragment_ids):
+    """
+    Retrieves specific fragments by their IDs (for challenge mode).
+
+    Args:
+        fragment_ids (list): List of FragmentID strings.
+
+    Returns:
+        List[Dict]: Ordered list of fragment dicts matching the input IDs.
+    """
+    with st.spinner(_("Loading challenge...")):
+        with MongoClient(st.secrets["mongo"].connection, server_api=ServerApi('1')) as client:
+            db = client.realorfake
+            collection = db.fragments
+            pipeline = [
+                {"$match": {"FragmentID": {"$in": fragment_ids}}},
+                {"$project": {
+                    "FragmentID": 1,
+                    "Content": 1,
+                    "Origin": 1,
+                    "IsFake": 1,
+                    "MachineModel": 1,
+                    "_id": 0
+                }}
+            ]
+            results = list(collection.aggregate(pipeline))
+            # Preserve the original order from fragment_ids
+            id_to_frag = {f["FragmentID"]: f for f in results}
+            return [id_to_frag[fid] for fid in fragment_ids if fid in id_to_frag]
+
+
+def encode_challenge(fragment_ids, creator_score=None):
+    """
+    Encode fragment IDs and optional creator score into a URL-safe challenge token.
+
+    Args:
+        fragment_ids (list): List of FragmentID hex strings.
+        creator_score (float, optional): Creator's accuracy percentage.
+
+    Returns:
+        str: Base64url-encoded challenge token.
+    """
+    payload = {"f": fragment_ids}
+    if creator_score is not None:
+        payload["s"] = round(creator_score, 1)
+    raw = json.dumps(payload, separators=(",", ":")).encode()
+    return base64.urlsafe_b64encode(raw).decode().rstrip("=")
+
+
+def decode_challenge(token):
+    """
+    Decode a challenge token back into fragment IDs and optional score.
+
+    Args:
+        token (str): Base64url-encoded challenge token.
+
+    Returns:
+        tuple: (fragment_ids: list, creator_score: float or None)
+    """
+    try:
+        # Re-add padding
+        padding = 4 - len(token) % 4
+        if padding != 4:
+            token += "=" * padding
+        raw = base64.urlsafe_b64decode(token)
+        payload = json.loads(raw)
+        return payload.get("f", []), payload.get("s")
+    except Exception:
+        return [], None
 
 def get_user_agent():
     """
@@ -401,7 +475,7 @@ def aggregate_results():
 
 def display_aggregate_results():
     """
-    Displays results from session state.
+    Displays results from session state with shareable score card and social buttons.
 
     Returns:
         None
@@ -411,21 +485,77 @@ def display_aggregate_results():
         results = aggregate_results()
         st.balloons()
         st.write("🎉 " + _("Congratulations! You've completed {completed_responses} responses. Here are your results so far:").format(completed_responses=results['Total Responses']))
-        # st.write(f"Average Human/Machine Score: {results['Average Human/Machine Score']:.2f}")
-        # st.write(f"Average Legitimacy Score: {results['Average Legitimacy Score']:.2f}")
-        # st.write(f"Average Topic Knowledge: {results['Average Topic Knowledge']:.2f}")
-        st.write("🤖 " + _("Human/Machine Accuracy:") + f" {results['Human/Machine Accuracy'] * 100:.2f}%")
-        st.write("🤔 " + _("Legitimacy Accuracy:") + f" {results['Legitimacy Accuracy'] * 100:.2f}%")
+        st.write("🤖 " + _("Human/Machine Accuracy:") + f" {results['Human/Machine Accuracy'] * 100:.0f}%")
+        st.write("🤔 " + _("Legitimacy Accuracy:") + f" {results['Legitimacy Accuracy'] * 100:.0f}%")
 
+        # --- Shareable Score Card ---
+        hm_pct = int(results['Human/Machine Accuracy'] * 100)
+        lf_pct = int(results['Legitimacy Accuracy'] * 100)
+        avg_pct = int((hm_pct + lf_pct) / 2)
+        total = results['Total Responses']
+
+        # Visual score card (text-based grid, Wordle-style)
+        def accuracy_bar(pct):
+            filled = round(pct / 10)
+            return "🟩" * filled + "⬜" * (10 - filled)
+
+        score_card_text = (
+            f"🔍 JudgeGPT — Can You Spot AI Fakes?\n\n"
+            f"🤖 AI Detection:  {accuracy_bar(hm_pct)} {hm_pct}%\n"
+            f"📰 Fake News:     {accuracy_bar(lf_pct)} {lf_pct}%\n"
+            f"📊 {total} fragments evaluated\n\n"
+            f"Can you beat my score? 👇\n"
+        )
+
+        # Display the visual score card
+        st.code(score_card_text, language=None)
+
+        # --- Social Share Buttons ---
+        app_url = "https://judgegpt.streamlit.app/"
+
+        # Build challenge link from the last 5 fragments
+        if len(st.session_state.responses) >= 5:
+            last_5_ids = [r["FragmentID"] for r in st.session_state.responses[-5:]]
+            challenge_token = encode_challenge(last_5_ids, creator_score=avg_pct)
+            challenge_url = f"{app_url}?challenge={challenge_token}"
+        else:
+            challenge_url = app_url
+
+        share_text_encoded = urllib.parse.quote(
+            f"I scored {avg_pct}% on JudgeGPT detecting AI-generated fake news! Can you beat me? 🤖📰"
+        )
+        challenge_url_encoded = urllib.parse.quote(challenge_url)
+
+        x_url = f"https://twitter.com/intent/tweet?text={share_text_encoded}&url={challenge_url_encoded}"
+        li_url = f"https://www.linkedin.com/sharing/share-offsite/?url={challenge_url_encoded}"
+        wa_url = f"https://wa.me/?text={share_text_encoded}%20{challenge_url_encoded}"
+        mail_subject = urllib.parse.quote("Can you beat my JudgeGPT score?")
+        mail_body = urllib.parse.quote(f"I scored {avg_pct}% on JudgeGPT detecting AI-generated fake news!\n\nTry the same challenge: {challenge_url}")
+        mail_url = f"mailto:?subject={mail_subject}&body={mail_body}"
+
+        st.markdown(_("**Share your results and challenge your friends:**"))
+
+        share_cols = st.columns(4)
+        with share_cols[0]:
+            st.markdown(f'<a href="{x_url}" target="_blank" style="text-decoration:none;font-size:1.4em;">𝕏 Share</a>', unsafe_allow_html=True)
+        with share_cols[1]:
+            st.markdown(f'<a href="{li_url}" target="_blank" style="text-decoration:none;font-size:1.4em;">💼 LinkedIn</a>', unsafe_allow_html=True)
+        with share_cols[2]:
+            st.markdown(f'<a href="{wa_url}" target="_blank" style="text-decoration:none;font-size:1.4em;">💬 WhatsApp</a>', unsafe_allow_html=True)
+        with share_cols[3]:
+            st.markdown(f'<a href="{mail_url}" style="text-decoration:none;font-size:1.4em;">📧 Email</a>', unsafe_allow_html=True)
+        
+        # Challenge link on its own line
+        st.code(challenge_url, language=None)
+
+        # --- Badges ---
         badge1, badge2 = st.columns(2)
         with badge1:
-            # Display badge for high Human/Machine Accuracy
             if results['Human/Machine Accuracy'] >= 0.7:
                 st.image("images/judgegpt_badge.jpg")
                 st.write("🎖️ " + _("You've earned the JudgeGPT badge for achieving high accuracy in identifying Human/Machine generated content!") + " 🎉")
         
         with badge2:
-            # Display badge for high Legitimacy Accuracy
             if results['Legitimacy Accuracy'] >= 0.7:
                 st.image("images/judgegpt_badge.jpg")
                 st.write("🎖️ " + _("You've earned the JudgeGPT badge for achieving high accuracy in identifying Legit/Fake news!") + " 🎉")
@@ -813,17 +943,98 @@ if st.session_state.form_submitted:
         st.session_state.count = 1
     if 'responses' not in st.session_state:
         st.session_state.responses = []
+    if 'show_reveal' not in st.session_state:
+        st.session_state.show_reveal = False
+    if 'last_reveal' not in st.session_state:
+        st.session_state.last_reveal = None
+    if 'challenge_mode' not in st.session_state:
+        st.session_state.challenge_mode = False
+        st.session_state.challenge_creator_score = None
     if 'fragments' not in st.session_state:
-        # Retrieve news fragments based on participant's language preference.
-        st.session_state.fragments = retrieve_fragments(st.session_state.participant["ISOLanguage"])
+        # Check for challenge mode
+        challenge_token = st.query_params.get("challenge", None)
+        if challenge_token:
+            challenge_ids, creator_score = decode_challenge(challenge_token)
+            if challenge_ids:
+                st.session_state.fragments = retrieve_fragments_by_ids(challenge_ids)
+                st.session_state.challenge_mode = True
+                st.session_state.challenge_creator_score = creator_score
+                if creator_score:
+                    st.info(f"🎯 " + _("Challenge mode! Someone scored {score}% — can you beat them?").format(score=int(creator_score)))
+        if 'fragments' not in st.session_state or not st.session_state.fragments:
+            # Retrieve news fragments based on participant's language preference.
+            st.session_state.fragments = retrieve_fragments(st.session_state.participant["ISOLanguage"])
 
     # Check if it's necessary to fetch more fragments and reset index if so.
     if st.session_state.current_fragment_index >= len(st.session_state.fragments):
+        if st.session_state.challenge_mode:
+            # Challenge complete — show comparison
+            st.session_state.challenge_mode = False
         st.session_state.fragments = retrieve_fragments(st.session_state.participant["ISOLanguage"])  # Reload or fetch new data
         st.session_state.current_fragment_index = 0  # Reset index to start from the first fragment of the new set
 
-    # Display the current news fragment and collect responses.
-    if st.session_state.form_submitted:
+    # --- Post-Response Reveal ---
+    if st.session_state.show_reveal and st.session_state.last_reveal:
+        reveal = st.session_state.last_reveal
+        
+        # Determine colors and icons
+        origin_icon = "🤖" if reveal["origin"] == "Machine" else "✍️"
+        fake_icon = "🚨" if reveal["is_fake"] else "✅"
+        
+        # Was the user correct?
+        hm_correct = (reveal["user_hm"] >= 0.5) == (reveal["origin"] == "Machine")
+        lf_correct = (reveal["user_lf"] >= 0.5) == reveal["is_fake"]
+        
+        reveal_container = st.container()
+        with reveal_container:
+            st.markdown("---")
+            st.subheader("🔎 " + _("The Truth Behind the Last Fragment"))
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown(f"**{_('Source:')}** {origin_icon} **{reveal['origin']}**")
+                if reveal["origin"] == "Machine" and reveal.get("model"):
+                    # Format model name nicely: "openai_gpt-4.1" → "GPT-4.1 (OpenAI)"
+                    parts = reveal["model"].split("_", 1)
+                    if len(parts) == 2:
+                        model_display = f"{parts[1].upper()} ({parts[0].capitalize()})"
+                    else:
+                        model_display = reveal["model"]
+                    st.markdown(f"**{_('Model:')}** `{model_display}`")
+                st.markdown(f"{'✅' if hm_correct else '❌'} " + _("Your guess: {guess}").format(
+                    guess=_("Machine") if reveal["user_hm"] >= 0.5 else _("Human")))
+            
+            with col2:
+                st.markdown(f"**{_('Veracity:')}** {fake_icon} **{'Fake' if reveal['is_fake'] else 'Legitimate'}**")
+                st.markdown(f"{'✅' if lf_correct else '❌'} " + _("Your guess: {guess}").format(
+                    guess=_("Fake") if reveal["user_lf"] >= 0.5 else _("Legitimate")))
+            
+            # Streak tracking
+            if 'streak' not in st.session_state:
+                st.session_state.streak = 0
+                st.session_state.best_streak = 0
+            
+            if hm_correct and lf_correct:
+                st.session_state.streak += 1
+                st.session_state.best_streak = max(st.session_state.best_streak, st.session_state.streak)
+                if st.session_state.streak >= 3:
+                    st.markdown(f"🔥 " + _("Streak: {streak} correct in a row!").format(streak=st.session_state.streak))
+            else:
+                if st.session_state.streak >= 3:
+                    st.markdown(f"💔 " + _("Streak broken at {streak}! Best: {best}").format(
+                        streak=st.session_state.streak, best=st.session_state.best_streak))
+                st.session_state.streak = 0
+
+            st.markdown("---")
+        
+        # Button to continue to next fragment
+        if st.button("➡️ " + _("Next Fragment"), type="primary"):
+            st.session_state.show_reveal = False
+            st.session_state.last_reveal = None
+            st.rerun()
+    
+    # --- Main Fragment Display (only when not showing reveal) ---
+    elif not st.session_state.show_reveal:
         current_fragment = st.session_state.fragments[st.session_state.current_fragment_index]
         with st.form(key=f"news_fragment_{current_fragment['FragmentID']}", clear_on_submit = False):
             # Main title displayed at the top of the survey page.
@@ -831,6 +1042,11 @@ if st.session_state.form_submitted:
 
             # Display the feedback button
             display_feedback_button()
+
+            # Challenge mode indicator
+            if st.session_state.challenge_mode:
+                remaining = len(st.session_state.fragments) - st.session_state.current_fragment_index
+                st.markdown(f"🎯 **{_('Challenge Mode')}** — {remaining} " + _("fragments remaining"))
 
             st.write(_("This is your respone no."), st.session_state.count)
             st.divider()
@@ -841,13 +1057,13 @@ if st.session_state.form_submitted:
             # Define the options for the Human vs. Machine Generated Score
             human_machine_score_default = 0.5
             human_machine_score_options = {
-                0.0: _("Definetly Human Generated"),
-                0.2: _("Probalby Human Generated"),
-                0.4: _("Likey Human Generated"),
+                0.0: _("Definitely Human Generated"),
+                0.2: _("Probably Human Generated"),
+                0.4: _("Likely Human Generated"),
                 0.5: _("Choose an option"),  # Placeholder option
-                0.6: _("Likey Machine Generated"),
-                0.8: _("Probalby Machine Generated"),
-                1.0: _("Definetly Machine Generated")
+                0.6: _("Likely Machine Generated"),
+                0.8: _("Probably Machine Generated"),
+                1.0: _("Definitely Machine Generated")
             }
 
             # Create the slider for the participant to rate whether they believe the news was generated by a human or machine
@@ -862,13 +1078,13 @@ if st.session_state.form_submitted:
             # Define the options for the Legitimacy Score
             legit_fake_score_default = 0.5
             legit_fake_score_options = {
-                0.0: _("Definetly Legit News"),
-                0.2: _("Probalby Legit News"),
-                0.4: _("Likey Legit News"),
+                0.0: _("Definitely Legit News"),
+                0.2: _("Probably Legit News"),
+                0.4: _("Likely Legit News"),
                 0.5: _("Choose an option"),  # Placeholder option
-                0.6: _("Likey Fake News"),
-                0.8: _("Probalby Fake News"),
-                1.0: _("Definetly Fake News")
+                0.6: _("Likely Fake News"),
+                0.8: _("Probably Fake News"),
+                1.0: _("Definitely Fake News")
             }
 
             # Create the slider for the participant to rate the perceived legitimacy of the news
@@ -945,6 +1161,16 @@ if st.session_state.form_submitted:
                             reported_as_broken = reported_as_broken
                         )
                         
+                        # Store reveal data for the post-response reveal screen
+                        st.session_state.last_reveal = {
+                            "origin": current_fragment["Origin"],
+                            "is_fake": current_fragment["IsFake"],
+                            "model": current_fragment.get("MachineModel"),
+                            "user_hm": human_machine_score,
+                            "user_lf": legit_fake_score,
+                        }
+                        st.session_state.show_reveal = True
+
                         # Increment the fragment index and response count for the session.
                         st.session_state.current_fragment_index = (st.session_state.current_fragment_index + 1) % len(st.session_state.fragments)
                         st.session_state.count = st.session_state.count + 1
@@ -952,5 +1178,4 @@ if st.session_state.form_submitted:
                         # Reset the start time for the next fragment's response timing.
                         st.session_state.start_time = datetime.now()
                     
-                    st.success(_("Done!") + " Learn more about the impact of Generative AI on fake news through our [open access paper](" + __research_paper__ + ").")
                     st.rerun()
