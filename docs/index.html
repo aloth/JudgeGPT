@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JudgeGPT & RogueGPT — AI News Authenticity Research Platform</title>
+<meta name="description" content="Can humans tell AI-generated news from real journalism? JudgeGPT evaluates human perception. RogueGPT generates controlled stimuli. Two ACM WWW 2026 papers.">
+<meta property="og:title" content="JudgeGPT & RogueGPT — AI News Authenticity Research">
+<meta property="og:description" content="Empirical research on human susceptibility to AI-generated misinformation. ACM WebConf 2026.">
+<meta property="og:image" content="https://raw.githubusercontent.com/aloth/JudgeGPT/main/figures/judgegpt-human-vs-ai-news-authenticity-evaluation-wide.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f0f14;--surface:#17171f;--border:#252530;--red:#ef4444;--orange:#f97316;--amber:#f59e0b;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--cyan:#06b6d4;--text:#e4e4eb;--muted:#8888a0;--dimmed:#4a4a5e}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px 50px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse,rgba(239,68,68,0.08) 0%,rgba(168,85,247,0.05) 50%,transparent 70%);pointer-events:none}
+.hero-label{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--amber);font-weight:600;margin-bottom:16px}
+.hero h1{font-size:clamp(2rem,6vw,3.5rem);font-weight:800;line-height:1.1;margin-bottom:20px;letter-spacing:-0.02em}
+.hero h1 .q{color:var(--red)}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:var(--muted);max-width:600px;line-height:1.6;margin-bottom:32px}
+.hero-img{max-width:min(700px,90vw);width:100%;border-radius:14px;box-shadow:0 24px 80px rgba(0,0,0,0.4);border:1px solid var(--border);margin-bottom:36px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-weight:600;font-size:0.95rem;text-decoration:none;transition:transform 0.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 4px 20px rgba(239,68,68,0.3)}
+.btn-ghost{background:rgba(255,255,255,0.06);color:var(--text);border:1px solid var(--border)}
+.btn svg{width:18px;height:18px;fill:currentColor}
+
+/* Pipeline */
+.pipeline{padding:80px 24px;text-align:center}
+.pipeline h2{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;margin-bottom:40px}
+.pipe-flow{display:flex;align-items:stretch;justify-content:center;gap:0;max-width:900px;margin:0 auto;flex-wrap:wrap}
+.pipe-step{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px 22px;flex:1;min-width:200px;position:relative;transition:border-color 0.2s}
+.pipe-step:hover{border-color:var(--purple)}
+.pipe-step .num{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--purple);color:#fff;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.pipe-step .icon{font-size:36px;margin-bottom:12px;margin-top:8px}
+.pipe-step h3{font-size:1rem;font-weight:700;margin-bottom:4px}
+.pipe-step .repo{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--cyan);margin-bottom:8px}
+.pipe-step p{color:var(--muted);font-size:0.85rem;line-height:1.5}
+.pipe-arrow{display:flex;align-items:center;color:var(--dimmed);font-size:28px;padding:0 8px}
+
+/* Stats */
+.stats{padding:40px 24px;display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.stat{text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 28px;min-width:120px}
+.stat .num{font-size:1.6rem;font-weight:800}
+.stat .num.red{color:var(--red)}.stat .num.purple{color:var(--purple)}.stat .num.amber{color:var(--amber)}.stat .num.green{color:var(--green)}.stat .num.blue{color:var(--blue)}
+.stat .label{font-size:0.75rem;color:var(--dimmed);margin-top:4px;text-transform:uppercase;letter-spacing:0.04em}
+
+/* Papers */
+.papers{padding:80px 24px}
+.papers h2{text-align:center;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;margin-bottom:48px}
+.paper-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:900px;margin:0 auto}
+.paper-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color 0.2s,transform 0.2s}
+.paper-card:hover{border-color:var(--red);transform:translateY(-3px)}
+.paper-card img{width:100%;height:180px;object-fit:cover;border-bottom:1px solid var(--border)}
+.paper-card .body{padding:20px}
+.paper-card .venue{font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber);font-weight:600;margin-bottom:8px}
+.paper-card h3{font-size:0.95rem;font-weight:700;line-height:1.4;margin-bottom:8px}
+.paper-card p{color:var(--muted);font-size:0.85rem;line-height:1.5;margin-bottom:12px}
+.paper-card .links{display:flex;gap:8px;flex-wrap:wrap}
+.paper-card .links a{font-size:0.8rem;color:var(--cyan);text-decoration:none;padding:4px 10px;border:1px solid var(--border);border-radius:6px;transition:border-color 0.2s}
+.paper-card .links a:hover{border-color:var(--cyan)}
+
+/* Two repos */
+.repos{padding:80px 24px}
+.repos h2{text-align:center;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;margin-bottom:48px}
+.repo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:800px;margin:0 auto}
+.repo-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px 24px;transition:border-color 0.2s,transform 0.2s;text-decoration:none;color:var(--text);display:block}
+.repo-card:hover{border-color:var(--green);transform:translateY(-3px)}
+.repo-card .top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.repo-card .top .icon{font-size:32px}
+.repo-card .top .name{font-size:1.1rem;font-weight:700}
+.repo-card .top .stars{margin-left:auto;color:var(--amber);font-size:0.85rem;font-weight:600}
+.repo-card p{color:var(--muted);font-size:0.9rem;line-height:1.5;margin-bottom:12px}
+.repo-card .tech{display:flex;gap:6px;flex-wrap:wrap}
+.repo-card .tech span{font-size:0.7rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:4px;padding:3px 8px;color:var(--dimmed)}
+
+/* CTA */
+.cta{padding:80px 24px;text-align:center;position:relative}
+.cta::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.cta h2{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;margin-bottom:12px}
+.cta p{color:var(--muted);font-size:1rem;margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:var(--dimmed);font-size:0.85rem}
+footer a{color:var(--muted);text-decoration:none}
+
+@media(max-width:600px){
+  .pipe-flow{flex-direction:column;gap:16px}
+  .pipe-arrow{transform:rotate(90deg);justify-content:center;padding:8px 0}
+  .stats{gap:16px}
+  .stat{min-width:100px;padding:14px 16px}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-label">ACM WebConf 2026 · Abu Dhabi</div>
+  <h1>Can humans tell <span class="q">AI news</span> from real journalism<span class="q">?</span></h1>
+  <p>A two-part research platform: RogueGPT generates controlled AI news stimuli. JudgeGPT measures whether humans can detect them. The answer might surprise you.</p>
+  <img src="https://raw.githubusercontent.com/aloth/JudgeGPT/main/figures/judgegpt-human-vs-ai-news-authenticity-evaluation-wide.png" alt="JudgeGPT research platform" class="hero-img" loading="eager">
+  <div class="hero-cta">
+    <a href="https://judgegpt.streamlit.app/" class="btn btn-red">🔬 Try the Live Demo</a>
+    <a href="https://arxiv.org/abs/2601.21963" class="btn btn-ghost">📄 Read the Papers</a>
+    <a href="https://github.com/aloth/JudgeGPT" class="btn btn-ghost">
+      <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="num red">2,308</div><div class="label">News Fragments</div></div>
+  <div class="stat"><div class="num purple">37</div><div class="label">Model Configs</div></div>
+  <div class="stat"><div class="num amber">10</div><div class="label">AI Providers</div></div>
+  <div class="stat"><div class="num green">4</div><div class="label">Languages</div></div>
+  <div class="stat"><div class="num blue">3</div><div class="label">Papers</div></div>
+</div>
+
+<section class="pipeline">
+  <h2>Research pipeline</h2>
+  <div class="pipe-flow">
+    <div class="pipe-step">
+      <div class="num">1</div>
+      <div class="icon">🧪</div>
+      <h3>Generate</h3>
+      <div class="repo">RogueGPT</div>
+      <p>Controlled AI news generation across 37 model configurations, 4 languages, 5 journalistic styles.</p>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">
+      <div class="num">2</div>
+      <div class="icon">🗄️</div>
+      <h3>Store</h3>
+      <div class="repo">MongoDB Atlas</div>
+      <p>Full provenance metadata persisted with every fragment. Reproducible filtering by any variable.</p>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">
+      <div class="num">3</div>
+      <div class="icon">⚖️</div>
+      <h3>Evaluate</h3>
+      <div class="repo">JudgeGPT</div>
+      <p>Humans judge authenticity in a controlled experiment. Confidence, reasoning, and demographics captured.</p>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">
+      <div class="num">4</div>
+      <div class="icon">📊</div>
+      <h3>Analyze</h3>
+      <div class="repo">Analysis Pipeline</div>
+      <p>Statistical analysis of human susceptibility across models, languages, and demographics.</p>
+    </div>
+  </div>
+</section>
+
+<section class="papers">
+  <h2>Published research</h2>
+  <div class="paper-grid">
+    <div class="paper-card">
+      <img src="https://raw.githubusercontent.com/aloth/JudgeGPT/main/figures/webconf26-industrialized-deception.png" alt="Industrialized Deception paper" loading="lazy">
+      <div class="body">
+        <div class="venue">WWW '26 Companion · Abu Dhabi</div>
+        <h3>Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation</h3>
+        <p>How LLM-generated misinformation disrupts digital platforms, trust networks, and information ecosystems at scale.</p>
+        <div class="links">
+          <a href="https://arxiv.org/abs/2601.21963">arXiv</a>
+          <a href="https://doi.org/10.1145/3774905.3795471">ACM DL</a>
+        </div>
+      </div>
+    </div>
+    <div class="paper-card">
+      <img src="https://raw.githubusercontent.com/aloth/JudgeGPT/main/figures/webconf26-eroding-truth-default.png" alt="Eroding Truth Default paper" loading="lazy">
+      <div class="body">
+        <div class="venue">WWW '26 Companion · Abu Dhabi</div>
+        <h3>Eroding the Truth-Default: Human Susceptibility to Foundation Model Hallucinations</h3>
+        <p>Causal analysis of how humans perceive AI-generated news. Can they tell the difference? Spoiler: barely.</p>
+        <div class="links">
+          <a href="https://arxiv.org/abs/2601.22871">arXiv</a>
+          <a href="https://doi.org/10.1145/3774905.3795484">ACM DL</a>
+        </div>
+      </div>
+    </div>
+    <div class="paper-card">
+      <img src="https://raw.githubusercontent.com/aloth/JudgeGPT/main/figures/judgegpt-ai-news-authenticity-evaluation-hero.png" alt="Blessing or Curse survey" loading="lazy">
+      <div class="body">
+        <div class="venue">Foundation Survey</div>
+        <h3>Blessing or Curse? A Survey on the Impact of Generative AI on Fake News</h3>
+        <p>The foundational literature survey that motivated this research program.</p>
+        <div class="links">
+          <a href="https://arxiv.org/abs/2404.03021">arXiv</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="repos">
+  <h2>Two repos, one mission</h2>
+  <div class="repo-grid">
+    <a href="https://github.com/aloth/JudgeGPT" class="repo-card">
+      <div class="top">
+        <div class="icon">⚖️</div>
+        <div class="name">JudgeGPT</div>
+        <div class="stars">⭐ 8</div>
+      </div>
+      <p>Human evaluation platform. Streamlit-based experiment collecting authenticity judgments, confidence levels, and reasoning.</p>
+      <div class="tech">
+        <span>Python</span><span>Streamlit</span><span>MongoDB</span><span>React</span>
+      </div>
+    </a>
+    <a href="https://github.com/aloth/RogueGPT" class="repo-card">
+      <div class="top">
+        <div class="icon">🧪</div>
+        <div class="name">RogueGPT</div>
+        <div class="stars">⭐ 5</div>
+      </div>
+      <p>Controlled stimulus generator. Produces AI news fragments with explicit provenance across 37 model configurations.</p>
+      <div class="tech">
+        <span>Python</span><span>OpenAI</span><span>MongoDB</span><span>Multi-LLM</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Help us measure human perception</h2>
+  <p>Take the survey. Can you tell which news was written by AI? Most people can't.</p>
+  <div class="cta-buttons">
+    <a href="https://judgegpt.streamlit.app/" class="btn btn-red">🔬 Take the Survey</a>
+    <a href="https://github.com/aloth/JudgeGPT" class="btn btn-ghost">
+      <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      Star on GitHub ⭐
+    </a>
+    <a href="https://doi.org/10.5281/zenodo.18703138" class="btn btn-ghost">📦 Zenodo Dataset</a>
+  </div>
+</section>
+
+<footer>
+  <p>By <a href="https://alexloth.com">Alexander Loth</a>, Martin Kappes & Marc-Oliver Pahl · Frankfurt UAS & IMT Atlantique · GPLv3</p>
+</footer>
+
+</body>
+</html>
