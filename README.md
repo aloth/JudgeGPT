@@ -4,6 +4,7 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2601.22871-B31B1B.svg)](https://arxiv.org/abs/2601.22871)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703138.svg)](https://doi.org/10.5281/zenodo.18703138)
 [![Participate in Survey](https://img.shields.io/badge/Participate-Survey-brightgreen.svg)](https://judgegpt.streamlit.app/)
+[![CI](https://github.com/aloth/JudgeGPT/actions/workflows/ci.yml/badge.svg)](https://github.com/aloth/JudgeGPT/actions/workflows/ci.yml)
 [![Status](https://img.shields.io/badge/status-active%20%26%20evolving-orange.svg)](https://github.com/aloth/JudgeGPT)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub Stars](https://img.shields.io/github/stars/aloth/JudgeGPT?style=social)](https://github.com/aloth/JudgeGPT/stargazers)
@@ -13,9 +14,22 @@
   <img src="figures/judgegpt-human-vs-ai-news-authenticity-evaluation-wide.png" alt="JudgeGPT — Can humans distinguish AI-generated news from real journalism?" width="700">
 </p>
 
-> **Can you tell AI-generated news from real journalism?** JudgeGPT is a live, crowdsourced experiment that puts human perception to the test. To date it has collected **2,438 dual-axis authenticity judgments from 504 participants**, producing an openly archived perception dataset linked to controlled generation parameters.
->
-> ### 👉 [**Take the challenge - test your detection skills**](https://judgegpt.streamlit.app/)
+## Can you tell AI-generated news from real journalism?
+
+**504 people have tried. 2,438 judgments later, the answer is: it is harder than you think.**
+
+JudgeGPT is a live, crowdsourced experiment that puts human perception to the test. You read a news fragment, rate it on two axes, and immediately find out whether a human or a machine wrote it - and which model.
+
+### 👉 [**Take the challenge - test your detection skills**](https://judgegpt.streamlit.app/)
+
+*Takes 2 minutes. No signup. Every response feeds an openly archived research dataset linked to controlled generation parameters.*
+
+| | |
+|:---|:---|
+| **Participants** | 504 |
+| **Dual-axis judgments** | 2,438 |
+| **Stimulus configurations** | 37 models, 10 providers, 4 languages |
+| **Languages** | English, German, French, Spanish |
 
 ## The Research Mandate: Why JudgeGPT Exists
 

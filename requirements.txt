@@ -1,7 +1,9 @@
 # requirements.txt
+#
+# Note: `uuid` and `datetime` are Python standard-library modules and must NOT
+# be listed here. PyPI packages with those names exist but are obsolete
+# Python-2-era shims that can shadow or break the stdlib modules.
 
-pymongo[srv]
-streamlit
-streamlit-javascript
-datetime
-uuid
+streamlit>=1.40,<2
+pymongo[srv]>=4.6,<5
+streamlit-javascript>=0.1.5,<0.2
