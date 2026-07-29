@@ -229,13 +229,13 @@ If you use JudgeGPT or its underlying research in your work, please cite:
     booktitle = {Companion Proceedings of the ACM Web Conference 2026
                  (WWW '26 Companion)},
     year      = {2026},
-    month     = may,
+    month     = jun,
     publisher = {ACM},
     address   = {New York, NY, USA},
     location  = {Dubai, United Arab Emirates},
     doi       = {10.1145/3774905.3795471},
-    url       = {https://arxiv.org/abs/2601.21963},
-    note      = {To appear. Also available as arXiv:2601.21963}
+    pages     = {295--302},
+    url       = {https://arxiv.org/abs/2601.21963}
 }
 
 @inproceedings{loth2026eroding,
@@ -246,13 +246,13 @@ If you use JudgeGPT or its underlying research in your work, please cite:
     booktitle = {Companion Proceedings of the ACM Web Conference 2026
                  (WWW '26 Companion)},
     year      = {2026},
-    month     = may,
+    month     = jun,
     publisher = {ACM},
     address   = {New York, NY, USA},
     location  = {Dubai, United Arab Emirates},
     doi       = {10.1145/3774905.3795832},
-    url       = {https://arxiv.org/abs/2601.22871},
-    note      = {To appear. Also available as arXiv:2601.22871}
+    pages     = {1125--1132},
+    url       = {https://arxiv.org/abs/2601.22871}
 }
 
 @article{loth2024blessing,
