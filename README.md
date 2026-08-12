@@ -2,7 +2,7 @@
 
 [![arXiv](https://img.shields.io/badge/arXiv-2601.21963-B31B1B.svg)](https://arxiv.org/abs/2601.21963)
 [![arXiv](https://img.shields.io/badge/arXiv-2601.22871-B31B1B.svg)](https://arxiv.org/abs/2601.22871)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703138.svg)](https://doi.org/10.5281/zenodo.18703138)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703384.svg)](https://doi.org/10.5281/zenodo.18703384)
 [![Participate in Survey](https://img.shields.io/badge/Participate-Survey-brightgreen.svg)](https://judgegpt.streamlit.app/)
 [![CI](https://github.com/aloth/JudgeGPT/actions/workflows/ci.yml/badge.svg)](https://github.com/aloth/JudgeGPT/actions/workflows/ci.yml)
 [![Status](https://img.shields.io/badge/status-active%20%26%20evolving-orange.svg)](https://github.com/aloth/JudgeGPT)
@@ -203,8 +203,21 @@ See the [data_analysis README](data_analysis/README.md) for detailed usage instr
 
 Two complementary datasets are available on Zenodo under restricted access for academic research:
 
-- **JudgeGPT Human Perception Data** - 504 participants, 2,438 dual-axis judgments, plus the full RogueGPT stimulus corpus: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703385.svg)](https://doi.org/10.5281/zenodo.18703385)
-- **RogueGPT Stimulus Corpus** - the underlying controlled-generation fragments: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703138.svg)](https://doi.org/10.5281/zenodo.18703138)
+- **JudgeGPT Human Perception Data** - 539 participants, 2,546 dual-axis judgments, plus the full RogueGPT stimulus corpus: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703384.svg)](https://doi.org/10.5281/zenodo.18703384)
+- **RogueGPT Stimulus Corpus** - the underlying controlled-generation fragments: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703137.svg)](https://doi.org/10.5281/zenodo.18703137)
+
+### Dataset versions
+
+The concept DOIs above always resolve to the latest version. Cite a version DOI when your analysis has to be reproducible.
+
+| Dataset | Version | Version DOI | Contents | Snapshot | Status |
+|---|---|---|---|---|---|
+| JudgeGPT | 1.1.0 | [`10.5281/zenodo.21904812`](https://doi.org/10.5281/zenodo.21904812) | 539 participants, 2,546 judgments | 11 Mar 2026 | Current |
+| JudgeGPT | 1.0.0 | [`10.5281/zenodo.18703385`](https://doi.org/10.5281/zenodo.18703385) | 504 participants, 2,438 judgments | 19 Feb 2026 | Superseded |
+| RogueGPT | 1.1.0 | [`10.5281/zenodo.21904524`](https://doi.org/10.5281/zenodo.21904524) | 3,278 fragments | 23 Mar 2026 | Current |
+| RogueGPT | 1.0.0 | [`10.5281/zenodo.18703138`](https://doi.org/10.5281/zenodo.18703138) | 2,308 fragments | 19 Feb 2026 | Superseded |
+
+> **Two properties matter for reuse.** The stimulus pool is 98 percent machine-authored, so pooled origin accuracy must not be read against a 50 percent coin-flip baseline; the majority-class baseline is 98 percent. And 117 participants aged 16 to 18 stem from a single school-class recruitment event, so they are a cluster rather than independent draws. Both are documented in the codebook.
 
 To request access, please provide a brief description of your intended use. All data are shared under terms that require ethical review and prohibit redistribution.
 
