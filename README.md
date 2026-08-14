@@ -16,7 +16,7 @@
 
 ## Can you tell AI-generated news from real journalism?
 
-**504 people have tried. 2,438 judgments later, the answer is: it is harder than you think.**
+**539 people have tried. 2,546 judgments later, the answer is: it is harder than you think.**
 
 JudgeGPT is a live, crowdsourced experiment that puts human perception to the test. You read a news fragment, rate it on two axes, and immediately find out whether a human or a machine wrote it - and which model.
 
@@ -26,8 +26,8 @@ JudgeGPT is a live, crowdsourced experiment that puts human perception to the te
 
 | | |
 |:---|:---|
-| **Participants** | 504 |
-| **Dual-axis judgments** | 2,438 |
+| **Participants** | 539 |
+| **Dual-axis judgments** | 2,546 |
 | **Stimulus configurations** | 37 models, 10 providers, 4 languages |
 | **Languages** | English, German, French, Spanish |
 
