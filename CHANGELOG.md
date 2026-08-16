@@ -5,6 +5,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-08-16
+
+### Documentation
+- Stimulus description now cites the released corpus snapshot (10 models across
+  6 providers) rather than RogueGPT's model registry, which is deliberately
+  broader than any single snapshot.
+- Headline participant and judgment counts updated to the current 539 / 2,546
+  snapshot.
+- Project page restored after an empty-file commit, with the ACM DOI on the
+  "Eroding the Truth-Default" card corrected and the Zenodo badge pointed at the
+  concept DOI.
+- Dataset version table added; WWW '26 Companion citation month and page numbers
+  corrected.
+
 ## [1.2.0] - 2026-07-29
 
 ### Added

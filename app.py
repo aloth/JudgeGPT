@@ -15,7 +15,7 @@ from pymongo import errors as pymongo_errors
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 __author__ = "Alexander Loth"
 __email__ = "alexander.loth@stud.fra-uas.de"
 __research_paper__ = "https://arxiv.org/abs/2404.03021"
