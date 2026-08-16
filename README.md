@@ -28,7 +28,7 @@ JudgeGPT is a live, crowdsourced experiment that puts human perception to the te
 |:---|:---|
 | **Participants** | 539 |
 | **Dual-axis judgments** | 2,546 |
-| **Stimulus configurations** | 37 models, 10 providers, 4 languages |
+| **Stimulus configurations** | 10 models, 6 providers, 4 languages |
 | **Languages** | English, German, French, Spanish |
 
 ## The Research Mandate: Why JudgeGPT Exists
@@ -63,7 +63,7 @@ JudgeGPT operates as the second stage of a two-part experimental apparatus:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-1. **Controlled Stimulus Generation ([RogueGPT](https://github.com/aloth/RogueGPT)):** Fragments are produced with explicit control over model, style, language, format, and seed phrase. All generation parameters are persisted alongside the content. The corpus currently spans **37 model configurations** across 10 providers, 4 languages, 3 formats, and 5 journalistic styles per language.
+1. **Controlled Stimulus Generation ([RogueGPT](https://github.com/aloth/RogueGPT)):** Fragments are produced with explicit control over model, style, language, format, and seed phrase. All generation parameters are persisted alongside the content. The released corpus spans **10 models** across 6 providers, 4 languages, 3 formats, and 5 journalistic styles per language. RogueGPT's model registry is broader than any single snapshot; the figures here describe the corpus itself.
 
 2. **Data Storage (MongoDB):** Each fragment, along with its full provenance metadata, is stored in a shared MongoDB database, enabling reproducible filtering by any experimental variable.
 
