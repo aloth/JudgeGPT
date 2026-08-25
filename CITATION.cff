@@ -12,7 +12,76 @@ authors:
     given-names: Marc-Oliver
     orcid: "https://orcid.org/0000-0001-5241-3809"
 repository-code: "https://github.com/aloth/JudgeGPT"
+url: "https://github.com/aloth/JudgeGPT"
 license: GPL-3.0
+references:
+  - type: article
+    title: >
+      Eroding the Truth-Default: A Causal Analysis of Human Susceptibility to
+      Foundation Model Hallucinations and Disinformation in the Wild
+    authors:
+      - family-names: Loth
+        given-names: Alexander
+      - family-names: Kappes
+        given-names: Martin
+      - family-names: Pahl
+        given-names: Marc-Oliver
+    collection-title: "Companion Proceedings of the ACM Web Conference 2026 (WWW '26 Companion)"
+    year: 2026
+    start: 1125
+    end: 1132
+    doi: "10.1145/3774905.3795832"
+  - type: conference-paper
+    title: >
+      Can Humans Tell? A Dual-Axis Study of Human Perception of
+      LLM-Generated News
+    authors:
+      - family-names: Loth
+        given-names: Alexander
+      - family-names: Kappes
+        given-names: Martin
+      - family-names: Pahl
+        given-names: Marc-Oliver
+    collection-title: "18th ACM Web Science Conference (WebSci Companion '26)"
+    year: 2026
+    start: 34
+    end: 39
+    doi: "10.1145/3795513.3807431"
+  - type: conference-paper
+    title: >
+      Interrupting the Chain: Human Perception of AI-Generated Disinformation
+      Through a Kill Chain Lens
+    authors:
+      - family-names: Loth
+        given-names: Alexander
+      - family-names: Kappes
+        given-names: Martin
+      - family-names: Pahl
+        given-names: Marc-Oliver
+    collection-title: "INFORMATIK 2026, Lecture Notes in Informatics (LNI)"
+    year: 2026
+    publisher:
+      name: "Gesellschaft fuer Informatik"
+    url: "https://arxiv.org/abs/2608.21389"
+    identifiers:
+      - type: other
+        value: "arXiv:2608.21389"
+  - type: data
+    title: >
+      JudgeGPT Human Perception Data: Dual-Axis Judgments of
+      AI-Generated News
+    authors:
+      - family-names: Loth
+        given-names: Alexander
+      - family-names: Kappes
+        given-names: Martin
+      - family-names: Pahl
+        given-names: Marc-Oliver
+    publisher:
+      name: Zenodo
+    year: 2026
+    version: "1.1.0"
+    doi: "10.5281/zenodo.21904812"
 preferred-citation:
   type: conference-paper
   title: "Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation on Digital Ecosystems"

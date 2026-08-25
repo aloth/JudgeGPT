@@ -238,7 +238,7 @@ If you use JudgeGPT or its underlying research in your work, please cite:
 @inproceedings{loth2026collateraleffects,
     author    = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
     title     = {Industrialized Deception: The Collateral Effects of
-                 LLM-Generated Misinformation on Digital Ecosystems},
+                 {LLM}-Generated Misinformation on Digital Ecosystems},
     booktitle = {Companion Proceedings of the ACM Web Conference 2026
                  (WWW '26 Companion)},
     year      = {2026},
@@ -253,7 +253,7 @@ If you use JudgeGPT or its underlying research in your work, please cite:
 
 @inproceedings{loth2026eroding,
     author    = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
-    title     = {Eroding the Truth-Default: A Causal Analysis of Human
+    title     = {Eroding the Truth-Default: {A} Causal Analysis of Human
                  Susceptibility to Foundation Model Hallucinations and
                  Disinformation in the Wild},
     booktitle = {Companion Proceedings of the ACM Web Conference 2026
@@ -268,13 +268,28 @@ If you use JudgeGPT or its underlying research in your work, please cite:
     url       = {https://arxiv.org/abs/2601.22871}
 }
 
-@article{loth2024blessing,
-    author  = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
-    title   = {Blessing or Curse? A Survey on the Impact of Generative AI
-               on Fake News},
-    journal = {arXiv preprint arXiv:2404.03021},
-    year    = {2024},
-    url     = {https://arxiv.org/abs/2404.03021}
+@misc{loth2024blessing,
+    author        = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
+    title         = {Blessing or Curse? {A} Survey on the Impact of Generative {AI}
+                     on Fake News},
+    year          = {2024},
+    doi           = {10.48550/arXiv.2404.03021},
+    eprint        = {2404.03021},
+    archivePrefix = {arXiv},
+    primaryClass  = {cs.CL}
+}
+
+@inproceedings{loth2026killchaingi,
+    author        = {Loth, Alexander and Kappes, Martin and Pahl, Marc-Oliver},
+    title         = {Interrupting the Chain: Human Perception of {AI}-Generated
+                     Disinformation Through a Kill Chain Lens},
+    booktitle     = {INFORMATIK 2026, Lecture Notes in Informatics (LNI)},
+    year          = {2026},
+    publisher     = {Gesellschaft f{\"u}r Informatik},
+    address       = {Bonn, Germany},
+    eprint        = {2608.21389},
+    archivePrefix = {arXiv},
+    primaryClass  = {cs.CY}
 }
 ```
 
