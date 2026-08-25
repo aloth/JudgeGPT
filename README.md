@@ -299,6 +299,10 @@ JudgeGPT is part of a broader research program on human perception of AI-generat
 
 - **Can Humans Tell? A Dual-Axis Study of Human Perception of LLM-Generated News** (WebSci Companion '26). Reports the dual-axis perception findings collected via JudgeGPT. [doi:10.1145/3795513.3807431](https://doi.org/10.1145/3795513.3807431)
 - **The Indistinguishability Threshold: Measuring Cognitive Vulnerabilities to AI-Generated Disinformation** (WebSci Companion '26, PhD Symposium). [doi:10.1145/3795513.3807421](https://doi.org/10.1145/3795513.3807421)
+- **Eroding the Truth-Default: A Causal Analysis of Human Susceptibility to Foundation Model Hallucinations and Disinformation in the Wild** (WWW '26 Companion). Causal analysis of the perception data collected here. [doi:10.1145/3774905.3795832](https://doi.org/10.1145/3774905.3795832)
+- **Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation on Digital Ecosystems** (WWW '26 Companion). [doi:10.1145/3774905.3795471](https://doi.org/10.1145/3774905.3795471)
+- **Interrupting the Chain: Human Perception of AI-Generated Disinformation Through a Kill Chain Lens** (INFORMATIK 2026, LNI). Organises the perception findings along a cognitive attack lifecycle. [arXiv:2608.21389](https://arxiv.org/abs/2608.21389)
+- **Blessing or Curse? A Survey on the Impact of Generative AI on Fake News** (2024). The survey this research program builds on. [arXiv:2404.03021](https://arxiv.org/abs/2404.03021)
 
 ## Related Projects
 
@@ -308,6 +312,7 @@ JudgeGPT is part of a broader research program on human perception of AI-generat
 | [CRED-1](https://github.com/aloth/cred-1) | Open multi-signal domain credibility dataset (2,673 domains) |
 | [verification-crisis](https://github.com/aloth/verification-crisis) | Expert survey on GenAI disinformation threats (WWW 2026) |
 | [Origin Lens](https://github.com/aloth/origin-lens) | iOS app for C2PA content credentials and EXIF verification |
+| [provenance-linkage](https://github.com/aloth/provenance-linkage) | Reproducibility bundle for a benchmark audit of AI-text detection; its analytical-set script consumes JudgeGPT data |
 
 ## Contributing
 
