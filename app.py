@@ -15,13 +15,80 @@ from pymongo import errors as pymongo_errors
 from streamlit_javascript import st_javascript
 
 __name__ = "JudgeGPT"
-__version__ = "1.2.1"
+__version__ = "1.3.0"
 __author__ = "Alexander Loth"
 __email__ = "alexander.loth@stud.fra-uas.de"
 __research_paper__ = "https://arxiv.org/abs/2404.03021"
 __report_a_bug__ = "https://github.com/aloth/JudgeGPT/issues"
 
-def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, screen_resolution, ip_location, user_agent, query_params):
+# ─── Privacy reduction at the point of collection ──────────────────────────────
+#
+# The browser exposes more than this study needs. Earlier versions stored the
+# full freeipapi.com response (IP address, coordinates to six decimals, postal
+# code, city, region, timezone), the complete user agent, the screen resolution
+# and every URL query parameter. Combined, those form a stable fingerprint: in
+# the collected sample, 208 of 249 distinct (IP, user agent, resolution) triples
+# occurred exactly once, and the query parameters carried the age bounds that
+# single out the minors as a group.
+#
+# Nothing above is required by the analysis. What the analysis uses is the
+# country and continent distribution and a coarse recruitment route. Those are
+# derived here, before the insert, and the raw values are never written to the
+# database. Data minimisation belongs at collection, not at publication.
+#
+# These functions mirror analysis/anonymize_judgegpt_deposit.py in the thesis
+# repository, which produces the same three fields for the published deposit.
+# Keep the two in step: the deposit reduction reads JSON strings from a CSV,
+# this one receives dicts from JavaScript, and both must yield the same labels.
+
+def _as_mapping(value) -> dict:
+    """Accept a dict from st_javascript or a JSON string, return a mapping."""
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str) and value.strip():
+        try:
+            parsed = json.loads(value)
+        except (ValueError, TypeError):
+            return {}
+        return parsed if isinstance(parsed, dict) else {}
+    return {}
+
+
+def reduce_ip_location(ip_location) -> Dict[str, str]:
+    """Reduce the geolocation response to country and continent.
+
+    Everything else the API returns - the address itself, latitude, longitude,
+    zipCode, cityName, regionName, timeZone - is dropped here and never stored.
+    """
+    loc = _as_mapping(ip_location)
+    return {
+        "IpCountry": str(loc.get("countryName") or ""),
+        "IpContinent": str(loc.get("continent") or ""),
+    }
+
+
+def reduce_query_params(query_params) -> str:
+    """Reduce the URL query parameters to a coarse recruitment route.
+
+    The raw object records the exact link a participant followed, including the
+    age bounds used for the secondary-school cohort. Only the kind of route is
+    kept, which is what chapter-level analysis needs.
+    """
+    params = _as_mapping(query_params)
+    if not params:
+        return "direct"
+    if "min_age" in params or "max_age" in params:
+        return "age-restricted"
+    if "challenge" in params:
+        return "challenge-link"
+    if "source" in params:
+        return "campaign"
+    if "language" in params:
+        return "language-preset"
+    return "other"
+
+
+def save_participant(language, age, gender, political_view, is_native_speaker, education_level, newspaper_subscription, fnews_experience, ip_location, query_params):
     """
     Save participant details to session state and MongoDB for persistence.
 
@@ -34,10 +101,10 @@ def save_participant(language, age, gender, political_view, is_native_speaker, e
         education_level (str): Participant's education level.
         newspaper_subscription (bool): Whether the participant has a newspaper subscription.
         fnews_experience (str): Experience with fake news.
-        screen_resolution (str): Screen resolution of the participant's device.
-        ip_location (str): IP-based location of the participant.
-        user_agent (str): Browser user agent string.
-        query_params (dict): Additional query parameters from the request.
+        ip_location (dict): Raw geolocation response. Reduced to country and
+            continent before storage; the raw value is not persisted.
+        query_params (dict): Raw URL query parameters. Reduced to a recruitment
+            route label before storage; the raw value is not persisted.
     
     Returns:
         bool: True if saving was successful, False otherwise.
@@ -53,11 +120,10 @@ def save_participant(language, age, gender, political_view, is_native_speaker, e
         "EducationLevel": education_level,
         "NewspaperSubscription": newspaper_subscription,
         "FNewsExperience": fnews_experience,  # Experience related to fake news.
-        "ScreenResolution": screen_resolution,
-        "IpLocation": ip_location,
-        "UserAgent": user_agent,
-        "QueryParams": query_params  # Optional query params, if any.
+        "RecruitmentRoute": reduce_query_params(query_params),
     }
+    # Country and continent only. See reduce_ip_location for what is discarded.
+    participant.update(reduce_ip_location(ip_location))
 
     try:
         # Connect to MongoDB and insert participant data.
@@ -225,32 +291,7 @@ def decode_challenge(token):
     except Exception:
         return [], None
 
-def get_user_agent():
-    """
-    Retrieves the browser's user agent string using JavaScript.
 
-    Returns:
-        Optional[str]: The user agent string if available, None otherwise.
-    """
-    try:
-        user_agent = st_javascript('navigator.userAgent')
-        if user_agent: return user_agent
-        else: return None
-    except: return None
-
-def get_screen_resolution():
-    """
-    Retrieves the device's screen resolution using JavaScript.
-
-    Returns:
-        Optional[Dict[str, int]]: A dictionary containing 'width' and 'height' if available, None otherwise.
-    """
-    script = '({width: window.screen.width, height: window.screen.height})'
-    try:
-        screen_resolution = st_javascript(script)
-        if screen_resolution: return screen_resolution
-        else: return None
-    except: return None
 
 def get_ip_location():
     """
@@ -714,10 +755,10 @@ st.set_page_config(
 # Debugging output
 # st.write(f"Locales directory: {os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locales')}")
 
-# Retrieve essential data using JavaScript integrations.
-screen_resolution = get_screen_resolution()
+# Retrieve the geolocation used for the country and continent fields. The user
+# agent and screen resolution are no longer collected: they were only ever stored
+# and never analysed, and together with the address they formed a fingerprint.
 ip_location = get_ip_location()
-user_agent = get_user_agent()
 
 # Collecting participant information through a form.
 if not st.session_state.form_submitted:
@@ -924,9 +965,7 @@ if not st.session_state.form_submitted:
                         education_level = education_level,
                         newspaper_subscription = newspaper_subscription,
                         fnews_experience = fnews_experience,
-                        screen_resolution = screen_resolution,
                         ip_location = ip_location,
-                        user_agent = user_agent,
                         query_params = query_params
                     )
                     st.session_state.form_submitted = True
