@@ -5,6 +5,25 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-09-01
+
+### Fixed
+- The data exporter derived its CSV column set from the first documents it saw, via `pd.DataFrame`. The collections are schema-flexible, so column membership depended on the order MongoDB returned documents in, and fields carried only by later records were dropped without warning. This is what caused the published corpus to ship 12 of its 15 columns. The column set is now the union of all keys across all documents, sorted for stable ordering. `pandas` is no longer required for the export.
+
+### Changed
+- Location and query parameters are reduced before they reach the database. The geolocation response becomes `IpCountry` and `IpContinent`, the query parameters become a `RecruitmentRoute` label, and the raw values are never stored. The user agent and screen resolution are no longer collected at all. Previously the full geolocation response, user agent, screen resolution and verbatim query parameters were stored; none were used by any analysis, and together they identified individuals.
+- The privacy policy names freeipapi.com and its operator, states that the lookup is performed by the participant's browser and that their IP address is therefore disclosed to that service, and lists what is discarded before storage. Present in all four languages.
+- The consent text describes the same, and no longer claims that browser and screen information are collected.
+- Dataset references updated to the current releases: perception data 10.5281/zenodo.22226580 (v1.2.0), stimulus corpus 10.5281/zenodo.22225536 (v1.2.0).
+- `CITATION.cff` now declares `version` and `date-released`, which it previously omitted entirely.
+
+### Documentation
+- `DATA_DICTIONARY.md` documents `IpCountry`, `IpContinent` and `RecruitmentRoute`, and adds a section on what is deliberately not collected and why. Records collected before this release may still carry the four original fields; they are withheld from the published deposit in every case.
+- The fragment validation rules note that the released corpus was checked against them.
+
+### Translated
+- `docs/es/consent.md` and `docs/fr/consent.md` contained the English text and are now translated.
+
 ## [1.2.1] - 2026-08-16
 
 ### Documentation

@@ -212,9 +212,11 @@ The concept DOIs above always resolve to the latest version. Cite a version DOI 
 
 | Dataset | Version | Version DOI | Contents | Snapshot | Status |
 |---|---|---|---|---|---|
-| JudgeGPT | 1.1.0 | [`10.5281/zenodo.21904812`](https://doi.org/10.5281/zenodo.21904812) | 539 participants, 2,546 judgments | 11 Mar 2026 | Current |
+| JudgeGPT | 1.2.0 | [`10.5281/zenodo.22226580`](https://doi.org/10.5281/zenodo.22226580) | 539 participants, 2,546 judgments | 11 Mar 2026 | Current |
+| JudgeGPT | 1.1.0 | [`10.5281/zenodo.21904812`](https://doi.org/10.5281/zenodo.21904812) | 539 participants, 2,546 judgments | 11 Mar 2026 | Superseded |
 | JudgeGPT | 1.0.0 | [`10.5281/zenodo.18703385`](https://doi.org/10.5281/zenodo.18703385) | 504 participants, 2,438 judgments | 19 Feb 2026 | Superseded |
-| RogueGPT | 1.1.0 | [`10.5281/zenodo.21904524`](https://doi.org/10.5281/zenodo.21904524) | 3,278 fragments | 23 Mar 2026 | Current |
+| RogueGPT | 1.2.0 | [`10.5281/zenodo.22225536`](https://doi.org/10.5281/zenodo.22225536) | 3,278 fragments | 23 Mar 2026 | Current |
+| RogueGPT | 1.1.0 | [`10.5281/zenodo.21904524`](https://doi.org/10.5281/zenodo.21904524) | 3,278 fragments | 23 Mar 2026 | Superseded |
 | RogueGPT | 1.0.0 | [`10.5281/zenodo.18703138`](https://doi.org/10.5281/zenodo.18703138) | 2,308 fragments | 19 Feb 2026 | Superseded |
 
 > **Two properties matter for reuse.** The stimulus pool is 98 percent machine-authored, so pooled origin accuracy must not be read against a 50 percent coin-flip baseline; the majority-class baseline is 98 percent. And 117 participants aged 16 to 18 stem from a single school-class recruitment event, so they are a cluster rather than independent draws. Both are documented in the codebook.
