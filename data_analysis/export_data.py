@@ -22,7 +22,6 @@ import csv
 import zipfile
 from datetime import datetime
 from typing import List, Dict, Any
-import pandas as pd
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -82,6 +81,18 @@ def export_collection_to_csv(collection_data: List[Dict[str, Any]],
     """
     Export collection data to CSV file.
     
+    The column set is derived from the union of all keys across every document,
+    sorted so that the output is stable, and every row is written against that
+    same set. This matters because the collections are schema-flexible: a field
+    that only some documents carry (HumanOutlet, HumanURL and IngestedVia on the
+    fragments collection, for instance) is present on some records and absent on
+    others.
+    
+    Deriving the columns from the first document, or letting pandas infer them
+    from insertion order, makes column membership depend on the order documents
+    happen to come back from MongoDB. Fields carried only by later documents can
+    then be dropped from the export even though they hold data.
+    
     Args:
         collection_data (List[Dict]): Data from MongoDB collection
         filename (str): Output filename
@@ -90,15 +101,21 @@ def export_collection_to_csv(collection_data: List[Dict[str, Any]],
         print(f"Warning: No data found for {filename}")
         return
     
-    # Convert to DataFrame for easy CSV export
-    df = pd.DataFrame(collection_data)
+    # Union of all keys across all documents, not just the first one.
+    fieldnames = sorted({key for doc in collection_data for key in doc})
     
     # Ensure data_dumps directory exists
     os.makedirs('data_dumps', exist_ok=True)
     
     filepath = os.path.join('data_dumps', filename)
-    df.to_csv(filepath, index=False, encoding='utf-8')
-    print(f"✓ Exported {len(collection_data)} records to {filepath}")
+    with open(filepath, 'w', encoding='utf-8', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames, restval='')
+        writer.writeheader()
+        for doc in collection_data:
+            writer.writerow({key: doc.get(key, '') for key in fieldnames})
+    
+    print(f"✓ Exported {len(collection_data)} records "
+          f"({len(fieldnames)} columns) to {filepath}")
 
 def export_collection_to_json(collection_data: List[Dict[str, Any]], 
                             filename: str) -> None:

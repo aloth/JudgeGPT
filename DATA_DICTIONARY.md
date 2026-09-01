@@ -31,10 +31,19 @@ Stores comprehensive demographic and psychographic information about each study 
 | `EducationLevel` | String | `"None"`, `"High School"`, `"Apprenticeship"`, `"Bachelor's Degree"`, `"Master's Degree"`, `"Doctoral Degree"` | Highest level of education completed by the participant. Mandatory field. **`"None"` means no formal education**, not a missing value: it is the first of six options in `app.py` (German locale "Keine"). Parse with `keep_default_na=False`, otherwise pandas silently converts it to `NaN` and undercounts the category. |
 | `NewspaperSubscription` | Float | 0.0, 1.0, 2.0, 3.0 | Number of newspaper subscriptions the participant has:<br>• `0.0` = None<br>• `1.0` = One<br>• `2.0` = Two<br>• `3.0` = Three or more<br>• `1.5` is used as placeholder (not valid for submission) |
 | `FNewsExperience` | Float | 0.0 - 1.0 (7-point scale) | Participant's self-assessed experience/familiarity with fake news:<br>• `0.0` = Completely unfamiliar<br>• `0.2` = Mostly unfamiliar<br>• `0.4` = Somewhat unfamiliar<br>• `0.6` = Somewhat familiar<br>• `0.8` = Mostly familiar<br>• `1.0` = Completely familiar<br>• `0.5` is used as placeholder (not valid for submission) |
-| `ScreenResolution` | Object/Null | `{width: Number, height: Number}` | Participant's device screen resolution in pixels, collected via JavaScript:<br>• `width`: Screen width in pixels<br>• `height`: Screen height in pixels<br>• `null` if JavaScript fails to retrieve |
-| `IpLocation` | Object/Null | IP geolocation data object | IP-based location information retrieved from freeipapi.com API. Contains fields like:<br>• `countryCode`: ISO country code<br>• `latitude`: Geographic latitude<br>• `longitude`: Geographic longitude<br>• Additional geolocation metadata<br>• `null` if API call fails |
-| `UserAgent` | String/Null | Browser user agent string | Full browser user agent string collected via JavaScript (e.g., "Mozilla/5.0...")<br>• `null` if JavaScript fails to retrieve |
-| `QueryParams` | Object | URL query parameters | Dictionary of all URL query parameters passed when participant accessed the survey (used for tracking campaign sources, A/B testing, etc.) |
+| `IpCountry` | String | Country name or `""` | Country derived from the geolocation lookup. Empty when the lookup failed. |
+| `IpContinent` | String | Continent code or `""` | Continent derived from the same lookup. Empty when the lookup failed. |
+| `RecruitmentRoute` | String | `"direct"`, `"age-restricted"`, `"challenge-link"`, `"campaign"`, `"language-preset"`, `"other"` | The kind of link a participant arrived through, derived from the URL query parameters. The parameters themselves are not stored. |
+
+### What is deliberately not collected
+
+Earlier versions of the application stored four further fields: `ScreenResolution`, `IpLocation` (the complete geolocation response, including the address itself, coordinates to six decimals, postal code, city, region and timezone), `UserAgent`, and `QueryParams` (every URL parameter verbatim).
+
+None of them were used by any analysis, and in combination they identified individuals: across the collected sample, 208 of 249 distinct (address, user agent, screen resolution) triples occurred exactly once, and the stored query parameters carried the age bounds that mark the secondary-school cohort as a group.
+
+`app.py` now reduces the geolocation response to `IpCountry` and `IpContinent` and the query parameters to `RecruitmentRoute` **before the database write**, and no longer requests the user agent or screen resolution at all. The raw values exist only for the duration of the request and are never persisted. This is data minimisation at collection rather than a filter applied when publishing, so the database, the published deposit and this document describe the same set of fields.
+
+Records collected before this change may still carry the four original fields. They are withheld from the published deposit in every case.
 
 ---
 
@@ -151,6 +160,8 @@ This randomly selects 50 fragments in the participant's chosen language.
 - `Origin` must be either `"Human"` or `"Machine"`
 - If `Origin = "Human"`: `HumanOutlet` and `HumanURL` should be populated, `MachineModel` and `MachinePrompt` should be empty
 - If `Origin = "Machine"`: `MachineModel` and `MachinePrompt` should be populated, `HumanOutlet` and `HumanURL` should be empty
+
+The corpus was checked against these rules for the v1.2.0 deposit. One machine-origin fragment carried a bare domain in `HumanURL` with an empty outlet, a data-entry artifact; the field was cleared and the row kept. No other violation exists in the released data.
 
 ---
 
