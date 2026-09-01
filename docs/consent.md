@@ -8,7 +8,7 @@ This initiative is spearheaded by Alexander Loth, Prof. Martin Kappes, and Prof.
 
 ##### Your Privacy
 
-Your privacy is important. By participating, you are providing anonymous responses and demographic information. In addition, you agree that your location will be determined by your IP address and that your browser information will be collected. This information is critical to understanding how people interact with misinformation. We guarantee the confidentiality of your data, which will be aggregated for research purposes. 
+Your privacy is important. By participating, you are providing anonymous responses and demographic information. In addition, you agree that your approximate location, at country and continent level, will be derived from your IP address. To do this, your browser contacts freeipapi.com, which means your IP address becomes known to that service. We store only the country and the continent, never the address itself. We do not collect your browser version or screen size. This information is critical to understanding how people interact with misinformation. We guarantee the confidentiality of your data, which will be aggregated for research purposes. 
                     
 **Should you wish to retract your data post-participation, you'll be equipped with an anonymous participant ID for this process.**
 

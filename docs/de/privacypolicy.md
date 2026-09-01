@@ -14,7 +14,15 @@ Bitte kontaktieren Sie Alexander Loth (alexander.loth@stud.fra-uas.de) bei Frage
 
 ### Informationen, die wir über Sie sammeln können
 
-Wir streben nicht an, Informationen zu sammeln oder zu speichern, die uns die Identifizierung von Einzelpersonen ermöglichen, die diese Anwendung nutzen. Zum Schutz Ihrer Privatsphäre sammeln wir nur Informationen, die Sie uns freiwillig zur Verfügung stellen, wenn Sie an der Studie teilnehmen. Wenn Sie sich entscheiden, nicht an dieser Studie teilzunehmen, sammeln wir keine Informationen über Sie. Die Informationen, die Sie uns freiwillig zur Verfügung stellen, können Ihre Antworten und Ergebnisse sowie alle Fragen umfassen, die Sie freiwillig beantworten, einschließlich Ihres Alters, Bildungsstands, Ihrer politischen Zugehörigkeit oder anderer demografischer Variablen. Wir sammeln Geräteinformationen wie Browser-Version, Betriebssystem und Bildschirmgröße. Wir identifizieren auch Ihren Standort auf Stadtebene mithilfe des Dienstes https://freeipapi.com/. Alle gesammelten Informationen werden auf einem passwortgeschützten Computer gespeichert, der nur für akademische Forscher zugänglich ist.
+Wir streben nicht an, Informationen zu sammeln oder zu speichern, die uns die Identifizierung von Einzelpersonen ermöglichen, die diese Anwendung nutzen. Zum Schutz Ihrer Privatsphäre sammeln wir nur Informationen, die Sie uns freiwillig zur Verfügung stellen, wenn Sie an der Studie teilnehmen. Wenn Sie sich entscheiden, nicht an dieser Studie teilzunehmen, sammeln wir keine Informationen über Sie. Die Informationen, die Sie uns freiwillig zur Verfügung stellen, können Ihre Antworten und Ergebnisse sowie alle Fragen umfassen, die Sie freiwillig beantworten, einschließlich Ihres Alters, Bildungsstands, Ihrer politischen Zugehörigkeit oder anderer demografischer Variablen. Wir leiten aus Ihrer IP-Adresse Ihren ungefähren Standort ab, ausschließlich auf Ebene von Land und Kontinent. Browser-Version, Betriebssystem und Bildschirmgröße erfassen wir nicht. Alle gesammelten Informationen werden auf einem passwortgeschützten Computer gespeichert, der nur für akademische Forscher zugänglich ist.
+
+### Standortdaten und der dafür genutzte Drittanbieter
+
+Um zu erfassen, aus welchen Ländern und Kontinenten unsere Teilnehmenden kommen, ruft Ihr Browser beim Laden der Studienseite **freeipapi.com** auf (betrieben von Kloudend, Inc.). Da diese Anfrage von Ihrem Browser ausgeht, **wird Ihre IP-Adresse diesem Dienst bekannt**. Worauf dieser Dienst sie verwendet, liegt außerhalb unseres Einflusses; bitte beachten Sie dessen eigene Datenschutzerklärung unter https://freeipapi.com/.
+
+Die Antwort wird unmittelbar reduziert, **bevor irgendetwas in unsere Datenbank geschrieben wird**. Wir behalten nur zwei Werte: den **Ländernamen** und den **Kontinent**. Alles Weitere, was der Dienst zurückgibt - die IP-Adresse selbst, Breiten- und Längengrad, Postleitzahl, Stadt, Region und Zeitzone - wird verworfen und von uns niemals gespeichert.
+
+Wir benötigen dies, um die Herkunft unserer Teilnehmenden anzugeben; das ist ein notwendiger Bestandteil der Beschreibung einer Forschungsstichprobe. Wenn Sie nicht möchten, dass dieser Dienst Ihre IP-Adresse sieht, nehmen Sie bitte nicht an der Studie teil.
 
 ### Datenaufbewahrung
 
@@ -54,7 +62,7 @@ Unsere Website kann von Zeit zu Zeit Links zu und von den Websites unserer Partn
 
 Alle zukünftigen Änderungen unserer Datenschutzerklärung werden auf dieser Seite veröffentlicht und, wo angebracht, Ihnen auf der Website selbst mitgeteilt. Bitte überprüfen Sie regelmäßig, ob es Updates oder Änderungen unserer Datenschutzerklärung gibt.
 
-Diese Datenschutzerklärung wurde zuletzt am 14. Mai 2024 aktualisiert.
+Diese Datenschutzerklärung wurde zuletzt am 1. September 2026 aktualisiert.
 
 ### Kontakt
 

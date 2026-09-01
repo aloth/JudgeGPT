@@ -1,17 +1,17 @@
-#### Join Our Study on Generative AI and Fake News
+#### Únase a nuestro estudio sobre IA generativa y noticias falsas
 
-By participating in our survey, you'll evaluate various statements, discerning between what's real or fake, and whether they're crafted by humans or machines.
-                    
-**Eligibility and Voluntary Participation:** Anyone is welcome to partake in this significant exploration. Your involvement is completely voluntary and immensely valued.
+Al participar en nuestra encuesta, evaluará diversas afirmaciones, distinguiendo entre lo que es real o falso y si han sido elaboradas por personas o por máquinas.
 
-This initiative is spearheaded by Alexander Loth, Prof. Martin Kappes, and Prof. Marc-Oliver Pahl. For inquiries or additional details, please don't hesitate to get in touch.
+**Requisitos y participación voluntaria:** Cualquier persona puede tomar parte en esta importante investigación. Su participación es completamente voluntaria y de gran valor para nosotros.
 
-##### Your Privacy
+Esta iniciativa está dirigida por Alexander Loth, el Prof. Martin Kappes y el Prof. Marc-Oliver Pahl. Para cualquier consulta o información adicional, no dude en ponerse en contacto con nosotros.
 
-Your privacy is important. By participating, you are providing anonymous responses and demographic information. In addition, you agree that your location will be determined by your IP address and that your browser information will be collected. This information is critical to understanding how people interact with misinformation. We guarantee the confidentiality of your data, which will be aggregated for research purposes. 
-                    
-**Should you wish to retract your data post-participation, you'll be equipped with an anonymous participant ID for this process.**
+##### Su privacidad
 
-##### Ready to Make a Difference?
+Su privacidad es importante para nosotros. Al participar, usted aporta respuestas anónimas e información demográfica. Además, acepta que su ubicación aproximada, a nivel de país y continente, se deduzca a partir de su dirección IP. Para ello, su navegador contacta con freeipapi.com, lo que significa que su dirección IP queda expuesta a ese servicio. Almacenamos únicamente el país y el continente, nunca la dirección en sí. No recopilamos la versión de su navegador ni el tamaño de su pantalla. Esta información es esencial para comprender cómo interactúan las personas con la desinformación. Garantizamos la confidencialidad de sus datos, que se agregarán con fines de investigación.
 
-**By consenting to participate, you're agreeing to contribute anonymized data to our study. Are you ready to join us in this critical research effort?**
+**Si desea retirar sus datos después de participar, recibirá un identificador de participante anónimo para poder hacerlo.**
+
+##### ¿Preparado para marcar la diferencia?
+
+**Al dar su consentimiento para participar, acepta contribuir con datos anonimizados a nuestro estudio. ¿Está preparado para acompañarnos en este trabajo de investigación tan necesario?**

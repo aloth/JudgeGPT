@@ -14,7 +14,15 @@ Please contact Alexander Loth (alexander.loth@stud.fra-uas.de) with any question
 
 ### Information we may collect about you 
 
-We do not seek to collect or store information that would allow us to identify individuals using this application. To protect your privacy, we will only collect information that you choose to share with us if you agree to participate in the study. If you choose not to participate in this study, we will not collect any information about you. The information you choose to share with us may include your responses and results, as well as any questions you voluntarily choose to answer, which may include your age, education level, political affiliation, or other demographic variables. We collect device information such as browser version, operating system, and screen size. We also identify your location at the city level using the https://freeipapi.com/ service. All information we collect is stored on a password-protected computer accessible only to academic researchers.
+We do not seek to collect or store information that would allow us to identify individuals using this application. To protect your privacy, we will only collect information that you choose to share with us if you agree to participate in the study. If you choose not to participate in this study, we will not collect any information about you. The information you choose to share with us may include your responses and results, as well as any questions you voluntarily choose to answer, which may include your age, education level, political affiliation, or other demographic variables. We derive your approximate location, at country and continent level only, from your IP address. We do not collect your browser version, operating system or screen size. All information we collect is stored on a password-protected computer accessible only to academic researchers.
+
+### Location data and the third-party service we use for it
+
+To record which countries and continents our participants come from, your browser contacts **freeipapi.com** (operated by Kloudend, Inc.) when the study page loads. Because this request is made by your browser, **your IP address becomes known to that service**. We do not control what freeipapi.com does with it; please see their own privacy policy at https://freeipapi.com/.
+
+The response is reduced immediately and **before anything is written to our database**. We keep only two values: the **country name** and the **continent**. Everything else the service returns - the IP address itself, latitude and longitude, postal code, city, region and timezone - is discarded and never stored by us.
+
+We rely on this to report where our participants come from, which is a required part of describing a research sample. If you prefer not to have your IP address seen by this service, please do not take part in the study.
 
 ### Data Retention
 
@@ -54,7 +62,7 @@ Our website may, from time to time, contain links to and from the websites of ou
 
 Any changes We may make to Our Privacy Policy in the future will be posted on this page and, where appropriate, notified to you on the Site itself. Please check back periodically for any updates or changes to Our Privacy Policy.
 
-This Privacy Policy was updated on May 14, 2024.
+This Privacy Policy was updated on September 1, 2026.
 
 ### Contact Us
 

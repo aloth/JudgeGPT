@@ -14,7 +14,15 @@ Por favor, contacte a Alexander Loth (alexander.loth@stud.fra-uas.de) para cualq
 
 ### Información que podemos recopilar sobre usted
 
-No buscamos recopilar o almacenar información que nos permita identificar a los individuos que utilizan esta aplicación. Para proteger su privacidad, solo recopilaremos la información que Usted decida compartir con nosotros si acepta participar en el estudio. Si decide no participar en este estudio, no recopilaremos ninguna información sobre Usted. La información que Usted decida compartir con nosotros puede incluir sus respuestas y resultados, así como cualquier pregunta que decida responder voluntariamente, que puede incluir su edad, nivel de educación, afiliación política u otras variables demográficas. Recopilamos información sobre el dispositivo, como la versión del navegador, el sistema operativo y el tamaño de la pantalla. También identificamos su ubicación a nivel de ciudad utilizando el servicio https://freeipapi.com/. Toda la información que recopilamos se almacena en un ordenador protegido por contraseña accesible solo para los investigadores académicos.
+No buscamos recopilar o almacenar información que nos permita identificar a los individuos que utilizan esta aplicación. Para proteger su privacidad, solo recopilaremos la información que Usted decida compartir con nosotros si acepta participar en el estudio. Si decide no participar en este estudio, no recopilaremos ninguna información sobre Usted. La información que Usted decida compartir con nosotros puede incluir sus respuestas y resultados, así como cualquier pregunta que decida responder voluntariamente, que puede incluir su edad, nivel de educación, afiliación política u otras variables demográficas. Derivamos su ubicación aproximada, únicamente a nivel de país y continente, a partir de su dirección IP. No recopilamos la versión de su navegador, su sistema operativo ni el tamaño de su pantalla. Toda la información que recopilamos se almacena en un ordenador protegido por contraseña accesible solo para los investigadores académicos.
+
+### Datos de ubicación y el servicio de terceros que utilizamos
+
+Para registrar de qué países y continentes proceden nuestros participantes, su navegador contacta con **freeipapi.com** (operado por Kloudend, Inc.) al cargar la página del estudio. Dado que esta petición la realiza su navegador, **su dirección IP queda expuesta a ese servicio**. No controlamos lo que freeipapi.com hace con ella; consulte su propia política de privacidad en https://freeipapi.com/.
+
+La respuesta se reduce de inmediato, **antes de que se escriba nada en nuestra base de datos**. Conservamos solo dos valores: el **nombre del país** y el **continente**. Todo lo demás que devuelve el servicio - la propia dirección IP, latitud y longitud, código postal, ciudad, región y zona horaria - se descarta y nunca es almacenado por nosotros.
+
+Necesitamos esto para indicar la procedencia de nuestros participantes, algo imprescindible para describir una muestra de investigación. Si prefiere que este servicio no vea su dirección IP, le rogamos que no participe en el estudio.
 
 ### Retención de Datos
 
@@ -61,7 +69,7 @@ Nuestro sitio web puede, de vez en cuando, contener enlaces hacia y desde los si
 
 Cualquier cambio que podamos hacer a Nuestra Política de Privacidad en el futuro será publicado en esta página y, cuando corresponda, notificado en el propio Sitio. Por favor, consulte periódicamente para ver cualquier actualización o cambio en Nuestra Política de Privacidad.
 
-Esta Política de Privacidad fue actualizada el 14 de mayo de 2024.
+Esta Política de Privacidad fue actualizada el 1 de septiembre de 2026.
 
 ### Contáctenos
 

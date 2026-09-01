@@ -14,7 +14,15 @@ Veuillez contacter Alexander Loth (alexander.loth@stud.fra-uas.de) pour toute qu
 
 ### Informations que nous pouvons collecter à votre sujet
 
-Nous ne cherchons pas à collecter ou à stocker des informations qui nous permettraient d'identifier les individus utilisant cette application. Pour protéger votre vie privée, nous ne collecterons que les informations que vous choisissez de partager avec nous si vous acceptez de participer à l'étude. Si vous choisissez de ne pas participer à cette étude, nous ne collecterons aucune information vous concernant. Les informations que vous choisissez de partager avec nous peuvent inclure vos réponses et résultats, ainsi que toutes les questions auxquelles vous choisissez volontairement de répondre, qui peuvent inclure votre âge, niveau d'éducation, affiliation politique ou autres variables démographiques. Nous collectons des informations sur les appareils tels que la version du navigateur, le système d'exploitation et la taille de l'écran. Nous identifions également votre localisation au niveau de la ville en utilisant le service https://freeipapi.com/. Toutes les informations que nous collectons sont stockées sur un ordinateur protégé par mot de passe accessible uniquement aux chercheurs académiques.
+Nous ne cherchons pas à collecter ou à stocker des informations qui nous permettraient d'identifier les individus utilisant cette application. Pour protéger votre vie privée, nous ne collecterons que les informations que vous choisissez de partager avec nous si vous acceptez de participer à l'étude. Si vous choisissez de ne pas participer à cette étude, nous ne collecterons aucune information vous concernant. Les informations que vous choisissez de partager avec nous peuvent inclure vos réponses et résultats, ainsi que toutes les questions auxquelles vous choisissez volontairement de répondre, qui peuvent inclure votre âge, niveau d'éducation, affiliation politique ou autres variables démographiques. Nous déduisons votre localisation approximative, uniquement au niveau du pays et du continent, à partir de votre adresse IP. Nous ne collectons ni la version de votre navigateur, ni votre système d'exploitation, ni la taille de votre écran. Toutes les informations que nous collectons sont stockées sur un ordinateur protégé par mot de passe accessible uniquement aux chercheurs académiques.
+
+### Données de localisation et le service tiers que nous utilisons
+
+Afin d'enregistrer de quels pays et continents proviennent nos participants, votre navigateur contacte **freeipapi.com** (exploité par Kloudend, Inc.) au chargement de la page de l'étude. Cette requête étant émise par votre navigateur, **votre adresse IP est portée à la connaissance de ce service**. Nous ne contrôlons pas l'usage qu'en fait freeipapi.com ; veuillez consulter sa propre politique de confidentialité sur https://freeipapi.com/.
+
+La réponse est réduite immédiatement, **avant que quoi que ce soit ne soit écrit dans notre base de données**. Nous ne conservons que deux valeurs : le **nom du pays** et le **continent**. Tout le reste de ce que renvoie le service - l'adresse IP elle-même, la latitude et la longitude, le code postal, la ville, la région et le fuseau horaire - est écarté et n'est jamais stocké par nous.
+
+Nous en avons besoin pour indiquer la provenance de nos participants, ce qui fait partie intégrante de la description d'un échantillon de recherche. Si vous préférez que ce service ne voie pas votre adresse IP, veuillez ne pas participer à l'étude.
 
 ### Conservation des données
 
@@ -54,7 +62,7 @@ Notre site Web peut, de temps à autre, contenir des liens vers et depuis les si
 
 Toute modification que Nous pourrions apporter à Notre Politique de Confidentialité à l'avenir sera publiée sur cette page et, le cas échéant, vous sera notifiée sur le Site lui-même. Veuillez revenir périodiquement pour toute mise à jour ou modification de Notre Politique de Confidentialité.
 
-Cette politique de confidentialité a été mise à jour le 14 mai 2024.
+Cette politique de confidentialité a été mise à jour le 1er septembre 2026.
 
 ### Nous contacter
 

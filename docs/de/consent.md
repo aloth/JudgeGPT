@@ -8,7 +8,7 @@ Diese Initiative wird von Alexander Loth, Prof. Martin Kappes und Prof. Marc-Oli
 
 ##### Ihre Privatsphäre
 
-Ihre Privatsphäre ist uns wichtig. Durch Ihre Teilnahme geben Sie anonyme Antworten und demografische Informationen an. Darüber hinaus stimmen Sie zu, dass Ihr Standort über Ihre IP-Adresse ermittelt wird und Ihre Browserinformationen erfasst werden. Diese Informationen sind entscheidend, um zu verstehen, wie Menschen mit Fehlinformationen umgehen. Wir garantieren die Vertraulichkeit Ihrer Daten, die für Forschungszwecke aggregiert werden.
+Ihre Privatsphäre ist uns wichtig. Durch Ihre Teilnahme geben Sie anonyme Antworten und demografische Informationen an. Darüber hinaus stimmen Sie zu, dass aus Ihrer IP-Adresse Ihr ungefährer Standort auf Ebene von Land und Kontinent abgeleitet wird. Dazu ruft Ihr Browser freeipapi.com auf, wodurch Ihre IP-Adresse diesem Dienst bekannt wird. Wir speichern ausschließlich Land und Kontinent, niemals die Adresse selbst. Browser-Version und Bildschirmgröße erfassen wir nicht. Diese Informationen sind entscheidend, um zu verstehen, wie Menschen mit Fehlinformationen umgehen. Wir garantieren die Vertraulichkeit Ihrer Daten, die für Forschungszwecke aggregiert werden.
 
 **Sollten Sie nach der Teilnahme Ihre Daten zurückziehen wollen, erhalten Sie dafür eine anonyme Teilnehmer-ID.**
 
