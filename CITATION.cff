@@ -13,8 +13,8 @@ authors:
     orcid: "https://orcid.org/0000-0001-5241-3809"
 repository-code: "https://github.com/aloth/JudgeGPT"
 url: "https://github.com/aloth/JudgeGPT"
-version: "1.3.0"
-date-released: "2026-09-01"
+version: "1.3.1"
+date-released: "2026-09-04"
 license: GPL-3.0
 references:
   - type: article

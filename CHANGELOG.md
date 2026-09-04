@@ -5,6 +5,15 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-09-04
+
+### Fixed
+- The dataset version table listed six releases and gave no way to tell four of them apart. JudgeGPT 1.1.0 and 1.2.0 both showed 539 participants, 2,546 judgments and the same 11 March 2026 snapshot; RogueGPT 1.1.0 and 1.2.0 both showed 3,278 fragments and the same 23 March 2026 snapshot. A `What changed` column now states, from the deposit descriptions, that both current versions are corrections rather than additions: JudgeGPT 1.2.0 replaced the participant table with a privacy-reduced publication copy and made its bundled corpus byte-identical to RogueGPT 1.2.0, and RogueGPT 1.2.0 corrected the export so the style, format and seed-phrase fields are populated for the 2,257 fragments that carry them.
+
+### Changed
+- The dataset access paragraph stated that the data are shared under terms requiring ethical review, which is true and incomplete. The stimulus corpus has no single licence: the 2,638 machine-generated fragments and all accompanying documentation are released under CC BY 4.0, while 640 fragments are excerpts of third-party news material that the depositor cannot license. Every record states its provenance, so the machine-generated subset can be separated.
+- `CITATION.cff` declares version 1.3.1.
+
 ## [1.3.0] - 2026-09-01
 
 ### Fixed
