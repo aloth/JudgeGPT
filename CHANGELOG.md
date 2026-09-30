@@ -5,6 +5,15 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - 2026-09-30
+
+Documentation release. No code or data changes.
+
+### Changed
+- The README and CITATION.cff cite JudgeGPT Human Perception Data 1.2.1 (10.5281/zenodo.23054089) and RogueGPT Stimulus Corpus 1.2.1 (10.5281/zenodo.23053786). The concept DOIs continue to resolve to the latest version.
+- The dataset section lists the current version of each dataset instead of every release.
+- American spelling and plain hyphens throughout the README.
+
 ## [1.3.1] - 2026-09-04
 
 ### Fixed

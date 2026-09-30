@@ -11,7 +11,7 @@
 [![Mastodon](https://img.shields.io/badge/Mastodon-@xlth-6364FF?logo=mastodon&logoColor=white)](https://mastodon.social/@xlth)
 
 <p align="center">
-  <img src="figures/judgegpt-human-vs-ai-news-authenticity-evaluation-wide.png" alt="JudgeGPT — Can humans distinguish AI-generated news from real journalism?" width="700">
+  <img src="figures/judgegpt-human-vs-ai-news-authenticity-evaluation-wide.png" alt="JudgeGPT - Can humans distinguish AI-generated news from real journalism?" width="700">
 </p>
 
 ## Can you tell AI-generated news from real journalism?
@@ -97,7 +97,7 @@ This feedback loop serves both educational and research purposes: it functions a
 Every 5 responses, participants receive a visual score card summarizing their performance:
 
 ```
-🔍 JudgeGPT — Can You Spot AI Fakes?
+🔍 JudgeGPT - Can You Spot AI Fakes?
 
 🤖 AI Detection:  🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 80%
 📰 Fake News:     🟩🟩🟩🟩🟩🟩⬜⬜⬜⬜ 60%
@@ -112,7 +112,7 @@ Participants can share results via **X (Twitter), LinkedIn, WhatsApp, and Email*
 
 Participants can challenge others to evaluate the **exact same set of fragments** via a URL-encoded challenge link. The link encodes fragment IDs and the challenger's score, enabling:
 
-- **Direct comparison:** "Someone scored 85% — can you beat them?"
+- **Direct comparison:** "Someone scored 85% - can you beat them?"
 - **Reproducible evaluation:** Both participants see identical stimuli, enabling controlled pairwise comparisons
 - **Organic recruitment:** Each challenge link is a self-contained invitation to participate in the study
 
@@ -206,18 +206,14 @@ Two complementary datasets are available on Zenodo under restricted access for a
 - **JudgeGPT Human Perception Data** - 539 participants, 2,546 dual-axis judgments, plus the full RogueGPT stimulus corpus: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703384.svg)](https://doi.org/10.5281/zenodo.18703384)
 - **RogueGPT Stimulus Corpus** - the underlying controlled-generation fragments: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703137.svg)](https://doi.org/10.5281/zenodo.18703137)
 
-### Dataset versions
+### Citing a version
 
 The concept DOIs above always resolve to the latest version. Cite a version DOI when your analysis has to be reproducible.
 
-| Dataset | Version | Version DOI | Contents | Snapshot | Status | What changed |
-|---|---|---|---|---|---|---|
-| JudgeGPT | 1.2.0 | [`10.5281/zenodo.22226580`](https://doi.org/10.5281/zenodo.22226580) | 539 participants, 2,546 judgments | 11 Mar 2026 | Current | No new data. The participant table became a privacy-reduced publication copy, and the bundled corpus was made byte-identical to RogueGPT 1.2.0 |
-| JudgeGPT | 1.1.0 | [`10.5281/zenodo.21904812`](https://doi.org/10.5281/zenodo.21904812) | 539 participants, 2,546 judgments | 11 Mar 2026 | Superseded | Grew the release from 504 participants and 2,438 judgments |
-| JudgeGPT | 1.0.0 | [`10.5281/zenodo.18703385`](https://doi.org/10.5281/zenodo.18703385) | 504 participants, 2,438 judgments | 19 Feb 2026 | Superseded | First release |
-| RogueGPT | 1.2.0 | [`10.5281/zenodo.22225536`](https://doi.org/10.5281/zenodo.22225536) | 3,278 fragments | 23 Mar 2026 | Current | No new data. Corrected the export: style, format and seed-phrase fields are populated for the 2,257 fragments that carry them |
-| RogueGPT | 1.1.0 | [`10.5281/zenodo.21904524`](https://doi.org/10.5281/zenodo.21904524) | 3,278 fragments | 23 Mar 2026 | Superseded | Grew the release from 2,308 fragments |
-| RogueGPT | 1.0.0 | [`10.5281/zenodo.18703138`](https://doi.org/10.5281/zenodo.18703138) | 2,308 fragments | 19 Feb 2026 | Superseded | First release |
+| Dataset | Current version | Version DOI | Contents | Snapshot |
+|---|---|---|---|---|
+| JudgeGPT | 1.2.1 | [`10.5281/zenodo.23054089`](https://doi.org/10.5281/zenodo.23054089) | 539 participants, 2,546 judgments | 11 Mar 2026 |
+| RogueGPT | 1.2.1 | [`10.5281/zenodo.23053786`](https://doi.org/10.5281/zenodo.23053786) | 3,278 fragments | 23 Mar 2026 |
 
 > **Two properties matter for reuse.** The stimulus pool is 98 percent machine-authored, so pooled origin accuracy must not be read against a 50 percent coin-flip baseline; the majority-class baseline is 98 percent. And 117 participants aged 16 to 18 stem from a single school-class recruitment event, so they are a cluster rather than independent draws. Both are documented in the codebook.
 
@@ -305,7 +301,7 @@ JudgeGPT is part of a broader research program on human perception of AI-generat
 - **The Indistinguishability Threshold: Measuring Cognitive Vulnerabilities to AI-Generated Disinformation** (WebSci Companion '26, PhD Symposium). [doi:10.1145/3795513.3807421](https://doi.org/10.1145/3795513.3807421)
 - **Eroding the Truth-Default: A Causal Analysis of Human Susceptibility to Foundation Model Hallucinations and Disinformation in the Wild** (WWW '26 Companion). Causal analysis of the perception data collected here. [doi:10.1145/3774905.3795832](https://doi.org/10.1145/3774905.3795832)
 - **Industrialized Deception: The Collateral Effects of LLM-Generated Misinformation on Digital Ecosystems** (WWW '26 Companion). [doi:10.1145/3774905.3795471](https://doi.org/10.1145/3774905.3795471)
-- **Interrupting the Chain: Human Perception of AI-Generated Disinformation Through a Kill Chain Lens** (INFORMATIK 2026, LNI). Organises the perception findings along a cognitive attack lifecycle. [arXiv:2608.21389](https://arxiv.org/abs/2608.21389)
+- **Interrupting the Chain: Human Perception of AI-Generated Disinformation Through a Kill Chain Lens** (INFORMATIK 2026, LNI). Organizes the perception findings along a cognitive attack lifecycle. [arXiv:2608.21389](https://arxiv.org/abs/2608.21389)
 - **Blessing or Curse? A Survey on the Impact of Generative AI on Fake News** (2024). The survey this research program builds on. [arXiv:2404.03021](https://arxiv.org/abs/2404.03021)
 
 ## Related Projects
