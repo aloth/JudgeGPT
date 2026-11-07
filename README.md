@@ -1,18 +1,16 @@
 # JudgeGPT: An Empirical Platform for Evaluating News Authenticity in the Age of AI
 
 [![arXiv](https://img.shields.io/badge/arXiv-2601.21963-B31B1B.svg)](https://arxiv.org/abs/2601.21963)
-[![arXiv](https://img.shields.io/badge/arXiv-2601.22871-B31B1B.svg)](https://arxiv.org/abs/2601.22871)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18703384.svg)](https://doi.org/10.5281/zenodo.18703384)
 [![Participate in Survey](https://img.shields.io/badge/Participate-Survey-brightgreen.svg)](https://judgegpt.streamlit.app/)
 [![CI](https://github.com/aloth/JudgeGPT/actions/workflows/ci.yml/badge.svg)](https://github.com/aloth/JudgeGPT/actions/workflows/ci.yml)
-[![Status](https://img.shields.io/badge/status-active%20%26%20evolving-orange.svg)](https://github.com/aloth/JudgeGPT)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![GitHub Stars](https://img.shields.io/github/stars/aloth/JudgeGPT?style=social)](https://github.com/aloth/JudgeGPT/stargazers)
-[![Mastodon](https://img.shields.io/badge/Mastodon-@xlth-6364FF?logo=mastodon&logoColor=white)](https://mastodon.social/@xlth)
 
 <p align="center">
   <img src="figures/judgegpt-human-vs-ai-news-authenticity-evaluation-wide.png" alt="JudgeGPT - Can humans distinguish AI-generated news from real journalism?" width="700">
 </p>
+
+> **If JudgeGPT is useful for your research, please [cite the papers](#citation) and star the repository.** GitHub's "Cite this repository" button in the sidebar gives the reference in APA and BibTeX.
 
 ## Can you tell AI-generated news from real journalism?
 
